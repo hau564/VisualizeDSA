@@ -9,14 +9,14 @@ void Textbox::create(sf::Vector2f _pos, sf::Vector2f _size)
 		return active ? 2 : b->isFocusing();
 	};
 
-	text.setFont(Layout::Font::courier);
+	text.setFont(*Layout::Font::courier);
 	text.setCharacterSize(_size.y / 2);
 	text.setFillColor(Layout::Text::fillColor);
 	text.setString("A");
 	Tools::Text::leftAligning(text, _pos, _size, 1);
 	text.setString(inputString);
 
-	cursor.setFont(Layout::Font::courier);
+	cursor.setFont(*Layout::Font::courier);
 	cursor.setCharacterSize(_size.y / 2);
 	cursor.setFillColor(Layout::Text::fillColor);
 	cursor.setString("|");

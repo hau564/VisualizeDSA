@@ -4,6 +4,7 @@
 #define LAYOUT_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Button.hpp"
 
 namespace Layout {
 	namespace Button {
@@ -12,6 +13,7 @@ namespace Layout {
 		extern sf::Color outlineColor[3];
 		extern int cornerRadius;
 		extern int cornerPointCount;
+		extern ButtonState states[3];
 	}
 	namespace Text {
 		extern sf::Color fillColor;
@@ -27,7 +29,7 @@ namespace Layout {
 		extern sf::Color backgroundColor;
 	}
 	namespace Font {
-		extern sf::Font arial, courier;
+		extern std::shared_ptr<sf::Font> arial, courier;
 		extern void load();
 	}
 	namespace Tab {

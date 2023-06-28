@@ -10,7 +10,7 @@ int main() {
 	setup();
 
 	Window window1;
-	Window window2;
+	//Window window2;
 	window1.launch();
 
 

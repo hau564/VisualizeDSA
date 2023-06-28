@@ -22,6 +22,11 @@ namespace Layout {
 		};
 		int cornerRadius = 10;
 		int cornerPointCount = 50;
+		ButtonState states[3] = {
+			{Color::DarkGray, Color::Black, 0},
+			{Color::LightGray, Color::Black, 0},
+			{Color::White, Color::Black, 0}
+		};
 	}
 
 	namespace Text {
@@ -36,17 +41,18 @@ namespace Layout {
 	}
 
 	namespace Font {
-		sf::Font arial, courier;
+		std::shared_ptr<sf::Font> arial = std::make_shared<sf::Font>();
+		std::shared_ptr<sf::Font> courier = std::make_shared<sf::Font>();
 		void load() {
-			arial.loadFromFile("font/arial.ttf");
-			courier.loadFromFile("font/cour.ttf");
+			arial->loadFromFile("font/arial.ttf");
+			courier->loadFromFile("font/cour.ttf");
 		}
 	}
 
 	namespace Tab {
 		sf::Vector2f pos = sf::Vector2f(5, 5);
 		sf::Vector2f size = sf::Vector2f(200, 50);
-		float radius = size.y / 2;
+		float radius = 10;
 	}
 
 	namespace Tabbar {
