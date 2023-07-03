@@ -46,3 +46,14 @@ sf::Vector2f Tools::Mouse::getPosition(sf::RenderWindow& window)
 	sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 	return sf::Vector2f(worldPos.x, worldPos.y);
 }
+
+std::string Tools::String::toString(int x)
+{
+	std::string s = "";
+	while (x) {
+		s += (char)(x % 10 + '0');
+		x /= 10;
+	}
+	std::reverse(s.begin(), s.end());
+	return s;
+}

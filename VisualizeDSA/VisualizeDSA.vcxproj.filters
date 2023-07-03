@@ -51,6 +51,12 @@
     <ClCompile Include="Tab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StructurePicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIComponent.hpp">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tab.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StructurePicker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

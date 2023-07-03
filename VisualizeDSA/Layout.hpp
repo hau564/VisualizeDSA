@@ -5,15 +5,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
+#include "Resources.hpp"
 
 namespace Layout {
 	namespace Button {
-		extern sf::Color fillColor[3];
-		extern int outlineThickness[3];
-		extern sf::Color outlineColor[3];
 		extern int cornerRadius;
 		extern int cornerPointCount;
 		extern ButtonState states[3];
+		extern std::vector<ButtonState> states2;
 	}
 	namespace Text {
 		extern sf::Color fillColor;
@@ -24,13 +23,9 @@ namespace Layout {
 		extern int thickness;
 		extern float scrollSpeed;
 	}
-	namespace Screen {
-		extern int width, height;
+	namespace Window {
+		extern float width, height;
 		extern sf::Color backgroundColor;
-	}
-	namespace Font {
-		extern std::shared_ptr<sf::Font> arial, courier;
-		extern void load();
 	}
 	namespace Tab {
 		extern sf::Vector2f pos, size;

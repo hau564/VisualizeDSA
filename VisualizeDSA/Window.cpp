@@ -9,7 +9,7 @@ void Window::setup()
 	tabs.push_back(Tab());
 	tabs.back().create(0);
 	newTab.create(Layout::Tabbar::pos + sf::Vector2f(Layout::Tab::size.x + 5, 2), sf::Vector2f(Layout::Tab::size.y - 4, Layout::Tab::size.y - 4));
-	newTab.setText("+", Layout::Font::arial);
+	newTab.setText("+", Resources::Font::arial);
 	newTab.setRadius(Layout::Tab::size.y / 2);
 }
 
@@ -17,32 +17,36 @@ void Window::addTab()
 {
 	tabs.push_back(Tab());
 	tabs.back().create(tabs.size() - 1);
-	std::cout << "Added tab " << tabs.size() << std::endl;
 }
 
 void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
-	newTab.handleEvent(window, event);
-	if (newTab.justReleasedInside()) addTab();
-
 	static int activeId = 0;
+	newTab.handleEvent(window, event);
+	if (newTab.justReleasedInside()) {
+		addTab();
+		activeId = tabs.size() - 1;
+	}
+
 	KeyboardDetection::handleEvent(window, event);
 	for (int i = 0; i < tabs.size(); ++i) {
 		tabs[i].updateId(i);
 		tabs[i].handleEvent(window, event);
 		if (tabs[i].isRemove()) {
 			tabs.erase(tabs.begin() + i);
-			std::cout << "Removed tab " << i << std::endl;
 			--i;
 		}
 		if (tabs[i].isHolding()) {
 			activeId = i;
 		}
 	}
-	//std::cout << "Active " << activeId << std::endl;
+	if (activeId >= tabs.size()) activeId = tabs.size() - 1;
+	if (KeyboardDetection::isKeyBindingPressed("CTRL_TAB")) 
+		activeId = (activeId + 1) % tabs.size();
 	for (int i = 0; i < tabs.size(); ++i)
 		if (i != activeId) 
 			tabs[i].deactive();
+		else tabs[i].activate();
 
 	if (tabs.empty()) addTab();
 }
@@ -67,27 +71,33 @@ void Window::launch()
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 5.0;
-	sf::RenderWindow window(sf::VideoMode(Layout::Screen::width, Layout::Screen::height), "Data structures & Algorithm Visualizer", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(Layout::Window::width, Layout::Window::height), "Data structures & Algorithm Visualizer", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
 
 	setup();
 
+	sf::Sprite sprite;
+	sprite.setTexture(Resources::Textures::getTexture("HashTable"));
+	sprite.setPosition(0, 0);
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) { window.close(); }
+			if (event.type == sf::Event::Closed) { window.close(); break; }
 
 			handleEvent(window, event);
 		}
 
 		update();
 
-		window.clear(Layout::Screen::backgroundColor);
+		window.clear(Layout::Window::backgroundColor);
 
 		draw(window);
 
 		window.display();
 	}
+
+	while (!tabs.empty()) tabs.pop_back();
 }
 
 int Window::getTabCount()

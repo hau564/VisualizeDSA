@@ -9,7 +9,7 @@
 class ButtonState {
 public:
 	sf::Color fillColor, outlineColor;
-	int outlineThickness;
+	float outlineThickness;
 };
 
 class Button : public MouseDetection, public sf::Drawable {
@@ -29,14 +29,15 @@ public:
 	void addHandle(std::function<void(const Button*)> handle);
 	void addState(sf::RoundedRectangleShape newState);
 	void addGetStateId(std::function<int(const Button*)> getId);
+	void removeGetStateId(int i);
 
 	std::function<int(const Button*)> getStateId;
+	std::vector< std::function<int(const Button*)>> getStateIds;
 
 private:
 	std::shared_ptr<sf::Text> text = std::make_shared<sf::Text>();
 	std::vector<sf::RoundedRectangleShape> states;
 	std::vector<std::function<void(const Button*)>> handles;
-	std::vector< std::function<int(const Button*)>> getStateIds;
 	sf::Font font;
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

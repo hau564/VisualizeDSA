@@ -146,7 +146,9 @@
     <ClCompile Include="ListNode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MouseDetection.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="RoundRectangleShape.cpp" />
+    <ClCompile Include="StructurePicker.cpp" />
     <ClCompile Include="Tab.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tools.cpp" />
@@ -160,6 +162,8 @@
     <ClInclude Include="Layout.hpp" />
     <ClInclude Include="ListNode.hpp" />
     <ClInclude Include="MouseDetection.hpp" />
+    <ClInclude Include="Resources.hpp" />
+    <ClInclude Include="StructurePicker.hpp" />
     <ClInclude Include="Tab.hpp" />
     <ClInclude Include="Textbox.hpp" />
     <ClInclude Include="Tools.hpp" />

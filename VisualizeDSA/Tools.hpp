@@ -16,5 +16,9 @@ namespace Tools{
 	namespace Mouse {
 		extern sf::Vector2f getPosition(sf::RenderWindow& window);
 	}
+
+	namespace String {
+		extern std::string toString(int x);
+	}
 };
 

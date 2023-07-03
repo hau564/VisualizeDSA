@@ -20,6 +20,7 @@ public:
 	void draw(sf::RenderWindow &window);
 
 	void addTab();
+	std::function<int(const Button *button)> controlFocusTab;
 
 public:
 	sf::Vector2f getNewSlot();

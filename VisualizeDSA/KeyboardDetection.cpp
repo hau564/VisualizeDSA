@@ -56,5 +56,9 @@ namespace KeyboardDetection {
 	void update()
 	{
 		prevUnicode = -1;
+		for (auto& keyBinding : keyBindings) {
+			std::pair<std::vector<int>, int> get = keyBinding.second;
+			if (get.second >= get.first.size()) get.second--;
+		}
 	}
 }

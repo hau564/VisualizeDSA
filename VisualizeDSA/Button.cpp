@@ -93,3 +93,9 @@ void Button::addGetStateId(std::function<int(const Button*)> getId)
 {
 	getStateIds.push_back(getId);
 }
+
+void Button::removeGetStateId(int i)
+{
+	if (i < getStateIds.size()) 
+		getStateIds.erase(getStateIds.begin() + i);
+}
