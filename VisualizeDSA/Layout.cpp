@@ -3,6 +3,8 @@
 #include "Color.hpp"
 
 namespace Layout {
+	int cornerPointCount = 50;
+
 	namespace Window {
 		float width = 1920, height = 1080;
 		sf::Color backgroundColor = Color::GrayBG;
@@ -44,5 +46,25 @@ namespace Layout {
 		sf::Vector2f pos = sf::Vector2f(5, 5);
 		sf::Vector2f size = sf::Vector2f(0, 50);
 		sf::Color tabFillColor = sf::Color(200, 200, 200);
+	}
+
+	namespace DisplayComponent {
+		namespace Node {
+			float height = 50;
+			float extraFontSize = 10;
+			float valueSpacing = 5;
+		}
+		namespace Tree {
+			float verticalSpacing = 50;
+			float horizontalSpacing = 50;
+		}
+	}
+
+	namespace DisplayScreen {
+		sf::Vector2f pos = sf::Vector2f(Tabbar::pos + sf::Vector2f(0, Tabbar::size.y + 5));
+		sf::Vector2f size = sf::Vector2f(1400, 900);
+		float outlineThickness = 1, cornerRadius = 10;
+		sf::Color outlineColor = sf::Color::Black;
+		sf::Color fillColor = sf::Color::White;
 	}
 }

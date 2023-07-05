@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Button.hpp"
 #include "StructurePicker.hpp"
+#include "StructureRunner.hpp"
 
 class Tab : public Button
 {
@@ -39,6 +40,7 @@ private:
 	bool active = false, removed = false, added;
 	Button xButton;
 	StructurePicker structurePicker;
+	StructureRunner structureRunner;
 	sf::RectangleShape workingArea;
 };
 

@@ -8,6 +8,7 @@
 #include "Resources.hpp"
 
 namespace Layout {
+	extern int cornerPointCount;
 	namespace Button {
 		extern int cornerRadius;
 		extern int cornerPointCount;
@@ -34,6 +35,24 @@ namespace Layout {
 	namespace Tabbar {
 		extern sf::Vector2f pos, size;
 		extern sf::Color tabFillColor;
+	}
+
+	namespace DisplayComponent {
+		namespace Node {
+			extern float height;
+			extern float extraFontSize;
+			extern float valueSpacing;
+		}
+		namespace Tree {
+			extern float verticalSpacing;
+			extern float horizontalSpacing;
+		}
+	}
+
+	namespace DisplayScreen {
+		extern sf::Vector2f pos, size;
+		extern float outlineThickness, cornerRadius;
+		extern sf::Color outlineColor, fillColor;
 	}
 }
 

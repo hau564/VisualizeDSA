@@ -51,11 +51,16 @@ void Tab::handleEvent(sf::RenderWindow& window, sf::Event event)
 	}
 
 	if (!active) return;
-
+		
+	if (structurePicker.getPicked() != "#") {
+		structureRunner.handleEvent(window, event);
+		return;
+	}
 	if (structurePicker.getPicked() == "#")
 		structurePicker.handleEvent(window, event);
-	else {
+	if (structurePicker.getPicked() != "#") {
 		Button::setText(structurePicker.getPicked(), Resources::Font::arial);
+		structureRunner.create(structurePicker.getPicked());
 	}
 }
 
@@ -72,6 +77,14 @@ void Tab::update()
 			);
 		}
 		added = 1;
+
+		if (structurePicker.getPicked() != "#") {
+			structureRunner.update();
+			return;
+		}
+		else {
+			structurePicker.update();
+		}
 	}
 	else Button::removeGetStateId(0), added = 0;
 	if (!active) return;
@@ -84,8 +97,12 @@ void Tab::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (!active) return;
 
 	target.draw(workingArea);
-	if (structurePicker.getPicked() == "#")
+	if (structurePicker.getPicked() != "#") {
+		target.draw(structureRunner);
+	}
+	else { 
 		target.draw(structurePicker);
+	}
 }
 
 void Tab::activate()

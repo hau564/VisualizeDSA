@@ -141,14 +141,19 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="KeyboardDetection.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="ListNode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MouseDetection.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="RoundRectangleShape.cpp" />
     <ClCompile Include="StructurePicker.cpp" />
+    <ClCompile Include="StructureRunner.cpp" />
     <ClCompile Include="Tab.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tools.cpp" />
@@ -157,13 +162,18 @@
   <ItemGroup>
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="Display.hpp" />
+    <ClInclude Include="Edge.hpp" />
+    <ClInclude Include="Graph.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
     <ClInclude Include="KeyboardDetection.hpp" />
     <ClInclude Include="Layout.hpp" />
     <ClInclude Include="ListNode.hpp" />
     <ClInclude Include="MouseDetection.hpp" />
+    <ClInclude Include="Node.hpp" />
     <ClInclude Include="Resources.hpp" />
     <ClInclude Include="StructurePicker.hpp" />
+    <ClInclude Include="StructureRunner.hpp" />
     <ClInclude Include="Tab.hpp" />
     <ClInclude Include="Textbox.hpp" />
     <ClInclude Include="Tools.hpp" />

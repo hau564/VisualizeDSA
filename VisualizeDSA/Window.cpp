@@ -2,7 +2,9 @@
 #include "Layout.hpp"
 #include "KeyboardDetection.hpp"
 #include "Textbox.hpp"
-
+#include "Node.hpp"
+#include "Edge.hpp"
+#include "Display.hpp"
 
 void Window::setup()
 {
@@ -47,7 +49,6 @@ void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
 		if (i != activeId) 
 			tabs[i].deactive();
 		else tabs[i].activate();
-
 	if (tabs.empty()) addTab();
 }
 
@@ -76,24 +77,17 @@ void Window::launch()
 
 	setup();
 
-	sf::Sprite sprite;
-	sprite.setTexture(Resources::Textures::getTexture("HashTable"));
-	sprite.setPosition(0, 0);
-
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) { window.close(); break; }
-
 			handleEvent(window, event);
 		}
 
 		update();
 
 		window.clear(Layout::Window::backgroundColor);
-
 		draw(window);
-
 		window.display();
 	}
 

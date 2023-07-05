@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef MOUSEDETECTION_HPP
 #define MOUSEDETECTION_HPP
 

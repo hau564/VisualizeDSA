@@ -35,6 +35,10 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 	if (justPressedOutside()) {
 		active = 0;
 	}
+	sf::Cursor mCursor;
+	if (isFocusing()) mCursor.loadFromSystem(sf::Cursor::Text);
+	else mCursor.loadFromSystem(sf::Cursor::Arrow);
+	window.setMouseCursor(mCursor);
 	if (active) {
 		if (event.type == sf::Event::TextEntered) {
 			cursorState = 1;

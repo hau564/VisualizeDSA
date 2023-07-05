@@ -1,7 +1,22 @@
-﻿  Tab.cpp
+﻿  Edge.cpp
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(16,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(22,37): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(40,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(42,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(49,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Edge.cpp(51,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Graph.cpp
+  Window.cpp
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(21,36): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(30,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(45,57): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(74,31): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(75,79): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(75,56): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Window.cpp(99,20): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  3 of 1331 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  0 of 1347 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   VisualizeDSA.vcxproj -> C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\x64\Release\VisualizeDSA.exe

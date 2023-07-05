@@ -49,6 +49,7 @@ sf::Vector2f Tools::Mouse::getPosition(sf::RenderWindow& window)
 
 std::string Tools::String::toString(int x)
 {
+	if (!x) return "0";
 	std::string s = "";
 	while (x) {
 		s += (char)(x % 10 + '0');
