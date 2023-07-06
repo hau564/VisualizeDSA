@@ -40,6 +40,7 @@ namespace Layout {
 	namespace DisplayComponent {
 		namespace Node {
 			extern float height;
+			extern float fontSize;
 			extern float extraFontSize;
 			extern float valueSpacing;
 		}

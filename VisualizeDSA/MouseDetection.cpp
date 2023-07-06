@@ -31,6 +31,11 @@ void MouseDetection::update()
 	pressedOutside = false;
 }
 
+sf::Vector2f MouseDetection::getCenter()
+{
+	return getPosition() + sf::Vector2f(getSize().x / 2, getSize().y / 2);
+}
+
 bool MouseDetection::isHolding() const
 {
 	return holding;
@@ -64,4 +69,16 @@ bool MouseDetection::justPressedOutside() const
 sf::Vector2f MouseDetection::getSize() const
 {
 	return sf::Vector2f(size.x * Transformable::getScale().x, size.y * Transformable::getScale().y);
+}
+
+sf::Vector2f MouseDetection::getBoundFrom(sf::Vector2f p) const
+{
+	sf::Vector2f pos = getPosition();
+	sf::Vector2f size = getSize();
+	if (p.y >= pos.y && p.y <= pos.y + size.y) {
+		if (p.x < pos.x) return pos + sf::Vector2f(0, size.y / 2);
+		return pos + sf::Vector2f(size.x, size.y / 2);
+	}
+	if (p.y < pos.y) return pos + sf::Vector2f(size.x / 2, 0);
+	return pos + sf::Vector2f(size.x / 2, size.y);
 }

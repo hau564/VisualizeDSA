@@ -51,12 +51,13 @@ namespace Layout {
 	namespace DisplayComponent {
 		namespace Node {
 			float height = 50;
+			float fontSize = 30;
 			float extraFontSize = 10;
 			float valueSpacing = 5;
 		}
 		namespace Tree {
 			float verticalSpacing = 50;
-			float horizontalSpacing = 50;
+			float horizontalSpacing = 10;
 		}
 	}
 

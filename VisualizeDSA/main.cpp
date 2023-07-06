@@ -6,6 +6,7 @@ void setup() {
 	Resources::Textures::load();
 	KeyboardDetection::addKeyBinding("CTRL_TAB", { sf::Keyboard::LControl, sf::Keyboard::Tab });
 	KeyboardDetection::addKeyBinding("CTRL_W", { sf::Keyboard::LControl, sf::Keyboard::W });
+	srand(time(NULL));
 }
 
 int main() {

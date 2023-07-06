@@ -157,6 +157,8 @@
     <ClCompile Include="Tab.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +179,8 @@
     <ClInclude Include="Tab.hpp" />
     <ClInclude Include="Textbox.hpp" />
     <ClInclude Include="Tools.hpp" />
+    <ClInclude Include="Tree.hpp" />
+    <ClInclude Include="TreeNode.hpp" />
     <ClInclude Include="VisualizeDSA.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

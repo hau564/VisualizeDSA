@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "MouseDetection.hpp"
-#include "Button.hpp"
+#include "Edge.hpp"
 
 class Node : public MouseDetection, public sf::Drawable
 {

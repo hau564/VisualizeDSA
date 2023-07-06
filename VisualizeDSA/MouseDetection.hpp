@@ -16,6 +16,8 @@ public:
 	void handleEvent(sf::RenderWindow& window, sf::Event event);
 	void update();
 
+	sf::Vector2f getCenter();
+
 public:
 	bool isHolding() const;
 	bool isFocusing() const;
@@ -25,6 +27,7 @@ public:
 	bool justPressedOutside() const;
 
 	sf::Vector2f getSize() const;
+	sf::Vector2f getBoundFrom(sf::Vector2f position) const;
 
 private:
 	bool holding = false, focusing = false, prevHolding = false, pressedOutside = false;
