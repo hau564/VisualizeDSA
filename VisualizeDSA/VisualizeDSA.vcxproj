@@ -141,10 +141,12 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="ControlBox.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="KeyboardDetection.cpp" />
+    <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="ListNode.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,11 +166,13 @@
   <ItemGroup>
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="ControlBox.hpp" />
     <ClInclude Include="Display.hpp" />
     <ClInclude Include="Edge.hpp" />
     <ClInclude Include="Graph.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
     <ClInclude Include="KeyboardDetection.hpp" />
+    <ClInclude Include="Layer.hpp" />
     <ClInclude Include="Layout.hpp" />
     <ClInclude Include="ListNode.hpp" />
     <ClInclude Include="MouseDetection.hpp" />

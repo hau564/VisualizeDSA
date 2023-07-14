@@ -22,6 +22,8 @@ namespace Resources {
 		sf::Texture& getTexture(const std::string &name)
 		{
 			auto found = textureMap.find(name);
+			if (found == textureMap.end())
+				throw std::runtime_error("No texture with name " + name);
 			return *found->second;
 		}
 	}

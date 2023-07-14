@@ -14,5 +14,5 @@ void Display::setup()
 
 void Display::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(screenShape, states);
+	target.draw(screenShape);
 }

@@ -8,6 +8,8 @@
 #include "Button.hpp"
 #include "StructurePicker.hpp"
 #include "StructureRunner.hpp"
+#include "Display.hpp"
+#include "ControlBox.hpp"
 
 class Tab : public Button
 {
@@ -42,6 +44,8 @@ private:
 	StructurePicker structurePicker;
 	StructureRunner structureRunner;
 	sf::RectangleShape workingArea;
+	Display display;
+	ControlBox control;
 };
 
 #endif // !TAB_HPP

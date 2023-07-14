@@ -37,7 +37,7 @@ Edge* TreeNode::getEdge(int id) const
 void TreeNode::addChild(TreeNode* child)
 {
     childNodes.push_back(child);
-	childEdges.push_back(new Edge());
+    childEdges.push_back((child ? new Edge() : nullptr));
 }
 
 void TreeNode::addChild(int id, TreeNode* child)
@@ -49,6 +49,11 @@ void TreeNode::addChild(int id, TreeNode* child)
 	childNodes[id] = child;
 	childEdges[id] = new Edge();
     childEdges[id]->create(this->getCenter(), child->getPosition());
+}
+
+Node* TreeNode::toNode() const
+{
+    return (Node*)this;
 }
 
 std::vector<TreeNode*> TreeNode::getChilds() const

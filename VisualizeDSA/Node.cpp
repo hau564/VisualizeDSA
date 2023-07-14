@@ -20,7 +20,7 @@ void Node::create(std::vector<int> _values)
 		//valueShapes[i].setSize({valueTexts[i].getGlobalBounds().width, valueTexts[i].getGlobalBounds().height + 10});
 		valueShapes[i].setSize({std::max(valueTexts[i].getGlobalBounds().width + 2 * spacing, height - 2 * spacing), height - 2 * spacing});
 		valueShapes[i].setFillColor(Color::GrayBG);
-		valueShapes[i].setCornersRadius(valueShapes[i].getSize().y / 2);
+		valueShapes[i].setCornersRadius(valueShapes[i].getSize().y / 2.5);
 		valueShapes[i].setCornerPointCount(50);
 	}
 	nodeShape.setOutlineThickness(1);
@@ -60,4 +60,9 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		if (values.size() > 1) target.draw(valueShapes[i], states);
 		target.draw(valueTexts[i], states);
 	}
+}
+
+int Node::getValue(int id) const
+{
+	return values[id];
 }

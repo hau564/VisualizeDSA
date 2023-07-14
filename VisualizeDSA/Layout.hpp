@@ -9,6 +9,7 @@
 
 namespace Layout {
 	extern int cornerPointCount;
+	extern int componentSpacing;
 	namespace Button {
 		extern int cornerRadius;
 		extern int cornerPointCount;
@@ -17,12 +18,6 @@ namespace Layout {
 	}
 	namespace Text {
 		extern sf::Color fillColor;
-	}
-	namespace Scroller {
-		extern sf::Color backgroundColor;
-		extern sf::Color sliderColor;
-		extern int thickness;
-		extern float scrollSpeed;
 	}
 	namespace Window {
 		extern float width, height;
@@ -35,6 +30,11 @@ namespace Layout {
 	namespace Tabbar {
 		extern sf::Vector2f pos, size;
 		extern sf::Color tabFillColor;
+	}
+
+	namespace WindowComponent {
+		extern sf::Color fillColor;
+		extern sf::Color outlineColor;
 	}
 
 	namespace DisplayComponent {
@@ -54,6 +54,14 @@ namespace Layout {
 		extern sf::Vector2f pos, size;
 		extern float outlineThickness, cornerRadius;
 		extern sf::Color outlineColor, fillColor;
+	}
+
+	namespace ControlBox {
+		extern sf::Vector2f pos, size;
+		extern float outlineThickness, cornerRadius;
+		extern sf::Color outlineColor, fillColor;
+		extern sf::Vector2f buttonSize;
+		extern float buttonSpacing;
 	}
 }
 

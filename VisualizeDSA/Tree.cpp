@@ -1,42 +1,79 @@
 #include "Tree.hpp"
 #include <iostream>
 #include "Layout.hpp"
+#include <queue>
 
 void Tree::update()
 {
-	dfsUpdate(root);
+	std::queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		TreeNode* node = q.front();
+		q.pop();
+		node->update();
+		for (TreeNode* child : node->getChilds()) {
+			q.push(child);
+		}
+	}
 }
 
 void Tree::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	dfsDraw(root, target, states);
+	std::queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		TreeNode* node = q.front();
+		q.pop();
+		for (Edge* edge : node->getEdges()) {
+			target.draw(*edge, states);
+		}
+		std::cout << node->getValue() << " " << node->getPosition().x << " " << node->getPosition().y << std::endl;
+		target.draw(*node, states);
+		for (TreeNode* child : node->getChilds()) {
+			q.push(child);
+		}
+	}
 }
 
 void Tree::equidLayout(sf::Vector2f pos)
 {
 	nodePos = pos;
 	dfsEquid(root);
+	update();
 }
 
-void Tree::dfsUpdate(TreeNode* node)
+std::vector<Node*> Tree::getNodes() const
 {
-	if (node == nullptr) return;
-	node->update();
-	int id = 0;
-	for (TreeNode* child : node->getChilds()) {
-		dfsUpdate(child);
+	std::vector<Node*> nodes;
+	std::queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		TreeNode* node = q.front();
+		q.pop();
+		nodes.push_back((Node*)node);
+		for (TreeNode* child : node->getChilds()) {
+			q.push(child);
+		}
 	}
+	return nodes;
 }
 
-void Tree::dfsDraw(const TreeNode *node, sf::RenderTarget& target, sf::RenderStates states) const
+std::vector<Edge*> Tree::getEdges() const
 {
-	if (node == nullptr) return;
-	int id = 0;
-	for (TreeNode* child : node->getChilds()) {
-		target.draw(*(node->getEdge(id++)), states);
-		dfsDraw(child, target, states);
+	std::vector<Edge*> edges;
+	std::queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		TreeNode* node = q.front();
+		q.pop();
+		for (Edge* edge : node->getEdges()) {
+			edges.push_back(edge);
+		}
+		for (TreeNode* child : node->getChilds()) {
+			q.push(child);
+		}
 	}
-	target.draw(*node, states);
+	return edges;
 }
 
 void Tree::dfsEquid(TreeNode* node)

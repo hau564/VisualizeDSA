@@ -4,6 +4,7 @@
 
 namespace Layout {
 	int cornerPointCount = 50;
+	int componentSpacing = 10;
 
 	namespace Window {
 		float width = 1920, height = 1080;
@@ -29,13 +30,6 @@ namespace Layout {
 		sf::Color fillColor = sf::Color::Black;
 	}
 
-	namespace Scroller {
-		sf::Color backgroundColor = sf::Color(200, 200, 200);
-		sf::Color sliderColor = sf::Color(150, 150, 150);
-		int thickness = 10;
-		float scrollSpeed = 10.0f;
-	}
-
 	namespace Tab {
 		sf::Vector2f pos = sf::Vector2f(5, 5);
 		sf::Vector2f size = sf::Vector2f(200, 50);
@@ -48,6 +42,13 @@ namespace Layout {
 		sf::Color tabFillColor = sf::Color(200, 200, 200);
 	}
 
+
+
+	namespace WindowComponent {
+		sf::Color fillColor = Color::White;
+		sf::Color outlineColor = Color::Black;
+	}
+
 	namespace DisplayComponent {
 		namespace Node {
 			float height = 50;
@@ -56,16 +57,26 @@ namespace Layout {
 			float valueSpacing = 5;
 		}
 		namespace Tree {
-			float verticalSpacing = 50;
+			float verticalSpacing = 100;
 			float horizontalSpacing = 10;
 		}
 	}
 
 	namespace DisplayScreen {
 		sf::Vector2f pos = sf::Vector2f(Tabbar::pos + sf::Vector2f(0, Tabbar::size.y + 5));
-		sf::Vector2f size = sf::Vector2f(1400, 900);
-		float outlineThickness = 1, cornerRadius = 10;
+		sf::Vector2f size = sf::Vector2f(1450, 930);
+		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;
+	}
+
+	namespace ControlBox {
+		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(0, DisplayScreen::size.y + componentSpacing));
+		sf::Vector2f size = sf::Vector2f(1450, 70);
+		float outlineThickness = 2, cornerRadius = 10;
+		sf::Color outlineColor = sf::Color::Black;
+		sf::Color fillColor = sf::Color::White;
+		sf::Vector2f buttonSize(60, 60);
+		float buttonSpacing = 75;
 	}
 }

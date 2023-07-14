@@ -4,6 +4,8 @@
 #include "Textbox.hpp"
 #include "Display.hpp"
 #include "Tree.hpp"
+#include "Layer.hpp"
+#include "ControlBox.hpp"
 
 void Window::setup()
 {
@@ -16,8 +18,8 @@ void Window::setup()
 
 void Window::addTab()
 {
-	tabs.push_back(Tab());
-	tabs.back().create(tabs.size() - 1);
+	tabs.push_back(Tab(tabs.size()));
+	//tabs.back().create(tabs.size() - 1);
 }
 
 void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
@@ -76,20 +78,6 @@ void Window::launch()
 
 	setup();
 
-	std::vector<TreeNode*> nodes;
-	for (int i = 0; i < 15; ++i) {
-		int m = rand() % 3 + 1;
-		std::vector<int> values;
-		for (int j = 0; j < m; ++j)
-			values.push_back(rand() % 100);
-		nodes.push_back(new TreeNode(values));
-		if (i) nodes[rand() % i]->addChild(nodes[i]);
-	}
-
-	Tree tree;
-	tree.root = nodes[0];
-	tree.equidLayout({ 100, 100 });
-	
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -98,11 +86,11 @@ void Window::launch()
 		}
 
 		update();
-		tree.update();
 
 		window.clear(Layout::Window::backgroundColor);
+		
 		draw(window);
-		window.draw(tree);
+		
 		window.display();
 	}
 

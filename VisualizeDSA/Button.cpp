@@ -13,6 +13,7 @@ void Button::create(sf::Vector2f _pos, sf::Vector2f _size) {
 	getStateId = [this](const Button* button) {
 		return button->isHolding() ? 2 : (button->isFocusing() ? 1 : 0);
 	};
+	lastPos = _pos;
 }
 Button::Button(sf::Vector2f _pos, sf::Vector2f _size)
 {
@@ -28,9 +29,13 @@ void Button::handleEvent(sf::RenderWindow& window, sf::Event event)
 
 void Button::update()
 {
-	for (sf::RoundedRectangleShape& state : states) {
-		state.setPosition(getPosition());
-		state.scale(getScale());
+	sf::Vector2f pos = getPosition();
+	if (abs(pos.x - lastPos.x) > 0.001 || abs(pos.y - lastPos.y) > 0.001) {
+		for (sf::RoundedRectangleShape& state : states) {
+			state.setPosition(state.getPosition() + pos - lastPos);
+			state.scale(getScale());
+		}
+		lastPos = pos;
 	}
 	if (text) Tools::Text::middleAligning(*text, getPosition(), states[0].getSize());
 	Button::MouseDetection::update();
@@ -42,6 +47,10 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates _states) const
 	for (int i = 0; i < (int)getStateIds.size(); ++i) {
 		int id = getStateIds[i](this);
 		if (id >= 0) target.draw(states[id]);
+	}
+	for (int i = 0; i < (int)getCircleStateIds.size(); ++i) {
+		int id = getCircleStateIds[i](this);
+		if (id >= 0) target.draw(circleStates[id]);
 	}
 	if (text) target.draw(*text);
 }
@@ -85,13 +94,21 @@ void Button::addHandle(std::function<void(const Button*)> handle)
 void Button::addState(sf::RoundedRectangleShape newState)
 {
 	states.push_back(newState);
-	states.back().setSize(states[0].getSize());
-	states.back().setPosition(states[0].getPosition());
+}
+
+void Button::addCircleState(sf::CircleShape newState)
+{
+	circleStates.push_back(newState);
 }
 
 void Button::addGetStateId(std::function<int(const Button*)> getId)
 {
 	getStateIds.push_back(getId);
+}
+
+void Button::addGetCircleStateId(std::function<int(const Button*)> getId)
+{
+	getCircleStateIds.push_back(getId);
 }
 
 void Button::removeGetStateId(int i)

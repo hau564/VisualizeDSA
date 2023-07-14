@@ -19,6 +19,7 @@ public:
 	void create(std::vector<int> _values);
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	int getValue(int id = 0) const;
 
 private:
 	sf::RoundedRectangleShape nodeShape;

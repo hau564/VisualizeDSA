@@ -4,6 +4,9 @@
 #define STRUCTURERUNNER_HPP
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Display.hpp"
+#include "ControlBox.hpp"
 
 class StructureRunner: public sf::Drawable
 {
@@ -19,10 +22,8 @@ public:
 private:
 	std::string structName;
 
-	sf::RoundedRectangleShape displayWindow;
-	sf::RoundedRectangleShape inputWindow;
-	sf::RoundedRectangleShape sourceWindow;
-
+	Display display;
+	ControlBox control;
 };
 
 #endif // !STRUCTURERUNNER_HPP
