@@ -5,8 +5,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Display.hpp"
-#include "ControlBox.hpp"
+#include "Visualizer.hpp"
+#include "AVL.hpp"
 
 class StructureRunner: public sf::Drawable
 {
@@ -21,9 +21,10 @@ public:
 
 private:
 	std::string structName;
+	std::map<const std::string, const int> structId;
+	Visualizer visualizer;
 
-	Display display;
-	ControlBox control;
+	AVL avl;
 };
 
 #endif // !STRUCTURERUNNER_HPP

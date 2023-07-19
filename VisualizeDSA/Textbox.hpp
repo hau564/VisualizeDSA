@@ -17,13 +17,17 @@ public:
 	bool isEntered() { return entered; }
 	void setFontSize(int fontSize);
 
+	std::string getString();
+
 private:
 	int active = 0, entered = 0, cursorState = 0;
+	float charWidth = 0;
 	float timeCursor = 0;
 	sf::Clock clock;
 	std::string inputString;
 	sf::Text text, cursor;
 	std::vector<std::function<void(const Textbox*)>> handles;
+
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	

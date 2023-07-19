@@ -5,41 +5,25 @@
 
 #include <SFML/Graphics.hpp>
 #include "Node.hpp"
-#include "Edge.hpp"
-#include <iostream>
 
-class TreeNode: public Node
+class TreeNode : public Node
 {
 public:
-	TreeNode() {};
-	~TreeNode() {
-		for (TreeNode* node : childNodes) {
-			if (node == nullptr) continue;
-			delete node;
-		}
-		for (Edge* edge : childEdges) {
-			if (edge == nullptr) continue;
-			delete edge;
-		}
-	};
-	
 	TreeNode(std::vector<int> _values);
-	void create(std::vector<int> _values);
+	~TreeNode();
+
+	TreeNode*& Child(int id);
+	int getChildCount() const;
+	std::vector<TreeNode*> getAllChilds();
+
+	void addChild(TreeNode* child);
 	void update();
 
-	TreeNode* getChild(int id) const;
-	Edge* getEdge(int id) const;
-	void addChild(TreeNode* child);
-	void addChild(int id, TreeNode* child);
+	int getChildHeight(int id);
 
-	Node* toNode() const;
-
-	std::vector<TreeNode*> getChilds() const;
-	std::vector<Edge*> getEdges() const;
-
-private:
-	std::vector<TreeNode*> childNodes;
-	std::vector<Edge*> childEdges;
+public:
+	std::vector<TreeNode*> childs;
+	int height = 0;
 };
 
 #endif // !TREENODE_HPP

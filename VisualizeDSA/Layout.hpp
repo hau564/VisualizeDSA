@@ -10,6 +10,9 @@
 namespace Layout {
 	extern int cornerPointCount;
 	extern int componentSpacing;
+	extern sf::Color backgroundColor;
+	extern sf::Color workplaceBackground;
+	extern sf::Color workplaceOutline;
 	namespace Button {
 		extern int cornerRadius;
 		extern int cornerPointCount;
@@ -54,6 +57,7 @@ namespace Layout {
 		extern sf::Vector2f pos, size;
 		extern float outlineThickness, cornerRadius;
 		extern sf::Color outlineColor, fillColor;
+		extern sf::Vector2f basePos;
 	}
 
 	namespace ControlBox {
@@ -62,6 +66,16 @@ namespace Layout {
 		extern sf::Color outlineColor, fillColor;
 		extern sf::Vector2f buttonSize;
 		extern float buttonSpacing;
+	}
+
+	namespace InputTable {
+		extern sf::Vector2f pos, size;
+		extern float outlineThickness, cornerRadius;
+		extern sf::Color outlineColor, fillColor;
+		extern float spacing;
+		extern int fontSize;
+		extern sf::Vector2f labelSize;
+		extern sf::Vector2f buttonSize;
 	}
 }
 

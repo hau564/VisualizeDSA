@@ -19,6 +19,12 @@ namespace Tools{
 
 	namespace String {
 		extern std::string toString(int x);
+		
+		extern bool isInt(std::string s);
+		extern int toInt(std::string s);
+
+		extern bool isVectorInt(std::string s);
+		extern std::vector<int> toVectorInt(std::string s);	
 	}
 };
 

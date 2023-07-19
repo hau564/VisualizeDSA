@@ -5,6 +5,9 @@
 namespace Layout {
 	int cornerPointCount = 50;
 	int componentSpacing = 10;
+	sf::Color backgroundColor = Color::White;
+	sf::Color workplaceBackground = sf::Color::White;
+	sf::Color workplaceOutline = sf::Color::Black;
 
 	namespace Window {
 		float width = 1920, height = 1080;
@@ -33,7 +36,7 @@ namespace Layout {
 	namespace Tab {
 		sf::Vector2f pos = sf::Vector2f(5, 5);
 		sf::Vector2f size = sf::Vector2f(200, 50);
-		float radius = 10;
+		float radius = 5;
 	}
 
 	namespace Tabbar {
@@ -68,6 +71,8 @@ namespace Layout {
 		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;
+
+		sf::Vector2f basePos(100, Window::height + 5 + 100);
 	}
 
 	namespace ControlBox {
@@ -78,5 +83,18 @@ namespace Layout {
 		sf::Color fillColor = sf::Color::White;
 		sf::Vector2f buttonSize(60, 60);
 		float buttonSpacing = 75;
+	}
+
+	namespace InputTable {
+		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(DisplayScreen::size.x + componentSpacing, 0));
+		sf::Vector2f size = sf::Vector2f(Window::width - DisplayScreen::pos.x - DisplayScreen::size.x - 5 - componentSpacing, Window::height / 2 - pos.y);
+		float outlineThickness = 2, cornerRadius = 10;
+		sf::Color outlineColor = sf::Color::Black;
+		sf::Color fillColor = sf::Color::White;
+		float spacing = 3;
+		int fontSize = 30;
+
+		sf::Vector2f labelSize = sf::Vector2f(130, 50);
+		sf::Vector2f buttonSize = sf::Vector2f(70, 70);
 	}
 }

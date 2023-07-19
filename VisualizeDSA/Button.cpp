@@ -86,6 +86,14 @@ void Button::setStates(std::vector<ButtonState> _states)
 		setState(_states[i], i);
 }
 
+void Button::setFontSize(int size)
+{
+	if (text) {
+		text->setCharacterSize(size);
+		Tools::Text::middleAligning(*text, states[0].getPosition(), states[0].getSize());
+	}
+}
+
 void Button::addHandle(std::function<void(const Button*)> handle)
 {
 	handles.push_back(handle);
@@ -115,4 +123,10 @@ void Button::removeGetStateId(int i)
 {
 	if (i < getStateIds.size()) 
 		getStateIds.erase(getStateIds.begin() + i);
+}
+
+std::string Button::getLabel()
+{
+	if (!text) return "";
+	return text->getString();
 }

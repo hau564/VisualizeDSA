@@ -14,6 +14,7 @@ void Tab::create(int _id)
 	Button::setRadius(Layout::Tab::radius);
 	Button::setText("Tab " + Tools::String::toString(id + 1), Resources::Font::arial);
 	active = 1;
+	cover.setSize(getSize());
 
 	float xSize = Layout::Tab::size.y / 2;
 	sf::Vector2f center = getPosition() + sf::Vector2f(getSize().x - Layout::Tab::size.y / 2, Layout::Tab::size.y / 2);
@@ -68,6 +69,7 @@ void Tab::update()
 {
 	Button::update();
 	xButton.update();
+	cover.setPosition(getPosition() + sf::Vector2f(0, Layout::Tab::size.y / 2));
 	if (active) {
 		if (!added) {
 			Button::addGetStateId(
@@ -92,6 +94,7 @@ void Tab::update()
 
 void Tab::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	if (active) target.draw(cover);
 	Button::draw(target, states);
 	target.draw(xButton);
 	if (!active) return;

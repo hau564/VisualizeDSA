@@ -1,67 +1,42 @@
 #include "TreeNode.hpp"
-#include <iostream>
 
-TreeNode::TreeNode(std::vector<int> _values)
-{
-    create(_values);
+TreeNode::TreeNode(std::vector<int> _values) {
+	create(_values);
 }
 
-void TreeNode::create(std::vector<int> _values)
+TreeNode::~TreeNode()
 {
-    Node::create(_values);
+	
 }
 
-void TreeNode::update()
+TreeNode*& TreeNode::Child(int id)
 {
-    Node::update();
-    int id = 0;
-    for (TreeNode* node : childNodes) {
-       	if (node == nullptr) continue;
-        childEdges[id]->create(this->getCenter(),node->getBoundFrom(this->getCenter()), 3, 6);
-        id++;
-    }
+	while ((int)childs.size() <= id) 
+		childs.push_back(nullptr);
+	return childs[id];
 }
 
-TreeNode* TreeNode::getChild(int id) const
+int TreeNode::getChildCount() const
 {
-    if ((int)childNodes.size() <= id) return nullptr;
-    return childNodes[id];
+	return childs.size();
 }
 
-Edge* TreeNode::getEdge(int id) const
+std::vector<TreeNode*> TreeNode::getAllChilds()
 {
-    if ((int)childEdges.size() <= id) return nullptr;
-	return childEdges[id];
+	return childs;
 }
 
 void TreeNode::addChild(TreeNode* child)
 {
-    childNodes.push_back(child);
-    childEdges.push_back((child ? new Edge() : nullptr));
+	childs.push_back(child);
 }
 
-void TreeNode::addChild(int id, TreeNode* child)
+void TreeNode::update()
 {
-    while (childNodes.size() <= id) {
-        childNodes.push_back(nullptr);
-        childEdges.push_back(nullptr);
-    }
-	childNodes[id] = child;
-	childEdges[id] = new Edge();
-    childEdges[id]->create(this->getCenter(), child->getPosition());
+	height = std::max(getChildHeight(0), getChildHeight(1)) + 1;
 }
 
-Node* TreeNode::toNode() const
+int TreeNode::getChildHeight(int id) 
 {
-    return (Node*)this;
-}
-
-std::vector<TreeNode*> TreeNode::getChilds() const
-{
-    return childNodes;
-}
-
-std::vector<Edge*> TreeNode::getEdges() const
-{
-    return childEdges;
+	return Child(id) ? Child(id)->height : -1;
 }

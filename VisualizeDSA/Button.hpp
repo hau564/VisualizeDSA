@@ -25,6 +25,7 @@ public:
 	void setRadius(float _radius);
 	void setState(ButtonState state, int id);
 	void setStates(std::vector<ButtonState> _states);
+	void setFontSize(int size);
 	
 	void addHandle(std::function<void(const Button*)> handle);
 	
@@ -35,6 +36,8 @@ public:
 	void addGetCircleStateId(std::function<int(const Button*)> getId);
 	
 	void removeGetStateId(int i);
+
+	std::string getLabel();
 
 	std::function<int(const Button*)> getStateId;
 	std::vector< std::function<int(const Button*)>> getStateIds;

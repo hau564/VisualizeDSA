@@ -2,8 +2,14 @@
 
 #define PI 3.14159265359
 
-void Edge::create(sf::Vector2f _pos1, sf::Vector2f _pos2, float thickness, float dis, sf::Color color)
+Edge::Edge(sf::Vector2f _pos1, sf::Vector2f _pos2)
 {
+	create(_pos1, _pos2);
+}
+
+void Edge::create(sf::Vector2f _pos1, sf::Vector2f _pos2, sf::Color _color, float thickness, float dis)
+{
+	color = _color;
 	pos1 = _pos1, pos2 = _pos2;
 	float d = sqrt((pos2.x - pos1.x) * (pos2.x - pos1.x) + (pos2.y - pos1.y) * (pos2.y - pos1.y)) - dis;
 	float angle = atan2(pos2.y - pos1.y, pos2.x - pos1.x);
@@ -49,4 +55,35 @@ void Edge::setEnd(sf::Vector2f pos)
 	line.setRotation(atan2(pos2.y - pos1.y, pos2.x - pos1.x) * 180 / PI);
 	arrow.setPosition(pos2);
 	arrow.setRotation(atan2(pos2.y - pos1.y, pos2.x - pos1.x) * 180 / PI + 90);
+}
+
+void Edge::setColor(sf::Color _color)
+{
+	color = _color;
+	line.setFillColor(color);
+	arrow.setFillColor(color);
+}
+
+sf::Color Edge::getColor()
+{
+	return color;
+}
+
+bool Edge::operator==(const Edge& e) const
+{
+	return	abs(getStart().x - e.getStart().x) <= 0.0001
+		&&	abs(getStart().y - e.getStart().y) <= 0.0001
+		&&  abs(getEnd().x - e.getEnd().x) <= 0.0001
+		&&  abs(getEnd().y - e.getEnd().y) <= 0.0001;
+			
+}
+
+sf::Vector2f Edge::getStart() const
+{
+	return pos1;
+}
+
+sf::Vector2f Edge::getEnd() const
+{
+	return pos2;
 }

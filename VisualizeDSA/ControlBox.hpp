@@ -18,14 +18,23 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	void setTimeList(std::vector<float> _timeList);
+	void addTime(float _time);
 
-	void startAnimation();
+	void start();
+	void clear();
+
+	int getCurrent() const;
 
 private:
 	void setupButtons();
 private:
 	sf::RoundedRectangleShape bound;
-	Button play, stop, back, forw, start, end;
+	Button bplay, bstop, bback, bforw, bstart, bend;
+	Button incSpeed, decSpeed;
+	
+	sf::Text speedText;
+	int speed = 1;
+	
 	std::vector<float> timeList;
 	sf::Clock clock;
 	int playing, current;

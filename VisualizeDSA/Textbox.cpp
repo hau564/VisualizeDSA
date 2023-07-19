@@ -4,20 +4,19 @@
 
 void Textbox::create(sf::Vector2f _pos, sf::Vector2f _size)
 {
-	Button::create(_pos, _size);	
-	Button::getStateId = [this](const Button* b) {
-		return active ? 2 : b->isFocusing();
-	};
+	Button::create(_pos, _size);
 
 	text.setFont(*Resources::Font::courier);
 	text.setCharacterSize(_size.y / 2);
 	text.setFillColor(Layout::Text::fillColor);
 	text.setString("A");
 	Tools::Text::leftAligning(text, _pos, _size, 1);
+	charWidth = text.getLocalBounds().width;
+
 	text.setString(inputString);
 
 	cursor.setFont(*Resources::Font::courier);
-	cursor.setCharacterSize(_size.y / 2);
+	cursor.setCharacterSize(_size.y / 2 + 17);
 	cursor.setFillColor(Layout::Text::fillColor);
 	cursor.setString("|");
 	Tools::Text::leftAligning(cursor, _pos, _size, 1);
@@ -35,10 +34,6 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 	if (justPressedOutside()) {
 		active = 0;
 	}
-	sf::Cursor mCursor;
-	if (isFocusing()) mCursor.loadFromSystem(sf::Cursor::Text);
-	else mCursor.loadFromSystem(sf::Cursor::Arrow);
-	window.setMouseCursor(mCursor);
 	if (active) {
 		if (event.type == sf::Event::TextEntered) {
 			cursorState = 1;
@@ -60,7 +55,12 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 				active = 0;
 			}
 		}
-		text.setString(inputString);
+		if (inputString.size() * charWidth > getSize().x - 15) {
+			int charCnt = (getSize().x - 15) / charWidth - 3;
+			text.setString("..." + inputString.substr((int)inputString.size() - charCnt, charCnt));
+		}
+		else
+			text.setString(inputString);
 	}
 	if (!active) cursorState = 0, timeCursor = 0;
 	cursor.setPosition({ text.getPosition().x + text.getGlobalBounds().width + 5, cursor.getPosition().y });
@@ -91,6 +91,11 @@ void Textbox::setFontSize(int fontSize)
 	Tools::Text::leftAligning(text, pos, size, 1);
 	cursor.setCharacterSize(fontSize);
 	Tools::Text::leftAligning(cursor, pos, size, 1);
+}
+
+std::string Textbox::getString()
+{
+	return inputString;
 }
 
 void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -3,24 +3,59 @@
 void StructureRunner::create(std::string _structName)
 {
 	structName = _structName;
-	display.setup();
-	control.setup();
-	control.setTimeList({1,1,1,1,1,1,1,1,1,1,1,1,1,1,1});
-	control.startAnimation();
-}
+	visualizer.setup();
+
+	structId.emplace("HashTable", 0);
+	structId.emplace("AVLTree", 1);
+	structId.emplace("234Tree", 2);
+	structId.emplace("Heap", 3);
+	structId.emplace("Trie", 4);
+	structId.emplace("Graph", 5);
+
+	switch (structId[structName]) {
+		case 0:
+			break;
+		case 1:
+			avl.setup(visualizer);
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+	}
+} 
 
 void StructureRunner::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
-	control.handleEvent(window, event);	
+	visualizer.handleEvent(window, event);
 }
 
 void StructureRunner::update()
 {
-	control.update();
+	visualizer.update();
+
+	switch (structId[structName]) {
+	case 0:
+		break;
+	case 1:
+		avl.visualize();
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	}
 }
 
 void StructureRunner::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(display);
-	target.draw(control);
+	target.draw(visualizer);
 }

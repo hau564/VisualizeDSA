@@ -4,6 +4,12 @@
 #include "Tools.hpp"
 #include "Color.hpp"
 
+Node::Node(sf::Vector2f _pos, std::vector<int> values)
+{
+	setPosition(_pos);
+	create(values);
+}
+
 void Node::create(std::vector<int> _values)
 {
 	values = _values;	
@@ -23,8 +29,9 @@ void Node::create(std::vector<int> _values)
 		valueShapes[i].setCornersRadius(valueShapes[i].getSize().y / 2.5);
 		valueShapes[i].setCornerPointCount(50);
 	}
-	nodeShape.setOutlineThickness(1);
+	nodeShape.setOutlineThickness(3);
 	nodeShape.setOutlineColor(Color::Black);
+	color = Color::Black;
 	nodeShape.setCornersRadius(Layout::DisplayComponent::Node::height / 2);
 	nodeShape.setCornerPointCount(50);
 	update();
@@ -65,4 +72,46 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 int Node::getValue(int id) const
 {
 	return values[id];
+}
+
+std::vector<int> Node::getValues() const
+{
+	return values;
+}
+
+int& Node::Value(int id)
+{
+	return values[id];
+}
+
+void Node::setColor(sf::Color _color)
+{
+	color = _color;
+	nodeShape.setOutlineColor(color);
+}
+
+sf::Color Node::getColor() const
+{
+	return color;
+}
+
+void Node::memorizePosition()
+{
+	memPos = getPosition();
+}
+
+sf::Vector2f Node::getOldPosition() const
+{
+	return memPos;
+}
+
+sf::Vector2f Node::getOldCenter() const
+{
+	return memPos + sf::Vector2f(getSize().x / 2, getSize().y / 2);
+}
+
+bool Node::operator==(const Node& other) const
+{
+	return abs(getPosition().x - other.getPosition().x) <= 0.0001
+		&& abs(getPosition().y - other.getPosition().y) <= 0.0001;
 }

@@ -43,7 +43,7 @@ private:
 	Button xButton;
 	StructurePicker structurePicker;
 	StructureRunner structureRunner;
-	sf::RectangleShape workingArea;
+	sf::RectangleShape workingArea, cover;
 	Display display;
 	ControlBox control;
 };

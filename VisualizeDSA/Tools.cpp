@@ -58,3 +58,48 @@ std::string Tools::String::toString(int x)
 	std::reverse(s.begin(), s.end());
 	return s;
 }
+
+bool Tools::String::isInt(std::string s)
+{
+	for (char c : s) {
+		if (c == ' ') continue;
+		if (c < '0' || c > '9') return false;
+	}
+	return true;
+}
+
+int Tools::String::toInt(std::string s)
+{
+	int x = 0;
+	for (char c : s) {
+		if (c == ' ') continue;
+		x = x * 10 + (c - '0');
+	}
+	return x;
+}
+
+bool Tools::String::isVectorInt(std::string s)
+{
+	for (char c : s) {
+		if (c == ' ') continue;
+		if (c == ',') continue;
+		if (c < '0' || c > '9') return false;
+	}
+	return true;
+}
+
+std::vector<int> Tools::String::toVectorInt(std::string s)
+{
+	std::vector<int> v;
+
+	for (char c : s) {
+		if (c == ' ') continue;
+		if (v.empty()) v.push_back(0);
+		if (c == ',') {
+			v.push_back(0);
+			continue;
+		}
+		v.back() = v.back() * 10 + (c - '0');
+	}
+	return v;
+}
