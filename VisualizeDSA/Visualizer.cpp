@@ -1,6 +1,8 @@
 #include "Visualizer.hpp"
 #include "Layout.hpp"
 #include <queue>
+#include <set>
+#include "Animation.hpp"
 
 void Visualizer::setup()
 {
@@ -28,7 +30,7 @@ void Visualizer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float verticalSpacing) {
 	if (root == nullptr) return;
-	int cntChild = root->getChildCount();
+	int cntChild = root->getValueCount() + 1;
 	for (int i = 0; i < (cntChild + 1) / 2; ++i) {
 		pos.y += verticalSpacing;
 		dfsLayout(root->Child(i), pos, horizontalSpacing, verticalSpacing);
@@ -55,7 +57,10 @@ void Visualizer::newStep()
 {
 	index = layers.size();
 	for (int i = 0; i < fps; ++i) {
-		addLayer(Layer(), 1.0f / fps);
+		if (!i || i == fps / 2 - 1 || i == fps / 2 || i == fps - 1)
+			addLayer(Layer(), 1.f / fps);
+		else 
+			addVirtualLayer(1.f / fps);
 	}
 }
 
@@ -70,7 +75,10 @@ void Visualizer::duplicateState()
 	index = layers.size();
 	if (index)
 		for (int i = 0; i < fps; ++i) {
-			addLayer(layers[index - 1], 1.f / fps);
+			if (!i || i == fps / 2 - 1 || i == fps / 2 || i == fps - 1)
+				addLayer(layers[index - 1], 1.f / fps);
+			else
+				addVirtualLayer(1.f / fps);
 		}
 	else
 		newStep();
@@ -78,13 +86,13 @@ void Visualizer::duplicateState()
 
 void Visualizer::addTree(TreeNode* root)
 {
-	for (int i = 0; i < fps; ++i) 
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1})
 		layers[index + i].addTree(root);
 }
 
 void Visualizer::moveEdge(Node* u, Node* v, Node* uu, Node* vv)
 {
-	moveEdge(u->getPosition(), v->getPosition(), uu->getPosition(), vv->getPosition());
+	moveEdge(u->getCenter(), v->getCenter(), uu->getCenter(), vv->getCenter());
 }
 
 void Visualizer::moveEdge(sf::Vector2f u, sf::Vector2f v, sf::Vector2f uu, sf::Vector2f vv)
@@ -98,13 +106,13 @@ void Visualizer::moveEdge(sf::Vector2f u, sf::Vector2f v, sf::Vector2f uu, sf::V
 	}
 	if (eid < 0) {
 		eid = layers[index].edges.size();
-		for (int i = 0; i < fps; ++i) {
+		u = v = uu;
+		for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
 			layers[i + index].edges.push_back(Edge(u, u));
 		}
-		v = u;
 	}
-	for (int i = 0; i < fps; ++i) {
-		layers[i + index].edges[eid].create(getAnimationPosition(u, uu, (float)(i + 1) / fps), getAnimationPosition(v, vv, (float)(i + 1) / fps), layers[i + index].edges[eid].getColor());
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].edges[eid].create(Animation::getVector2f(u, uu, (float)(i + 1) / fps), Animation::getVector2f(v, vv, (float)(i + 1) / fps), layers[i + index].edges[eid].getColor());
 	}
 }
 
@@ -119,9 +127,13 @@ void Visualizer::removeEdge(sf::Vector2f u, sf::Vector2f v)
 	}
 	if (eid < 0) return;
 	sf::Color color = layers[index].edges[eid].getColor();
-	for (int i = 0; i < fps; ++i) {
-		layers[i + index].edges[eid].create(u, v, getAnimationColor(color, Layout::workplaceBackground, 1.f * (i + 1) / fps));
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].edges[eid].create(u, v, Animation::getColor(color, Layout::workplaceBackground, std::min(1.f, 2.f * (i + 1) / fps)));
 	}
+	layers[fps / 2 + index].edges[eid].setStart({ -100, -100 });
+	layers[fps / 2 + index].edges[eid].setEnd({ -100, -100 });
+	layers[fps - 1 + index].edges[eid].setStart({ -100, -100 });
+	layers[fps - 1 + index].edges[eid].setEnd({ -100, -100 });
 }
 
 void Visualizer::removeEdgeFromParent(Node* v)
@@ -130,8 +142,8 @@ void Visualizer::removeEdgeFromParent(Node* v)
 }
 
 bool operator == (sf::Vector2f pos1, sf::Vector2f pos2) {
-	return abs(pos1.x - pos2.x) <= 0.0001
-		&& abs(pos1.y - pos2.y) <= 0.0001;
+	return abs(pos1.x - pos2.x) <= 1
+		&& abs(pos1.y - pos2.y) <= 1;
 }
 
 void Visualizer::removeEdgeFromParent(sf::Vector2f v)
@@ -155,21 +167,42 @@ void Visualizer::moveNode(sf::Vector2f pos1, sf::Vector2f pos2, std::vector<int>
 	}
 	if (eid < 0) {
 		eid = layers[index].nodes.size();
-		for (int i = 0; i < fps; ++i) {
-			layers[i + index].nodes.push_back(Node({-1000, -1000}, _values));
+		for (int i : {0, fps / 2 - 1}) {
+			layers[i + index].nodes.push_back(Node({ -1000, -1000 }, _values));
 		}
-		layers[fps - 1 + index].nodes.back() = Node(pos2, _values);
+		sf::Color color = Layout::workplaceOutline;
+		for (int i : {fps / 2, fps - 1}) {
+			layers[i + index].nodes.push_back(Node(pos2, _values));
+			layers[i + index].nodes.back().setColor(Animation::getColor(Layout::workplaceBackground, color, 2.f * (i - fps / 2.f) / fps));
+		}
 		return;
 	}
-	for (int i = 0; i < fps; ++i) {
-		layers[i + index].nodes[eid].setPosition(getAnimationPosition(pos1, pos2, (float)(i + 1) / fps));
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].nodes[eid].setPosition(Animation::getVector2f(pos1, pos2, (float)(i + 1) / fps));
 		layers[i + index].nodes[eid].update();
 	}
 }
 
 void Visualizer::removeNode(TreeNode* node)
 {
-	removeNode(node->getPosition());
+	int eid = -1;
+	for (int i = 0; i < (int)layers[index].nodes.size(); ++i) {
+		if (layers[index].nodes[i].getValues() == node->getValues()) {
+			eid = i;
+			break;
+		}
+	}
+	if (eid < 0) return;
+	sf::Color color = layers[index].nodes[eid].getColor();
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].nodes[eid].setColor(Animation::getColor(color, Layout::workplaceBackground, std::min(1.f, 2.f * (i + 1) / fps)));
+		if (i >= fps / 2) {
+			layers[i + index].nodes[eid].setPosition({ -100, -100 });
+			layers[i + index].nodes[eid].update();
+		}
+	}
+	layers[fps - 1 + index].nodes[eid].setPosition({ -100, -100 });
+	layers[fps - 1 + index].nodes[eid].update();
 }
 
 void Visualizer::removeNode(sf::Vector2f pos)
@@ -183,8 +216,12 @@ void Visualizer::removeNode(sf::Vector2f pos)
 	}
 	if (eid < 0) return;
 	sf::Color color = layers[index].nodes[eid].getColor();
-	for (int i = 0; i < fps; ++i) {
-		layers[i + index].nodes[eid].setColor(getAnimationColor(color, Layout::workplaceBackground, 1.f * (i + 1) / fps));
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].nodes[eid].setColor(Animation::getColor(color, Layout::workplaceBackground, std::min(1.f, 2.f * (i + 1) / fps)));
+		if (i >= fps / 2) {
+			layers[i + index].nodes[eid].setPosition({-100, -100});
+			layers[i + index].nodes[eid].update();
+		}
 	}
 	layers[fps - 1 + index].nodes[eid].setPosition({-100, -100});
 	layers[fps - 1 + index].nodes[eid].update();
@@ -201,16 +238,13 @@ void Visualizer::highlightNode(Node* node, sf::Color color)
 	}
 	if (eid < 0) {
 		eid = layers[index].nodes.size();
-		for (int i = 0; i < fps; ++i) {
+		for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
 			layers[i + index].nodes.push_back(*node);
 		}
 	}
 	sf::Color oldColor = layers[index].nodes[eid].getColor();
-	for (int i = 0; i < fps; ++i) {
-		float r = getByRatio(oldColor.r, color.r, 1.f * (i + 1) / fps);
-		float g = getByRatio(oldColor.g, color.g, 1.f * (i + 1) / fps);
-		float b = getByRatio(oldColor.b, color.b, 1.f * (i + 1) / fps);
-		layers[i + index].nodes[eid].setColor(sf::Color(r, g, b));
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].nodes[eid].setColor(Animation::getColor(oldColor, color, 1.f * (i + 1) / fps));
 	}
 }
 
@@ -225,39 +259,37 @@ void Visualizer::highlightEdge(Node* u, Node* v, sf::Color color)
 	}
 	if (eid < 0) {
 		eid = layers[index].edges.size();
-		for (int i = 0; i < fps; ++i) {
+		for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
 			layers[i + index].edges.push_back(Edge(u->getCenter(), v->getCenter()));
 		}
 	}
 	sf::Color oldColor = layers[index].edges[eid].getColor();
-	for (int i = 0; i < fps; ++i) {
-		float r = getByRatio(oldColor.r, color.r, 1.f * (i + 1) / fps);
-		float g = getByRatio(oldColor.g, color.g, 1.f * (i + 1) / fps);
-		float b = getByRatio(oldColor.b, color.b, 1.f * (i + 1) / fps);
-		layers[i + index].edges[eid].setColor(sf::Color(r, g, b));
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].edges[eid].setColor(Animation::getColor(oldColor, color, 1.f * (i + 1) / fps));
 	}
 }
 
-float Visualizer::getByRatio(float x, float y, float r)
-{
-	return x + (y - x) * r;
+bool operator==(std::pair<float, float> a, sf::Vector2f b) {
+	return abs(a.first - b.x) <= 1
+		&& abs(a.second - b.y) <= 1;
 }
 
-sf::Vector2f Visualizer::getAnimationPosition(sf::Vector2f pos1, sf::Vector2f pos2, float r)
-{
-	return sf::Vector2f(pos1.x + (pos2.x - pos1.x) * r, pos1.y + (pos2.y - pos1.y) * r);
-}
-
-void Visualizer::reArrange(TreeNode* root)
+void Visualizer::reArrange(TreeNode* root, int autoDelete, int reLayout)
 {
 	if (!root) return;
-	layoutTree(root);
+	if (reLayout == 1) layoutTree(root);
 	std::queue<TreeNode*> q;
 	q.push(root);
+	
+	std::set<std::vector<int>> nodeList;
+
 	while (!q.empty()) {
 		TreeNode* node = q.front();
 		q.pop();
 		moveNode(node->getOldPosition(), node->getPosition(), node->getValues());
+		if (autoDelete) {
+			nodeList.insert(node->getValues());
+		}
 		for (int i = 0; i < node->getChildCount(); ++i) {
 			if (node->Child(i)) {
 				moveEdge(node->getOldCenter(), node->Child(i)->getOldCenter(), node->getCenter(), node->Child(i)->getCenter());
@@ -265,10 +297,12 @@ void Visualizer::reArrange(TreeNode* root)
 			}
 		}
 	}
+	if (autoDelete) {
+		for (Node node : layers[index].nodes) {
+			if (nodeList.find(node.getValues()) == nodeList.end()) {
+				removeNode(node.getPosition());
+				removeEdgeFromParent(node.getCenter());
+			}
+		}
+	}
 }
-
-sf::Color Visualizer::getAnimationColor(sf::Color color1, sf::Color color2, float r)
-{
-	return sf::Color(getByRatio(color1.r, color2.r, r), getByRatio(color1.g, color2.g ,r), getByRatio(color1.b, color2.b, r));
-}
-

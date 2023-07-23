@@ -94,7 +94,7 @@ namespace Layout {
 		float spacing = 3;
 		int fontSize = 30;
 
-		sf::Vector2f labelSize = sf::Vector2f(130, 50);
+		sf::Vector2f labelSize = sf::Vector2f(150, 50);
 		sf::Vector2f buttonSize = sf::Vector2f(70, 70);
 	}
 }

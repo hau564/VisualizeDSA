@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AVL.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Heap.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputTable.cpp" />
     <ClCompile Include="KeyboardDetection.cpp" />
@@ -162,11 +164,13 @@
     <ClCompile Include="Tab.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="Tree234.cpp" />
     <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="Visualizer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.hpp" />
     <ClInclude Include="AVL.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Color.hpp" />
@@ -175,6 +179,7 @@
     <ClInclude Include="Edge.hpp" />
     <ClInclude Include="Graph.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
+    <ClInclude Include="Heap.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="InputTable.hpp" />
     <ClInclude Include="KeyboardDetection.hpp" />
@@ -189,6 +194,7 @@
     <ClInclude Include="Tab.hpp" />
     <ClInclude Include="Textbox.hpp" />
     <ClInclude Include="Tools.hpp" />
+    <ClInclude Include="Tree234.hpp" />
     <ClInclude Include="TreeNode.hpp" />
     <ClInclude Include="VisualizeDSA.hpp" />
     <ClInclude Include="Visualizer.hpp" />

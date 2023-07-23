@@ -21,6 +21,15 @@ int TreeNode::getChildCount() const
 	return childs.size();
 }
 
+int TreeNode::getRealChildCount() const
+{
+	int cnt = 0;
+	for (TreeNode* child : childs) {
+		if (child) cnt++;
+	}
+	return cnt;
+}
+
 std::vector<TreeNode*> TreeNode::getAllChilds()
 {
 	return childs;
@@ -33,6 +42,7 @@ void TreeNode::addChild(TreeNode* child)
 
 void TreeNode::update()
 {
+	Node::update();
 	height = std::max(getChildHeight(0), getChildHeight(1)) + 1;
 }
 

@@ -3,7 +3,9 @@
 void StructureRunner::create(std::string _structName)
 {
 	structName = _structName;
-	visualizer.setup();
+
+	visualizer = new Visualizer();
+	visualizer->setup();
 
 	structId.emplace("HashTable", 0);
 	structId.emplace("AVLTree", 1);
@@ -19,8 +21,10 @@ void StructureRunner::create(std::string _structName)
 			avl.setup(visualizer);
 			break;
 		case 2:
+			tree234.setup(visualizer);
 			break;
 		case 3:
+			heap.setup(visualizer);
 			break;
 		case 4:
 			break;
@@ -31,12 +35,12 @@ void StructureRunner::create(std::string _structName)
 
 void StructureRunner::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
-	visualizer.handleEvent(window, event);
+	visualizer->handleEvent(window, event);
 }
 
 void StructureRunner::update()
 {
-	visualizer.update();
+	visualizer->update();
 
 	switch (structId[structName]) {
 	case 0:
@@ -45,8 +49,10 @@ void StructureRunner::update()
 		avl.visualize();
 		break;
 	case 2:
+		tree234.visualize();
 		break;
 	case 3:
+		heap.visualize();
 		break;
 	case 4:
 		break;
@@ -57,5 +63,5 @@ void StructureRunner::update()
 
 void StructureRunner::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(visualizer);
+	visualizer->draw(target, states);
 }

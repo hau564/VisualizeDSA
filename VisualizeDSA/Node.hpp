@@ -20,7 +20,11 @@ public:
 	void create(std::vector<int> _values);
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+	void addValue(int x);
+	void sortValue();
 	int getValue(int id = 0) const;
+	int getValueCount() const;
 	std::vector<int> getValues() const;
 	int& Value(int id = 0);
 
@@ -43,7 +47,7 @@ private:
 	int counting = 0, height = 0;
 	sf::Text countingText, heightText;
 	sf::Color color;
-	sf::Vector2f memPos;
+	sf::Vector2f memPos, memCen;
 };
 
 #endif // NODE_HPP

@@ -3,10 +3,11 @@
 #include "Layout.hpp"
 #include <queue>
 #include <stack>
+#include "Animation.hpp"
 
-void AVL::setup(Visualizer& _visualizer)
+void AVL::setup(Visualizer* _visualizer)
 {
-	visualizer = &_visualizer;
+	visualizer = _visualizer;
 	visualizer->addTextbox("Build");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("Delete");
@@ -22,35 +23,35 @@ void AVL::visualize()
 
 	if (label == "Build") {
 		if (!Tools::String::isVectorInt(input)) {
-			std::cout << "Invalid Input:" << input << std::endl;
+			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
 		build(Tools::String::toVectorInt(input));
 	}
 	else if (label == "Insert") {
 		if (!Tools::String::isInt(input)) {
-			std::cout << "Invalid Input:" << input << std::endl;
+			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
 		insert(Tools::String::toInt(input));
 	}
 	else if (label == "Delete") {
 		if (!Tools::String::isInt(input)) {
-			std::cout << "Invalid Input:" << input << std::endl;
+			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
 		Delete(Tools::String::toInt(input));
 	}
 	else if (label == "Search") {
 		if (!Tools::String::isInt(input)) {
-			std::cout << "Invalid Input:" << input << std::endl;
+			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
 		search(Tools::String::toInt(input));
 	}
 }
 
-void rotateRight(TreeNode*& root) {
+void AVL::rotateRight(TreeNode*& root) {
 	TreeNode* left = root->Child(0);
 	root->Child(0) = left->Child(1);
 	left->Child(1) = root;
@@ -59,7 +60,7 @@ void rotateRight(TreeNode*& root) {
 	root->update();
 }
 
-void rotateLeft(TreeNode*& root) {
+void AVL::rotateLeft(TreeNode*& root) {
 	TreeNode* right = root->Child(1);
 	root->Child(1) = right->Child(0);
 	right->Child(0) = root;
@@ -68,7 +69,7 @@ void rotateLeft(TreeNode*& root) {
 	root->update();
 }
 
-void insertBuild(TreeNode*& root, int x) {
+void AVL::insertBuild(TreeNode*& root, int x) {
 	if (root == nullptr) {
 		root = new TreeNode({ x });
 		return;
@@ -202,13 +203,11 @@ void AVL::insertVisualize(TreeNode*& node, int x) {
 void AVL::insert(int x)
 {
 	std::cout << "Insert " << x << std::endl;
+
 	visualizer->clear();
 	visualizer->newStep(root);
-
 	insertVisualize(root, x);
-
-	visualizer->newStep(root);
-	
+	visualizer->newStep(root);	
 	visualizer->start();
 }
 
@@ -317,7 +316,7 @@ void AVL::deleteVisualize(TreeNode*& node, int x)
 
 void AVL::Delete(int x)
 {
-	std::cout << "delete " << x << std::endl;
+	std::cout << "Delete " << x << std::endl;
 
 	visualizer->clear();
 	visualizer->newStep(root);

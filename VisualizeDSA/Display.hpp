@@ -16,6 +16,7 @@ public:
 	void update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+	void addVirtualLayer(float time, Layer layer = Layer());
 	void addLayer(Layer layer, float time);
 	
 	void start();
@@ -26,6 +27,8 @@ private:
 	sf::RoundedRectangleShape screenShape;
 	ControlBox control;
 	int started = 0;
+
+	std::vector<int> idLeft, idRight;
 
 	MouseDetection mouseDetection;
 	sf::Vector2f holdingPosition = sf::Vector2f(-1, -1);

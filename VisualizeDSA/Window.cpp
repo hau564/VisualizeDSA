@@ -18,8 +18,8 @@ void Window::setup()
 
 void Window::addTab()
 {
-	tabs.push_back(Tab(tabs.size()));
-	//tabs.back().create(tabs.size() - 1);
+	tabs.push_back(Tab());
+	tabs.back().create(tabs.size() - 1);
 }
 
 void Window::handleEvent(sf::RenderWindow& window, sf::Event event)

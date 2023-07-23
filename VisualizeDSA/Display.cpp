@@ -1,6 +1,7 @@
 #include "Display.hpp"
 #include "Layout.hpp"
 #include "Tools.hpp"
+#include "Animation.hpp"
 
 void Display::setup()
 {
@@ -87,21 +88,43 @@ void Display::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(control);
 	if (started) {		
 		target.setView(view);
-		target.draw(layers[control.getCurrent()]);
+		int id = control.getCurrent();
+		if (idLeft[id] == id) {
+			target.draw(layers[control.getCurrent()]);
+		}
+		else {
+			target.draw(Animation::getLayer(layers[idLeft[id]], layers[idRight[id]], 1.f * (id - idLeft[id]) / (idRight[id] - idLeft[id])));
+		}
 		target.setView(target.getDefaultView());
 	}
+}
+
+
+void Display::addVirtualLayer(float time, Layer layer)
+{
+	layers.push_back(layer);
+	control.addTime(time);
+	if (!idLeft.size()) idLeft.push_back(0);
+	else idLeft.push_back(idLeft.back());
 }
 
 void Display::addLayer(Layer layer, float time)
 {
 	layers.push_back(layer);
 	control.addTime(time);
+	idLeft.push_back(idLeft.size());
 }
 
 void Display::start()
 {
 	if (layers.size() == 0) return;
 	started = 1;
+	idRight.resize(idLeft.size());
+	int id = (int)idLeft.size() - 1;
+	for (int i = id; i >= 0; --i) {
+		if (idLeft[i] == i) id = i;
+		idRight[i] = id;
+	}
 	control.start();
 
 	sf::Vector2f maxCoord(0, 0);

@@ -14,6 +14,7 @@ public:
 
 	TreeNode*& Child(int id);
 	int getChildCount() const;
+	int getRealChildCount() const;
 	std::vector<TreeNode*> getAllChilds();
 
 	void addChild(TreeNode* child);

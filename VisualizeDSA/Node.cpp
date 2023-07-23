@@ -51,6 +51,7 @@ void Node::update()
 	if (length < height) px += (height - length) / 2;
 	for (int i = 0; i < (int)values.size(); ++i) {
 		valueShapes[i].setPosition({pos.x + px, pos.y + spacing});
+		valueTexts[i].setString(Tools::String::toString(values[i]));
 		Tools::Text::middleAligning(valueTexts[i], valueShapes[i].getPosition(), valueShapes[i].getSize());
 		px += valueShapes[i].getSize().x + spacing;
 	}
@@ -69,9 +70,26 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
+void Node::addValue(int x)
+{
+	values.push_back(x);
+	create(values);
+}
+
+void Node::sortValue()
+{
+	std::sort(values.begin(), values.end());
+	create(values);
+}
+
 int Node::getValue(int id) const
 {
 	return values[id];
+}
+
+int Node::getValueCount() const
+{
+	return values.size();
 }
 
 std::vector<int> Node::getValues() const
@@ -88,6 +106,9 @@ void Node::setColor(sf::Color _color)
 {
 	color = _color;
 	nodeShape.setOutlineColor(color);
+	for (int i = 0; i < (int)values.size(); ++i) {
+		valueTexts[i].setFillColor(color);
+	}
 }
 
 sf::Color Node::getColor() const
@@ -98,6 +119,7 @@ sf::Color Node::getColor() const
 void Node::memorizePosition()
 {
 	memPos = getPosition();
+	memCen = getCenter();
 }
 
 sf::Vector2f Node::getOldPosition() const
@@ -107,7 +129,7 @@ sf::Vector2f Node::getOldPosition() const
 
 sf::Vector2f Node::getOldCenter() const
 {
-	return memPos + sf::Vector2f(getSize().x / 2, getSize().y / 2);
+	return memCen;
 }
 
 bool Node::operator==(const Node& other) const

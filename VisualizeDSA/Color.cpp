@@ -7,7 +7,7 @@ namespace Color {
 	sf::Color White = { 255, 255, 255 };
 	sf::Color Black = { 0, 0, 0 };
 
-	sf::Color highlight = sf::Color::Green;
+	sf::Color highlight = { 0, 0, 200 };
 	sf::Color normal = sf::Color::Black;
-	sf::Color found = sf::Color::Blue;
+	sf::Color found = sf::Color::Green;
 }

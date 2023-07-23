@@ -10,10 +10,13 @@
 
 class AVL {
 public:
-	void setup(Visualizer& visualizer);
+	void setup(Visualizer* visualizer);
 	void visualize();
 
 private:
+	void rotateRight(TreeNode*& root);
+	void rotateLeft(TreeNode*& root);
+	void insertBuild(TreeNode*& root, int x);
 	void build(std::vector<int> values);
 
 	void rotateRightVisualize(TreeNode*& node);

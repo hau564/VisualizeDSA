@@ -39,7 +39,7 @@ public:
 
 private:
 	int id;
-	bool active = false, removed = false, added;
+	bool active = false, removed = false, added = false;
 	Button xButton;
 	StructurePicker structurePicker;
 	StructureRunner structureRunner;

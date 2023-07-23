@@ -42,16 +42,12 @@ public:
 	void highlightNode(Node* node, sf::Color color = Color::highlight);
 	void highlightEdge(Node* u, Node* v, sf::Color color = Color::highlight);
 
-	void reArrange(TreeNode *root);
-
-	float getByRatio(float x, float y, float r);
-	sf::Color getAnimationColor(sf::Color color1, sf::Color color2, float r);
-	sf::Vector2f getAnimationPosition(sf::Vector2f pos1, sf::Vector2f pos2, float r);
+	void reArrange(TreeNode *root, int autoDelete = 0, int reLayout = 1);
 
 private:
 	sf::Vector2f treePos;
 	int index = -1;
-	int fps = 60;
+	int fps = 30;
 };
 
 #endif // !VISUALIZER_HPP

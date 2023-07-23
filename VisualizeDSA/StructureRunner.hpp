@@ -7,6 +7,9 @@
 #include <iostream>
 #include "Visualizer.hpp"
 #include "AVL.hpp"
+#include "Tools.hpp"
+#include "Tree234.hpp"
+#include "Heap.hpp"
 
 class StructureRunner: public sf::Drawable
 {
@@ -22,9 +25,12 @@ public:
 private:
 	std::string structName;
 	std::map<const std::string, const int> structId;
-	Visualizer visualizer;
+
+	Visualizer* visualizer;
 
 	AVL avl;
+	Tree234 tree234;
+	Heap heap;
 };
 
 #endif // !STRUCTURERUNNER_HPP

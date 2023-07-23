@@ -71,10 +71,10 @@ sf::Color Edge::getColor()
 
 bool Edge::operator==(const Edge& e) const
 {
-	return	abs(getStart().x - e.getStart().x) <= 0.0001
-		&&	abs(getStart().y - e.getStart().y) <= 0.0001
-		&&  abs(getEnd().x - e.getEnd().x) <= 0.0001
-		&&  abs(getEnd().y - e.getEnd().y) <= 0.0001;
+	return	abs(getStart().x - e.getStart().x) <= 5
+		&&	abs(getStart().y - e.getStart().y) <= 5
+		&&  abs(getEnd().x - e.getEnd().x) <= 5
+		&&  abs(getEnd().y - e.getEnd().y) <= 5;
 			
 }
 
