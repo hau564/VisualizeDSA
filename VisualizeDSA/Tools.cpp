@@ -103,3 +103,42 @@ std::vector<int> Tools::String::toVectorInt(std::string s)
 	}
 	return v;
 }
+
+bool Tools::String::isVectorAlphabet(std::string s)
+{
+	for (char c : s) {
+		if (c == ' ') continue;
+		if (c == ',') continue;
+		if (c < 'a' || c > 'z') return false;
+	}
+	return true;
+}
+
+std::vector<std::string> Tools::String::toVectorString(std::string s)
+{
+	std::vector<std::string> v;
+
+	for (char c : s) {
+		if (c == ' ') continue;
+		if (v.empty()) v.push_back("");
+		if (c == ',') {
+			v.push_back("");
+			continue;
+		}
+		v.back() += c;
+	}
+	return v;
+}
+
+bool Tools::String::isAlphaString(std::string s)
+{
+	for (char c : s) if (c < 'a' || c > 'z') return false;
+	return true;
+}
+
+std::string Tools::String::toAlphaString(std::string s)
+{
+	std::string res = "";
+	for (char c : s) if (c >= 'a' && c <= 'z') res += c;
+	return res;
+}

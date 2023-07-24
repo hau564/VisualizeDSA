@@ -31,6 +31,15 @@ void Visualizer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float verticalSpacing) {
 	if (root == nullptr) return;
 	int cntChild = root->getValueCount() + 1;
+
+	if (root->stringNode) {
+		int cntReal = root->getRealChildCount();
+		int cnt = 0;
+		cntChild = 0;
+		while (cnt * 2 < cntReal) cnt += (root->Child(cntChild++) != nullptr);
+		cntChild *= 2;
+	}
+
 	for (int i = 0; i < (cntChild + 1) / 2; ++i) {
 		pos.y += verticalSpacing;
 		dfsLayout(root->Child(i), pos, horizontalSpacing, verticalSpacing);
@@ -39,7 +48,7 @@ void dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float
 	root->memorizePosition();
 	root->setPosition(pos);
 	pos.x += horizontalSpacing + root->getSize().x;
-	for (int i = (cntChild + 1) / 2; i < cntChild; ++i) {
+	for (int i = (cntChild + 1) / 2; i < (root->stringNode ? 26 : cntChild); ++i) {
 		pos.y += verticalSpacing;
 		dfsLayout(root->Child(i), pos, horizontalSpacing, verticalSpacing);
 		pos.y -= verticalSpacing;
@@ -183,6 +192,37 @@ void Visualizer::moveNode(sf::Vector2f pos1, sf::Vector2f pos2, std::vector<int>
 	}
 }
 
+void Visualizer::moveNode(sf::Vector2f pos1, sf::Vector2f pos2, Node node)
+{
+	int eid = -1;
+	for (int i = 0; i < (int)layers[index].nodes.size(); ++i) {
+		if (layers[index].nodes[i] == Node(pos1)) {
+			eid = i;
+			break;
+		}
+	}
+	if (eid < 0) {
+		eid = layers[index].nodes.size();
+		for (int i : {0, fps / 2 - 1}) {
+			layers[i + index].nodes.push_back(node);
+			layers[i + index].nodes.back().setPosition({-1000, -1000});
+			layers[i + index].nodes.back().update();
+		}
+		sf::Color color = Layout::workplaceOutline;
+		for (int i : {fps / 2, fps - 1}) {
+			layers[i + index].nodes.push_back(node);
+			layers[i + index].nodes.back().setPosition(pos2);
+			layers[i + index].nodes.back().update();
+			layers[i + index].nodes.back().setColor(Animation::getColor(Layout::workplaceBackground, color, 2.f * (i - fps / 2.f) / fps));
+		}
+		return;
+	}
+	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
+		layers[i + index].nodes[eid].setPosition(Animation::getVector2f(pos1, pos2, (float)(i + 1) / fps));
+		layers[i + index].nodes[eid].update();
+	}
+}
+
 void Visualizer::removeNode(TreeNode* node)
 {
 	int eid = -1;
@@ -286,7 +326,7 @@ void Visualizer::reArrange(TreeNode* root, int autoDelete, int reLayout)
 	while (!q.empty()) {
 		TreeNode* node = q.front();
 		q.pop();
-		moveNode(node->getOldPosition(), node->getPosition(), node->getValues());
+		moveNode(node->getOldPosition(), node->getPosition(), *node);
 		if (autoDelete) {
 			nodeList.insert(node->getValues());
 		}

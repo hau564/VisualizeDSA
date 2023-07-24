@@ -38,11 +38,12 @@ void Heap::visualize()
 		}
 		Delete(Tools::String::toInt(input));
 	}
-	else if (label == "Search") {
+	else if (label == "Get") {
 		if (!Tools::String::isInt(input)) {
 			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
+		Get();
 	}
 }
 
@@ -80,6 +81,12 @@ void Heap::build(std::vector<int> values)
 	visualizer->start();
 }
 
+void Heap::swapVisualize(int i, int j)
+{
+	visualizer->moveNode(tree[i]->getPosition(), tree[j]->getPosition());
+	visualizer->moveNode(tree[j]->getPosition(), tree[i]->getPosition());
+}
+
 void Heap::heapUpVisualize(int &i)
 {
 	visualizer->duplicateState();
@@ -91,8 +98,7 @@ void Heap::heapUpVisualize(int &i)
 
 		visualizer->duplicateState();
 		visualizer->highlightNode(tree[(i - 1) / 2], Color::normal);
-		visualizer->moveNode(tree[i]->getPosition(), tree[(i - 1) / 2]->getPosition());
-		visualizer->moveNode(tree[(i - 1) / 2]->getPosition(), tree[i]->getPosition());
+		swapVisualize(i, (i - 1) / 2);
 
 		i = (i - 1) / 2;
 	}
@@ -144,8 +150,7 @@ void Heap::heapDownVisualize(int &i)
 
 			visualizer->duplicateState();
 			visualizer->highlightNode(tree[j], Color::normal);
-			visualizer->moveNode(tree[i]->getPosition(), tree[j]->getPosition());
-			visualizer->moveNode(tree[j]->getPosition(), tree[i]->getPosition());
+			swapVisualize(i, j);
 
 			i = j;
 		}
@@ -186,6 +191,10 @@ void Heap::Delete(int id)
 	delete tree[i];
 	tree.pop_back();
 	if (i) tree[(i - 1) / 2]->Child((i & 1) ^ 1) = nullptr;
+	else {
+		visualizer->start();
+		return;
+	}
 
 	visualizer->newStep(tree[0]);
 	heapUpVisualize(id);
@@ -193,6 +202,21 @@ void Heap::Delete(int id)
 	visualizer->newStep(tree[0]);
 	heapDownVisualize(id);
 
+	visualizer->layoutTree(tree[0]);
 	visualizer->newStep(tree[0]);
+	visualizer->start();
+}
+
+void Heap::Get()
+{
+	std::cout << "Get" << std::endl;
+	if (tree.empty()) return;
+	
+	visualizer->clear();
+	visualizer->newStep(tree[0]);
+
+	visualizer->highlightNode(tree[0]);
+	visualizer->duplicateState();
+	visualizer->highlightNode(tree[0], Color::normal);
 	visualizer->start();
 }

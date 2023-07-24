@@ -36,6 +36,7 @@ public:
 	void removeEdgeFromParent(sf::Vector2f v);
 
 	void moveNode(sf::Vector2f pos1, sf::Vector2f pos2, std::vector<int> values = {0});
+	void moveNode(sf::Vector2f pos1, sf::Vector2f pos2, Node node);
 	void removeNode(TreeNode *node);
 	void removeNode(sf::Vector2f pos);
 

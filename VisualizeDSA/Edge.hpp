@@ -34,6 +34,7 @@ private:
 	bool direct = false;
 	sf::Vector2f pos1, pos2;
 	sf::Color color;
+	sf::Text* text;
 };
 
 #endif // !EDGE_HPP

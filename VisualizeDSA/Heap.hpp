@@ -15,11 +15,15 @@ public:
 
 private:
 	void build(std::vector<int> values);
+
+	void swapVisualize(int i, int j);
 	void heapUpVisualize(int &i);
 	void insert(int x);
 
 	void heapDownVisualize(int &i);
 	void Delete(int x);
+
+	void Get();
 
 	Visualizer* visualizer;
 	std::vector<TreeNode*> tree;

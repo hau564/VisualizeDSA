@@ -18,7 +18,7 @@ public:
 	std::vector<TreeNode*> getAllChilds();
 
 	void addChild(TreeNode* child);
-	void update();
+	void updateHeight();
 
 	int getChildHeight(int id);
 

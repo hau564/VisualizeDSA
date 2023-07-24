@@ -23,6 +23,8 @@ public:
 
 	void addValue(int x);
 	void sortValue();
+	void setStringNode();
+
 	int getValue(int id = 0) const;
 	int getValueCount() const;
 	std::vector<int> getValues() const;
@@ -37,6 +39,7 @@ public:
 
 	bool operator==(const Node& other) const;
 
+	bool stringNode = 0;
 private:
 	sf::RoundedRectangleShape nodeShape;
 	

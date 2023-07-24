@@ -27,6 +27,7 @@ void StructureRunner::create(std::string _structName)
 			heap.setup(visualizer);
 			break;
 		case 4:
+			trie.setup(visualizer);
 			break;
 		case 5:
 			break;
@@ -55,6 +56,7 @@ void StructureRunner::update()
 		heap.visualize();
 		break;
 	case 4:
+		trie.visualize();
 		break;
 	case 5:
 		break;

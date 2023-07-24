@@ -17,10 +17,10 @@ sf::Color Animation::getColor(sf::Color c1, sf::Color c2, float r)
 
 Node Animation::getNode(Node n1, Node n2, float r)
 {
-	n1.setPosition(getVector2f(n1.getPosition(), n2.getPosition(), r));
-	n1.setColor(getColor(n1.getColor(), n2.getColor(), r));
-	n1.update();
-	return n1;
+	n2.setPosition(getVector2f(n1.getPosition(), n2.getPosition(), r));
+	n2.setColor(getColor(n1.getColor(), n2.getColor(), r));
+	n2.update();
+	return n2;
 }
 
 Edge Animation::getEdge(Edge e1, Edge e2, float r)

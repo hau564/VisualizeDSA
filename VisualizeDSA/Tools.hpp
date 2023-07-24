@@ -25,6 +25,12 @@ namespace Tools{
 
 		extern bool isVectorInt(std::string s);
 		extern std::vector<int> toVectorInt(std::string s);	
+
+		extern bool isVectorAlphabet(std::string s);
+		extern std::vector<std::string> toVectorString(std::string s);
+
+		extern bool isAlphaString(std::string s);
+		extern std::string toAlphaString(std::string s);
 	}
 };
 

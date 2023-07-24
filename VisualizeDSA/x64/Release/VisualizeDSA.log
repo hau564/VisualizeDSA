@@ -1,16 +1,13 @@
-﻿  Heap.cpp
+﻿  Trie.cpp
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Visualizer.hpp(14,30): warning C4584: 'Visualizer': base-class 'sf::Drawable' is already a base-class of 'Display'
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\include\SFML\Graphics\RenderTarget.hpp(45,7): message : see declaration of 'sf::Drawable'
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Display.hpp(10,7): message : see declaration of 'Display'
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Visualizer.hpp(14,30): warning C4584: 'Visualizer': base-class 'sf::Drawable' is already a base-class of 'InputTable'
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\include\SFML\Graphics\RenderTarget.hpp(45,7): message : see declaration of 'sf::Drawable'
 C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\InputTable.hpp(10,7): message : see declaration of 'InputTable'
-C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Heap.cpp(62,26): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Heap.cpp(117,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\Heap.cpp(171,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  2 of 2535 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  0 of 2611 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    9 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   VisualizeDSA.vcxproj -> C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\x64\Release\VisualizeDSA.exe

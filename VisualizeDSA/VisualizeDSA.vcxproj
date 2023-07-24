@@ -166,6 +166,7 @@
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Tree234.cpp" />
     <ClCompile Include="TreeNode.cpp" />
+    <ClCompile Include="Trie.cpp" />
     <ClCompile Include="Visualizer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -196,6 +197,7 @@
     <ClInclude Include="Tools.hpp" />
     <ClInclude Include="Tree234.hpp" />
     <ClInclude Include="TreeNode.hpp" />
+    <ClInclude Include="Trie.hpp" />
     <ClInclude Include="VisualizeDSA.hpp" />
     <ClInclude Include="Visualizer.hpp" />
     <ClInclude Include="Window.hpp" />

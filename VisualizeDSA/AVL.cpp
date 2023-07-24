@@ -55,18 +55,18 @@ void AVL::rotateRight(TreeNode*& root) {
 	TreeNode* left = root->Child(0);
 	root->Child(0) = left->Child(1);
 	left->Child(1) = root;
-	root->update();
+	root->updateHeight();
 	root = left;
-	root->update();
+	root->updateHeight();
 }
 
 void AVL::rotateLeft(TreeNode*& root) {
 	TreeNode* right = root->Child(1);
 	root->Child(1) = right->Child(0);
 	right->Child(0) = root;
-	root->update();
+	root->updateHeight();
 	root = right;
-	root->update();
+	root->updateHeight();
 }
 
 void AVL::insertBuild(TreeNode*& root, int x) {
@@ -81,7 +81,7 @@ void AVL::insertBuild(TreeNode*& root, int x) {
 	else {
 		insertBuild(root->Child(1), x);
 	}
-	root->update();
+	root->updateHeight();
 	if (abs(root->getChildHeight(0) - root->getChildHeight(1)) > 1) {
 		if (root->getChildHeight(0) > root->getChildHeight(1)) {
 			if (root->Child(0)->getChildHeight(1) > root->Child(0)->getChildHeight(0)) {
@@ -194,7 +194,7 @@ void AVL::insertVisualize(TreeNode*& node, int x) {
 		visualizer->duplicateState();
 		visualizer->highlightEdge(node, node->Child(1), Color::normal);
 	}
-	node->update(); 
+	node->updateHeight(); 
 	visualizer->duplicateState();
 	visualizer->highlightNode(node, Color::normal);
 	balanceVisualize(node);
@@ -308,7 +308,7 @@ void AVL::deleteVisualize(TreeNode*& node, int x)
 			visualizer->highlightEdge(node, node->Child(1), Color::normal);
 		}
 	}
-	node->update();
+	node->updateHeight();
 	visualizer->duplicateState();
 	visualizer->highlightNode(node, Color::normal);
 	balanceVisualize(node);

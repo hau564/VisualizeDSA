@@ -40,9 +40,8 @@ void TreeNode::addChild(TreeNode* child)
 	childs.push_back(child);
 }
 
-void TreeNode::update()
+void TreeNode::updateHeight()
 {
-	Node::update();
 	height = std::max(getChildHeight(0), getChildHeight(1)) + 1;
 }
 

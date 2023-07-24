@@ -44,14 +44,16 @@ void Node::update()
 	float spacing = Layout::DisplayComponent::Node::valueSpacing;
 	float height = Layout::DisplayComponent::Node::height;
 	float length = spacing;
-	for (int i = 0; i < (int)values.size(); ++i) 
+	for (int i = 0; i < (int)valueShapes.size(); ++i) 
 		length += valueShapes[i].getSize().x + spacing;
 
 	float px = spacing;
 	if (length < height) px += (height - length) / 2;
-	for (int i = 0; i < (int)values.size(); ++i) {
+	for (int i = 0; i < (int)valueTexts.size(); ++i) {
 		valueShapes[i].setPosition({pos.x + px, pos.y + spacing});
-		valueTexts[i].setString(Tools::String::toString(values[i]));
+		if (!stringNode)
+			valueTexts[i].setString(Tools::String::toString(values[i]));
+		valueShapes[i].setSize({ std::max(valueTexts[i].getGlobalBounds().width + 2 * spacing, height - 2 * spacing), height - 2 * spacing });
 		Tools::Text::middleAligning(valueTexts[i], valueShapes[i].getPosition(), valueShapes[i].getSize());
 		px += valueShapes[i].getSize().x + spacing;
 	}
@@ -64,8 +66,8 @@ void Node::update()
 void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(nodeShape, states);
-	for (int i = 0; i < (int)values.size(); ++i) {
-		if (values.size() > 1) target.draw(valueShapes[i], states);
+	for (int i = 0; i < (int)valueTexts.size(); ++i) {
+		if (valueTexts.size() > 1) target.draw(valueShapes[i], states);
 		target.draw(valueTexts[i], states);
 	}
 }
@@ -82,14 +84,37 @@ void Node::sortValue()
 	create(values);
 }
 
+void Node::setStringNode()
+{
+	stringNode = 1;
+	valueTexts.assign(1, sf::Text());
+	valueShapes.assign(1, sf::RoundedRectangleShape());
+	valueTexts[0].setFont(*Resources::Font::courier);
+
+	std::string str = "";
+	for (int i : values)
+		str += std::string(1, i);
+
+	valueTexts[0].setCharacterSize(Layout::DisplayComponent::Node::fontSize);
+	valueTexts[0].setString(str);
+	valueTexts[0].setFillColor(Color::Black);
+
+	float spacing = Layout::DisplayComponent::Node::valueSpacing;
+	float height = Layout::DisplayComponent::Node::height;
+	valueShapes[0].setSize({ std::max(valueTexts[0].getGlobalBounds().width + 2 * spacing, height - 2 * spacing), height - 2 * spacing });
+
+	update();
+}
+
 int Node::getValue(int id) const
 {
+	if (id >= values.size()) return 0;
 	return values[id];
 }
 
 int Node::getValueCount() const
 {
-	return values.size();
+	return valueTexts.size();
 }
 
 std::vector<int> Node::getValues() const
@@ -106,7 +131,7 @@ void Node::setColor(sf::Color _color)
 {
 	color = _color;
 	nodeShape.setOutlineColor(color);
-	for (int i = 0; i < (int)values.size(); ++i) {
+	for (int i = 0; i < (int)valueTexts.size(); ++i) {
 		valueTexts[i].setFillColor(color);
 	}
 }

@@ -10,6 +10,7 @@
 #include "Tools.hpp"
 #include "Tree234.hpp"
 #include "Heap.hpp"
+#include "Trie.hpp"
 
 class StructureRunner: public sf::Drawable
 {
@@ -31,6 +32,7 @@ private:
 	AVL avl;
 	Tree234 tree234;
 	Heap heap;
+	Trie trie;
 };
 
 #endif // !STRUCTURERUNNER_HPP
