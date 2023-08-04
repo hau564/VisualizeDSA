@@ -239,6 +239,7 @@ void AVL::deleteNode(TreeNode*& node)
 		child->Child(0) = node->Child(0);
 		delete node;
 		node = child;
+		node->updateHeight();
 		visualizer->reArrange(root);
 		return;
 	}

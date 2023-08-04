@@ -24,8 +24,8 @@ private:
 	float charWidth = 0;
 	float timeCursor = 0;
 	sf::Clock clock;
-	std::string inputString;
-	sf::Text text, cursor;
+	std::string inputString, aftTextString = "";
+	sf::Text text, cursor, aftText;
 	std::vector<std::function<void(const Textbox*)>> handles;
 
 public:

@@ -13,6 +13,7 @@ namespace Color {
 	extern sf::Color highlight;
 	extern sf::Color normal;
 	extern sf::Color found;
+	extern sf::Color mark;
 }
 
 #endif // COLOR_HPP

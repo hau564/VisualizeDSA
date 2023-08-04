@@ -4,16 +4,32 @@
 #define GRAPH_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Visualizer.hpp"
 
-class Graph : public sf::Drawable
+class Graph
 {
 public:
-	Graph() {};
-	~Graph() {};
-	void create(sf::Vector2f pos, sf::Vector2f size, sf::Color color = sf::Color::Black, float thickness = 5.0f);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void setup(Visualizer* visualizer);
+	void visualize();
 
 private:
+	void createGraph();
+	void createNodes(std::vector<int> _n);
+	void createEdges(std::vector<std::pair<std::pair<int, int>, int>> _n);
+
+	void buildAdj();
+
+	void connectedComponent();
+	void dijkstra(int s);
+	void kruskal();
+
+	Visualizer* visualizer;
+	std::vector<Node*> nodes;
+	std::vector<GraphEdge*> edges;
+	std::map<int, int> pos;
+	std::map<int, std::vector<int>> adj;
+	std::vector<int> coreNodes;
+	std::vector<std::pair<std::pair<int, int>, int>> coreEdges;
 };
 
 #endif // !GRAPH_HPP

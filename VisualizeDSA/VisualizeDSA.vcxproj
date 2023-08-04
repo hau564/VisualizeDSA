@@ -147,6 +147,9 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="GraphEdge.cpp" />
+    <ClCompile Include="GraphNode.cpp" />
+    <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputTable.cpp" />
@@ -179,7 +182,10 @@
     <ClInclude Include="Display.hpp" />
     <ClInclude Include="Edge.hpp" />
     <ClInclude Include="Graph.hpp" />
+    <ClInclude Include="GraphEdge.hpp" />
+    <ClInclude Include="GraphNode.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
+    <ClInclude Include="HashTable.hpp" />
     <ClInclude Include="Heap.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="InputTable.hpp" />

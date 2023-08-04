@@ -45,8 +45,6 @@ namespace Layout {
 		sf::Color tabFillColor = sf::Color(200, 200, 200);
 	}
 
-
-
 	namespace WindowComponent {
 		sf::Color fillColor = Color::White;
 		sf::Color outlineColor = Color::Black;
@@ -67,8 +65,8 @@ namespace Layout {
 
 	namespace DisplayScreen {
 		sf::Vector2f pos = sf::Vector2f(Tabbar::pos + sf::Vector2f(0, Tabbar::size.y + 5));
-		sf::Vector2f size = sf::Vector2f(1450, 930);
-		float outlineThickness = 2, cornerRadius = 10;
+		sf::Vector2f size = sf::Vector2f(Window::width - 10, 930);
+		float outlineThickness = 3, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;
 
@@ -77,7 +75,7 @@ namespace Layout {
 
 	namespace ControlBox {
 		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(0, DisplayScreen::size.y + componentSpacing));
-		sf::Vector2f size = sf::Vector2f(1450, 70);
+		sf::Vector2f size = sf::Vector2f(DisplayScreen::size.x, 70);
 		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;
@@ -86,8 +84,8 @@ namespace Layout {
 	}
 
 	namespace InputTable {
-		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(DisplayScreen::size.x + componentSpacing, 0));
-		sf::Vector2f size = sf::Vector2f(Window::width - DisplayScreen::pos.x - DisplayScreen::size.x - 5 - componentSpacing, Window::height / 2 - pos.y);
+		sf::Vector2f size = sf::Vector2f(450, Window::height / 2);
+		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(DisplayScreen::size.x - size.x - 10, 10));
 		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;

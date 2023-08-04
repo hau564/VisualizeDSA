@@ -37,8 +37,24 @@ void Node::create(std::vector<int> _values)
 	update();
 }
 
+void Node::handleEvent(sf::RenderWindow& window, sf::Event event)
+{
+	MouseDetection::handleEvent(window, event);
+}
+
 void Node::update()
 {
+	if (isHolding()) {
+		sf::Vector2f mousePos = Tools::Mouse::getPosition();
+		if (holdingPosition.x >= 0) {
+			sf::Vector2f delta = mousePos - holdingPosition;
+			holdingPosition = mousePos;
+			setPosition(getPosition() + delta);
+		}
+		holdingPosition = mousePos;
+	}
+	else holdingPosition = { -1, -1 };
+
 	sf::Vector2f pos = getPosition();
 	nodeShape.setPosition(pos);
 	float spacing = Layout::DisplayComponent::Node::valueSpacing;
@@ -61,6 +77,11 @@ void Node::update()
 
 	nodeShape.setSize({std::max(px, height), height});
 	MouseDetection::setSize(nodeShape.getSize());
+
+	if (heightText) {
+		heightText->setString(Tools::String::toString(this->height));
+		heightText->setPosition(getPosition() + getSize());
+	}
 }
 
 void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -70,6 +91,8 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		if (valueTexts.size() > 1) target.draw(valueShapes[i], states);
 		target.draw(valueTexts[i], states);
 	}
+	if (heightText)
+		target.draw(*heightText, states);
 }
 
 void Node::addValue(int x)
@@ -104,6 +127,13 @@ void Node::setStringNode()
 	valueShapes[0].setSize({ std::max(valueTexts[0].getGlobalBounds().width + 2 * spacing, height - 2 * spacing), height - 2 * spacing });
 
 	update();
+}
+
+void Node::removeValue(int id)
+{
+	if (id >= values.size()) return;
+	values.erase(values.begin() + id);
+	create(values);
 }
 
 int Node::getValue(int id) const
@@ -157,8 +187,27 @@ sf::Vector2f Node::getOldCenter() const
 	return memCen;
 }
 
+sf::RoundedRectangleShape& Node::Shape()
+{
+	return nodeShape;
+}
+
 bool Node::operator==(const Node& other) const
 {
 	return abs(getPosition().x - other.getPosition().x) <= 0.0001
 		&& abs(getPosition().y - other.getPosition().y) <= 0.0001;
+}
+
+void Node::showHeight(int t)
+{
+	if (heightText) delete heightText;
+	if (t) {
+		heightText = new sf::Text(Tools::String::toString(height), *Resources::Font::courier, 35);
+		heightText->setStyle(sf::Text::Bold);
+		heightText->setPosition(getPosition() + getSize());
+		heightText->setFillColor(Color::highlight);
+	}
+	else {
+		heightText = nullptr;
+	}
 }

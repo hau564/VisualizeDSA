@@ -14,21 +14,51 @@ void Visualizer::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
 	Display::handleEvent(window, event);	
 	InputTable::handleEvent(window, event);
+	if (graphMode) {
+		for (Node *node : nodes) node->handleEvent(window, event);
+	}
 }
 
 void Visualizer::update()
 {
 	Display::update();
 	InputTable::update();
+	if (graphMode) {
+		for (Node* node : nodes) node->update();
+		for (GraphEdge* edge : edges) edge->update();
+	}
 }
 
 void Visualizer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	Display::draw(target, states);
+	if (!Display::isPlaying()) {
+		if (graphMode) {
+			for (GraphEdge* edge : edges) {
+				target.draw(*edge, states);
+			}
+			for (Node* node : nodes) {
+				target.draw(*node, states);
+			}
+		}
+	}
 	InputTable::draw(target, states);
 }
 
-void dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float verticalSpacing) {
+void Visualizer::setGraph(std::vector<Node*> _nodes, std::vector<GraphEdge*> _edges)
+{
+	graphMode = 1;
+	nodes = _nodes;
+	edges = _edges;
+	float y = 0;
+	for (Node* node : nodes) {
+		node->setPosition({ 1.f * (rand() % 1000 + 100), 1.f * (rand() % 700 + 100) });
+		node->update();
+	}
+	for (GraphEdge* edge : edges) edge->update();
+}
+
+void Visualizer::dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float verticalSpacing) {
 	if (root == nullptr) return;
 	int cntChild = root->getValueCount() + 1;
 
@@ -40,14 +70,23 @@ void dfsLayout(TreeNode* root, sf::Vector2f &pos, float horizontalSpacing, float
 		cntChild *= 2;
 	}
 
+	TreeNode *lastChild = nullptr;
 	for (int i = 0; i < (cntChild + 1) / 2; ++i) {
 		pos.y += verticalSpacing;
 		dfsLayout(root->Child(i), pos, horizontalSpacing, verticalSpacing);
 		pos.y -= verticalSpacing;
+		if (root->Child(i) != nullptr) lastChild = root->Child(i);
 	}
 	root->memorizePosition();
-	root->setPosition(pos);
-	pos.x += horizontalSpacing + root->getSize().x;
+	if (root->getRealChildCount() == 1 && root->stringNode) {
+		sf::Vector2f _pos = lastChild->getPosition() + sf::Vector2f(lastChild->getSize().x - root->getSize().x, 0);
+		_pos.y -= verticalSpacing;
+		root->setPosition(_pos);
+	}
+	else {
+		root->setPosition(pos);
+		pos.x += horizontalSpacing + root->getSize().x;
+	}
 	for (int i = (cntChild + 1) / 2; i < (root->stringNode ? 26 : cntChild); ++i) {
 		pos.y += verticalSpacing;
 		dfsLayout(root->Child(i), pos, horizontalSpacing, verticalSpacing);
@@ -60,6 +99,51 @@ void Visualizer::layoutTree(TreeNode* root, sf::Vector2f _pos)
 	treePos = _pos;
 	sf::Vector2f pos = _pos;
 	dfsLayout(root, pos, Layout::DisplayComponent::Tree::horizontalSpacing, Layout::DisplayComponent::Tree::verticalSpacing);
+}
+
+void dfsSkip(TreeNode* root, TreeNode* node, int id, sf::Vector2f& pos, float horizontalSpacing, float verticalSpacing) {
+	if (root == nullptr) return;
+	std::vector<TreeNode*> childs;
+	for (int i = 0; i < root->getValueCount() + 1; ++i) childs.push_back(root->Child(i));
+	if (root == node) {
+		childs.clear();
+		for (int i = 0; i < id; ++i) {
+			childs.push_back(root->Child(i));
+		}
+		for (TreeNode* node : root->Child(id)->childs) {
+			childs.push_back(node);
+		}
+		for (int i = id + 1; i < root->getValueCount() + 1; ++i) {
+			childs.push_back(root->Child(i));
+		}
+	}
+
+	int cntChild = childs.size();
+	for (int i = 0; i < (cntChild + 1) / 2; ++i) {
+		pos.y += verticalSpacing;
+		dfsSkip(childs[i], node, id, pos, horizontalSpacing, verticalSpacing);
+		pos.y -= verticalSpacing;
+	}
+	root->memorizePosition();
+	root->setPosition(pos);
+
+	if (root == node) {
+		root->Child(id)->memorizePosition();
+		root->Child(id)->setPosition(root->getCenter() - root->Child(id)->getSize() / 2.f);
+	}
+
+	pos.x += horizontalSpacing + root->getSize().x;
+	for (int i = (cntChild + 1) / 2; i < cntChild; ++i) {
+		pos.y += verticalSpacing;
+		dfsSkip(childs[i], node, id, pos, horizontalSpacing, verticalSpacing);
+		pos.y -= verticalSpacing;
+	}
+}
+
+void Visualizer::layoutTreeSkipEdge(TreeNode* root, TreeNode* node, int childId, sf::Vector2f _pos)
+{
+	sf::Vector2f pos = _pos;
+	dfsSkip(root, node, childId, pos, Layout::DisplayComponent::Tree::horizontalSpacing, Layout::DisplayComponent::Tree::verticalSpacing);
 }
 
 void Visualizer::newStep()
@@ -342,6 +426,24 @@ void Visualizer::reArrange(TreeNode* root, int autoDelete, int reLayout)
 			if (nodeList.find(node.getValues()) == nodeList.end()) {
 				removeNode(node.getPosition());
 				removeEdgeFromParent(node.getCenter());
+			}
+		}
+	}
+}
+
+void Visualizer::reArrange0(TreeNode *root)
+{
+	std::queue<TreeNode*> q;
+	q.push(root);
+
+	while (!q.empty()) {
+		TreeNode* node = q.front();
+		q.pop();
+		moveNode(node->getOldPosition(), node->getPosition(), *node);
+		for (int i = 0; i < node->getChildCount(); ++i) {
+			if (node->Child(i)) {
+				moveEdge(node->getOldCenter(), node->Child(i)->getOldCenter(), node->getCenter(), node->Child(i)->getCenter());
+				q.push(node->Child(i));
 			}
 		}
 	}

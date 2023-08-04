@@ -24,7 +24,6 @@ public:
 
 public:
 	std::vector<TreeNode*> childs;
-	int height = 0;
 };
 
 #endif // !TREENODE_HPP

@@ -23,6 +23,8 @@ public:
 	void clear();
 	std::vector<Layer> layers;	
 
+	bool isPlaying() const;
+
 private:
 	sf::RoundedRectangleShape screenShape;
 	ControlBox control;

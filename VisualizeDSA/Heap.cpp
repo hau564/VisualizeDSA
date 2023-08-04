@@ -215,7 +215,7 @@ void Heap::Get()
 	visualizer->clear();
 	visualizer->newStep(tree[0]);
 
-	visualizer->highlightNode(tree[0]);
+	visualizer->highlightNode(tree[0], Color::found);
 	visualizer->duplicateState();
 	visualizer->highlightNode(tree[0], Color::normal);
 	visualizer->start();

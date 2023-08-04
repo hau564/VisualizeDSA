@@ -21,6 +21,7 @@ public:
 	void setEnd(sf::Vector2f pos);
 
 	void setColor(sf::Color color);
+	void setText(std::string s);
 	sf::Color getColor();
 
 	// == operator
@@ -34,7 +35,7 @@ private:
 	bool direct = false;
 	sf::Vector2f pos1, pos2;
 	sf::Color color;
-	sf::Text* text;
+	sf::Text* text = nullptr;
 };
 
 #endif // !EDGE_HPP

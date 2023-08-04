@@ -14,7 +14,10 @@ namespace Tools{
 	}
 
 	namespace Mouse {
+		extern void setWindow(sf::RenderWindow* window);
 		extern sf::Vector2f getPosition(sf::RenderWindow& window);
+		extern sf::Vector2f getPosition();
+		extern sf::RenderWindow* window;
 	}
 
 	namespace String {
@@ -31,6 +34,10 @@ namespace Tools{
 
 		extern bool isAlphaString(std::string s);
 		extern std::string toAlphaString(std::string s);
+
+		extern bool toVectorEdges(std::string s, std::vector<std::pair<std::pair<int, int>, int>>& v);
+
+		extern std::string process(std::string &s);
 	}
 };
 

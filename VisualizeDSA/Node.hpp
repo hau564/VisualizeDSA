@@ -18,12 +18,14 @@ public:
 	~Node() {};
 
 	void create(std::vector<int> _values);
+	void handleEvent(sf::RenderWindow& window, sf::Event event);
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	void addValue(int x);
 	void sortValue();
 	void setStringNode();
+	void removeValue(int id = 0);
 
 	int getValue(int id = 0) const;
 	int getValueCount() const;
@@ -37,9 +39,15 @@ public:
 	sf::Vector2f getOldPosition() const;
 	sf::Vector2f getOldCenter() const;
 
+	sf::RoundedRectangleShape& Shape();
+
 	bool operator==(const Node& other) const;
 
+	void showHeight(int t);
+
 	bool stringNode = 0;
+	int counting = 0, height = 0;
+
 private:
 	sf::RoundedRectangleShape nodeShape;
 	
@@ -47,10 +55,11 @@ private:
 	std::vector<sf::Text> valueTexts;
 	std::vector<sf::RoundedRectangleShape> valueShapes;
 
-	int counting = 0, height = 0;
-	sf::Text countingText, heightText;
+	sf::Text* countingText = nullptr, *heightText = nullptr;
 	sf::Color color;
 	sf::Vector2f memPos, memCen;
+
+	sf::Vector2f holdingPosition = { -1, -1 };
 };
 
 #endif // NODE_HPP

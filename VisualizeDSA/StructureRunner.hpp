@@ -11,6 +11,8 @@
 #include "Tree234.hpp"
 #include "Heap.hpp"
 #include "Trie.hpp"
+#include "HashTable.hpp"
+#include "Graph.hpp"
 
 class StructureRunner: public sf::Drawable
 {
@@ -29,10 +31,12 @@ private:
 
 	Visualizer* visualizer;
 
-	AVL avl;
-	Tree234 tree234;
-	Heap heap;
-	Trie trie;
+	HashTable * hashTable = nullptr;
+	AVL* avl = nullptr;
+	Tree234* tree234 = nullptr;
+	Heap* heap = nullptr;
+	Trie* trie = nullptr;
+	Graph* graph = nullptr;
 };
 
 #endif // !STRUCTURERUNNER_HPP

@@ -6,6 +6,8 @@
 #include "Layer.hpp"
 #include "ControlBox.hpp"
 #include "Tools.hpp"
+#include "tinyfiledialogs.h"
+#include "tinyfiledialogs.c"
 
 void Window::setup()
 {
@@ -75,6 +77,7 @@ void Window::launch()
 	settings.antialiasingLevel = 5.0;
 	sf::RenderWindow window(sf::VideoMode(Layout::Window::width, Layout::Window::height), "Data structures & Algorithm Visualizer", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
+	Tools::Mouse::setWindow(&window);
 
 	setup();
 

@@ -150,3 +150,8 @@ void Display::clear()
 	control.clear();
 	started = 0;
 }
+
+bool Display::isPlaying() const
+{
+	return started;
+}

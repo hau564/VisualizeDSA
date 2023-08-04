@@ -12,6 +12,7 @@ namespace KeyboardDetection {
 
 	extern void addKeyBinding(std::string name, std::vector<int> keys);
 	extern bool isKeyBindingPressed(std::string name);
+	extern void turnOffKeyBinding(std::string name);
 	extern char getChar();
 
 	extern void handleEvent(sf::RenderWindow &window, sf::Event event);

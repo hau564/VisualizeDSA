@@ -20,6 +20,11 @@ namespace KeyboardDetection {
 		return get.second >= get.first.size() && keyHoldings.size() == get.first.size();
 	}
 
+	void turnOffKeyBinding(std::string name)
+	{
+		keyBindings[name].second = 0;
+	}
+
 	char getChar()
 	{
 		return (char)(prevUnicode);

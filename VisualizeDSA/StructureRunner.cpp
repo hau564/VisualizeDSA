@@ -16,20 +16,28 @@ void StructureRunner::create(std::string _structName)
 
 	switch (structId[structName]) {
 		case 0:
+			hashTable = new HashTable();
+			hashTable->setup(visualizer);
 			break;
 		case 1:
-			avl.setup(visualizer);
+			avl = new AVL();
+			avl->setup(visualizer);
 			break;
 		case 2:
-			tree234.setup(visualizer);
+			tree234 = new Tree234();
+			tree234->setup(visualizer);
 			break;
 		case 3:
-			heap.setup(visualizer);
+			heap = new Heap();
+			heap->setup(visualizer);
 			break;
 		case 4:
-			trie.setup(visualizer);
+			trie = new Trie();
+			trie->setup(visualizer);
 			break;
 		case 5:
+			graph = new Graph();
+			graph->setup(visualizer);
 			break;
 	}
 } 
@@ -45,20 +53,22 @@ void StructureRunner::update()
 
 	switch (structId[structName]) {
 	case 0:
+		hashTable->visualize();
 		break;
 	case 1:
-		avl.visualize();
+		avl->visualize();
 		break;
 	case 2:
-		tree234.visualize();
+		tree234->visualize();
 		break;
 	case 3:
-		heap.visualize();
+		heap->visualize();
 		break;
 	case 4:
-		trie.visualize();
+		trie->visualize();
 		break;
 	case 5:
+		graph->visualize();
 		break;
 	}
 }

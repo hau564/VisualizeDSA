@@ -54,13 +54,14 @@ void Trie::insertBuild(TreeNode* root, std::string s)
 	for (int i = 0; i < (int)s.size(); ++i) {
 		t.push_back(s[i]);
 		if (root->Child(s[i] - 'a') == nullptr) {
-			root->Child(s[i] - 'a') = new TreeNode(t);
+			root->Child(s[i] - 'a') = new TreeNode({t.back()});
 			root->Child(s[i] - 'a')->setStringNode();
 			root->Child(s[i] - 'a')->update();
 		}
 		root = root->Child(s[i] - 'a');
 		root->height++;
 	}
+	root->setColor(Color::mark);
 }
 
 void Trie::build(std::vector<std::string> values)
@@ -92,7 +93,7 @@ void Trie::insertVisualize(TreeNode* node, std::string s)
 	for (int i = 0; i < (int)s.size(); ++i) {
 		t.push_back(s[i]);
 		if (node->Child(s[i] - 'a') == nullptr) {
-			node->Child(s[i] - 'a') = new TreeNode(t);
+			node->Child(s[i] - 'a') = new TreeNode({t.back()});
 			node->Child(s[i] - 'a')->setStringNode();
 			node->Child(s[i] - 'a')->update();
 			visualizer->duplicateState();
@@ -105,6 +106,7 @@ void Trie::insertVisualize(TreeNode* node, std::string s)
 		node = node->Child(s[i] - 'a');
 		node->height++;
 	}
+	node->setColor(Color::mark);
 }
 
 void Trie::insert(std::string s)

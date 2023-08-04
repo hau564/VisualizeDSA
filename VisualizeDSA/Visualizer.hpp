@@ -8,6 +8,8 @@
 #include "Display.hpp"
 #include "InputTable.hpp"
 #include "TreeNode.hpp"
+#include "GraphNode.hpp"
+#include "GraphEdge.hpp"
 #include "Layout.hpp"
 #include "Color.hpp"
 
@@ -20,8 +22,10 @@ public:
 	void update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
+	void setGraph(std::vector<Node*> _nodes, std::vector<GraphEdge*> _edges);
+	void dfsLayout(TreeNode* root, sf::Vector2f& pos, float horizontalSpacing, float verticalSpacing);
 	void layoutTree(TreeNode* root, sf::Vector2f _pos = Layout::DisplayScreen::basePos);
-	
+	void layoutTreeSkipEdge(TreeNode* root, TreeNode* node, int childId, sf::Vector2f _pos = Layout::DisplayScreen::basePos);
 	
 	void newStep();
 	void newStep(TreeNode* root);
@@ -44,11 +48,15 @@ public:
 	void highlightEdge(Node* u, Node* v, sf::Color color = Color::highlight);
 
 	void reArrange(TreeNode *root, int autoDelete = 0, int reLayout = 1);
+	void reArrange0(TreeNode *root);
 
 private:
 	sf::Vector2f treePos;
 	int index = -1;
 	int fps = 30;
+	int graphMode = 0;
+	std::vector<Node*> nodes;
+	std::vector<GraphEdge*> edges;
 };
 
 #endif // !VISUALIZER_HPP

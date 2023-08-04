@@ -37,6 +37,7 @@ void Tree234::visualize()
 			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
+		Delete(Tools::String::toInt(input));
 	}
 	else if (label == "Search") {
 		if (!Tools::String::isInt(input)) {
@@ -80,6 +81,8 @@ void Tree234::insertBuild(TreeNode*& node, int x) {
 		node = new TreeNode({ x });
 		return;
 	}
+	for (int y : node->getValues())
+		if (x == y) return;
 	if (node->getValueCount() == 3) {
 		drop(node);
 	}
@@ -125,8 +128,41 @@ void Tree234::build(std::vector<int> values)
 	visualizer->start();
 }
 
+void Tree234::dropVisualize(TreeNode*& node)
+{
+	visualizer->duplicateState();
+	visualizer->removeEdgeFromParent(node);
+	visualizer->removeNode(node);
+	for (int i = 0; i < 4; i++) {
+		if (node->Child(i)) {
+			visualizer->removeEdge(node->getCenter(), node->Child(i)->getCenter());
+		}
+	}
+
+	TreeNode* left = new TreeNode({ node->Value(0) });
+	TreeNode* right = new TreeNode({ node->Value(2) });
+	left->Child(0) = node->Child(0);
+	left->Child(1) = node->Child(1);
+	right->Child(0) = node->Child(2);
+	right->Child(1) = node->Child(3);
+
+	int x = node->Value(1);
+	delete node;
+	node = new TreeNode({ x });
+	node->Child(0) = left;
+	node->Child(1) = right;
+
+	visualizer->reArrange(root);
+}
+
 void Tree234::mergeVisualize(TreeNode*& node, int id)
 {
+	//visualizer->reArrange(node->Child(id), node->getCenter() - (node->Child(id)->getSize() / 2.f));
+	
+	visualizer->newStep(root);
+	visualizer->layoutTreeSkipEdge(root, node, id);
+	visualizer->reArrange0(root);
+	
 	for (int i = 4; i > id + 1; i--) {
 		node->Child(i) = node->Child(i - 1);
 	}
@@ -136,6 +172,8 @@ void Tree234::mergeVisualize(TreeNode*& node, int id)
 	node->addValue(temp->Value(0));
 	node->sortValue();
 	delete temp;
+	visualizer->layoutTree(root);
+	visualizer->newStep(root);
 }
 
 void Tree234::insertVisualize(TreeNode*& node, int x)
@@ -146,11 +184,10 @@ void Tree234::insertVisualize(TreeNode*& node, int x)
 		visualizer->reArrange(root, 1);
 		return;
 	}
+	for (int y : node->getValues())
+		if (x == y) return;
 	if (node->getValueCount() == 3) {
-		visualizer->duplicateState();
-		visualizer->removeNode(node);
-		drop(node);
-		visualizer->reArrange(root);
+		dropVisualize(node);
 	}
 	if (node->getRealChildCount() == 0) {
 		std::vector<int> values = node->getValues();
@@ -168,11 +205,7 @@ void Tree234::insertVisualize(TreeNode*& node, int x)
 		if (i == cnt || x < node->Value(i)) {
 			if (node->Child(i) && node->Child(i)->getValueCount() == 3) {
 				
-				visualizer->duplicateState();
-				visualizer->removeNode(node->Child(i));
-				visualizer->removeEdgeFromParent(node->Child(i));
-				drop(node->Child(i));
-				visualizer->reArrange(root);
+				dropVisualize(node->Child(i));
 
 				mergeVisualize(node, i);
 				
@@ -196,4 +229,61 @@ void Tree234::insert(int x)
 	visualizer->newStep(root);
 	visualizer->start();
 
+}
+
+
+
+void Tree234::removeValue(TreeNode*& node)
+{
+	if (node->getValueCount() > 1) {
+		node->removeValue(0);
+		visualizer->newStep(root);
+		visualizer->reArrange(root);
+		return;
+	}
+
+}
+
+void Tree234::deleteNodeValue(TreeNode*& node, int id)
+{
+	if (node->getRealChildCount() == 0) {
+		if (node->getValueCount() > 1) {
+			node->removeValue(id);
+			visualizer->newStep(root);
+			visualizer->reArrange(root);
+			return;
+		}
+		removeValue(node);
+		return;
+	}
+	TreeNode* tmp = node->Child(id + 1);
+	while (tmp->Child(0)) tmp = tmp->Child(0);
+	std::swap(node->Value(id), tmp->Value(0));
+
+	visualizer->newStep(root);
+	removeValue(tmp);
+}
+
+void Tree234::deleteVisualize(TreeNode*& node, int x)
+{
+	if (!node) return;
+
+	for (int i = 0; i < node->getValueCount(); ++i) {
+		if (node->getValue(i) == x)
+			return deleteNodeValue(node, i);
+	}
+	int i = 0;
+	while (i < node->getValueCount() && x > node->getValue(i)) ++i;
+	deleteVisualize(node->Child(i), x);
+}
+
+void Tree234::Delete(int x)
+{
+	std::cout << "Delete " << x << std::endl;
+	visualizer->clear();
+	visualizer->newStep(root);
+
+	deleteVisualize(root, x);
+
+	visualizer->start();
 }
