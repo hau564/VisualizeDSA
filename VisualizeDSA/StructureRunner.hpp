@@ -18,7 +18,16 @@ class StructureRunner: public sf::Drawable
 {
 public:
 	StructureRunner() {};
-	~StructureRunner() {};
+	~StructureRunner() {
+		std::cout << "deleted StructureRunner\n";
+		if (hashTable)	delete hashTable;
+		if (avl)		delete avl;
+		if (tree234)	delete tree234;
+		if (heap)		delete heap;
+		if (trie)		delete trie;
+		if (graph)		delete graph;
+		if (visualizer)	delete visualizer;
+	};
 
 	void create(std::string _structName);
 	void handleEvent(sf::RenderWindow& window, sf::Event event);
@@ -29,7 +38,7 @@ private:
 	std::string structName;
 	std::map<const std::string, const int> structId;
 
-	Visualizer* visualizer;
+	Visualizer* visualizer = nullptr;
 
 	HashTable * hashTable = nullptr;
 	AVL* avl = nullptr;

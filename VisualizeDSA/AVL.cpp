@@ -1,5 +1,4 @@
 #include "AVL.hpp"
-#include "Tools.hpp"
 #include "Layout.hpp"
 #include <queue>
 #include <stack>
@@ -8,10 +7,16 @@
 void AVL::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Build");
+	visualizer->setTextboxes({
+		"Build",
+		"Insert",
+		"Delete",
+		"Search",
+	});
+	/*visualizer->addTextbox("Build");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("Delete");
-	visualizer->addTextbox("Search");
+	visualizer->addTextbox("Search");*/
 }
 
 void AVL::visualize()
@@ -102,10 +107,10 @@ void AVL::build(std::vector<int> values)
 {
 	std::cout << "Build ";
 	for (int x : values) std::cout << x << " ";
-	std::cout << std::endl;	
+	std::cout << std::endl;
 
 	if (root) {
-		delete root;
+		Tools::Tree::killTree(root);
 		root = nullptr;
 	}
 	for (int x : values) {
@@ -205,6 +210,18 @@ void AVL::insert(int x)
 	std::cout << "Insert " << x << std::endl;
 
 	visualizer->clear();
+	visualizer->setSource({
+		"insert()",
+		"if imbalance:",
+		"	if left higher:",
+		"		if left->right higher:",
+		"			rotate_left(left)",
+		"		rotate_right(cur)",
+		"	else",
+		"		if right->left higher:",
+		"			roatate_right(right)",
+		"		rotate_left(cur)",
+	});
 	visualizer->newStep(root);
 	insertVisualize(root, x);
 	visualizer->newStep(root);	
@@ -326,56 +343,51 @@ void AVL::Delete(int x)
 	visualizer->start();
 }
 
-TreeNode* AVL::searchVisualize(TreeNode*& node, int x)
-{
-	if (!node) return node;
-	if (node->Value() == x) {
-		visualizer->duplicateState();
-		visualizer->highlightNode(node, Color::found);
-		visualizer->duplicateState();
-		return node;
-	}
-
-	visualizer->duplicateState();
-	visualizer->highlightNode(node);
-
-	TreeNode *ret = nullptr;
-	if (node->Value() > x) {
-		if (node->Child(0)) {
-			visualizer->duplicateState();
-			visualizer->highlightEdge(node, node->Child(0));
-		}
-		ret = searchVisualize(node->Child(0), x);
-		if (node->Child(0)) {
-			visualizer->duplicateState();
-			visualizer->highlightEdge(node, node->Child(0), Color::normal);
-		}
-	}
-	else {
-		if (node->Child(1)) {
-			visualizer->duplicateState();
-			visualizer->highlightEdge(node, node->Child(1));
-		}
-		ret = searchVisualize(node->Child(1), x);
-		if (node->Child(1)) {
-			visualizer->duplicateState();
-			visualizer->highlightEdge(node, node->Child(1), Color::normal);
-		}
-	}
-	visualizer->duplicateState();
-	visualizer->highlightNode(node, Color::normal);
-	return ret;
-}
-
 void AVL::search(int x)
 {
 	std::cout << "Search " << x << std::endl;
 	visualizer->clear();
+	visualizer->setSource({
+		"Node* cur = root",
+		"while cur != NULL and cur->value != x:",
+		"	if x < cur->value:",
+		"		cur = cur->left",
+		"	else",
+		"		cur = cur->right",
+		"return cur",
+	});
 	visualizer->newStep(root);
-	TreeNode *node = searchVisualize(root, x);
-	if (node) {
-		visualizer->duplicateState();
-		visualizer->highlightNode(node, Color::normal);
+
+	visualizer->duplicateState("Node* cur = root");
+	visualizer->duplicateState("while cur != NULL and cur->value != x:");
+
+	TreeNode* cur = root;
+	visualizer->highlightNode(cur);
+	while (cur && cur->Value() != x) {
+		visualizer->duplicateState("	if x < cur->value:");
+		if (x < cur->Value()) {
+			visualizer->duplicateState("		cur = cur->left");
+			if (cur->Child(0)) {
+				visualizer->highlightEdge(cur, cur->Child(0));
+			}
+			cur = cur->Child(0);
+		}
+		else {
+			visualizer->duplicateState("		cur = cur->right");
+			if (cur->Child(1)) {
+				visualizer->highlightEdge(cur, cur->Child(1));
+			}
+			cur = cur->Child(1);
+		}
+		visualizer->duplicateState("while cur != NULL and cur->value != x:");
+		if (cur) 
+			visualizer->highlightNode(cur);
 	}
+
+	visualizer->duplicateState("return cur");
+	if (cur) {
+		visualizer->highlightNode(cur, Color::found);
+	}
+	visualizer->newStep(root, "#");
 	visualizer->start();
 }

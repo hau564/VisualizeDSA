@@ -100,8 +100,8 @@ void ControlBox::handleEvent(sf::RenderWindow& window, sf::Event event)
 		timeSinceLast = timeList[current];
 	}
 	if (bforw.justReleasedInside()) {
-		if (current < (int)timeList.size() - 1) {
-			current++;
+		if (current < (int)timeList.size() - 30) {
+			current += 30;
 			timeSinceLast = 0;
 		}
 		else {
@@ -109,9 +109,7 @@ void ControlBox::handleEvent(sf::RenderWindow& window, sf::Event event)
 		}
 	}
 	if (bback.justReleasedInside()) {
-		if (current > 0) {
-			current--;
-		}
+		current = std::max(0, current - 30);
 		timeSinceLast = 0;
 	}
 }

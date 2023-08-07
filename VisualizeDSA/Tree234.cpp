@@ -1,5 +1,4 @@
 #include "Tree234.hpp"
-#include "Tools.hpp"
 
 void Tree234::setup(Visualizer* _visualizer)
 {
@@ -115,7 +114,7 @@ void Tree234::build(std::vector<int> values)
 	std::cout << std::endl;
 
 	if (root) {
-		delete root;
+		Tools::Tree::killTree(root);
 		root = nullptr;
 	}
 	for (int x : values) insertBuild(root, x);
@@ -232,7 +231,6 @@ void Tree234::insert(int x)
 }
 
 
-
 void Tree234::removeValue(TreeNode*& node)
 {
 	if (node->getValueCount() > 1) {
@@ -260,6 +258,7 @@ void Tree234::deleteNodeValue(TreeNode*& node, int id)
 	while (tmp->Child(0)) tmp = tmp->Child(0);
 	std::swap(node->Value(id), tmp->Value(0));
 
+	visualizer->layoutTree(root);
 	visualizer->newStep(root);
 	removeValue(tmp);
 }

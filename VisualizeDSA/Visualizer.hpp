@@ -27,9 +27,9 @@ public:
 	void layoutTree(TreeNode* root, sf::Vector2f _pos = Layout::DisplayScreen::basePos);
 	void layoutTreeSkipEdge(TreeNode* root, TreeNode* node, int childId, sf::Vector2f _pos = Layout::DisplayScreen::basePos);
 	
-	void newStep();
-	void newStep(TreeNode* root);
-	void duplicateState();
+	void newStep(std::string s = "");
+	void newStep(TreeNode* root, std::string s = "");
+	void duplicateState(std::string s = "");
 
 	void addTree(TreeNode* root);
 
@@ -57,6 +57,7 @@ private:
 	int graphMode = 0;
 	std::vector<Node*> nodes;
 	std::vector<GraphEdge*> edges;
+	std::string prev = "";
 };
 
 #endif // !VISUALIZER_HPP

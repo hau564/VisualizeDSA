@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>ControlBox.hpp</FILENAME>
+      <LINE>42</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ControlBox::playing' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ControlBox::{ctor}</FUNCTION>
+    <DECORATED>??0ControlBox@@QEAA@XZ</DECORATED>
+    <FUNCLINE>42</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ControlBox::playing</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>ControlBox.hpp</FILENAME>
+      <LINE>42</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ControlBox::current' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ControlBox::{ctor}</FUNCTION>
+    <DECORATED>??0ControlBox@@QEAA@XZ</DECORATED>
+    <FUNCLINE>42</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ControlBox::current</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Tab.hpp</FILENAME>
+      <LINE>17</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Tab::id' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Tab::{ctor}</FUNCTION>
+    <DECORATED>??0Tab@@QEAA@XZ</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Tab::id</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

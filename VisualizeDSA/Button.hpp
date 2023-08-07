@@ -26,6 +26,7 @@ public:
 	void setState(ButtonState state, int id);
 	void setStates(std::vector<ButtonState> _states);
 	void setFontSize(int size);
+	void setTransparency(int alpha);
 	
 	void addHandle(std::function<void(const Button*)> handle);
 	

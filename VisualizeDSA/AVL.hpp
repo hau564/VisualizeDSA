@@ -7,9 +7,15 @@
 #include <iostream>
 #include "Visualizer.hpp"
 #include "TreeNode.hpp"
+#include "Tools.hpp"
 
 class AVL {
 public:
+	~AVL() {
+		std::cout << "deleted AVL\n";
+		Tools::Tree::killTree(root);
+	};
+
 	void setup(Visualizer* visualizer);
 	void visualize();
 
@@ -29,10 +35,9 @@ private:
 	void deleteVisualize(TreeNode*& node, int x);
 	void Delete(int x);
 
-	TreeNode* searchVisualize(TreeNode*& node, int x);
 	void search(int x);
 
-	Visualizer* visualizer;
+	Visualizer* visualizer = nullptr;
 	TreeNode* root = nullptr;
 };
 

@@ -81,6 +81,10 @@ void Window::launch()
 
 	setup();
 
+	sf::RectangleShape background(sf::Vector2f(Layout::Window::width, Layout::Window::height));
+	background.setFillColor(Color::GrayBG);
+	background.setPosition(0, 0);
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -90,7 +94,8 @@ void Window::launch()
 
 		update();
 
-		window.clear(Layout::Window::backgroundColor);
+		window.clear(Layout::workplaceBackground);
+		window.draw(background);
 		
 		draw(window);
 		

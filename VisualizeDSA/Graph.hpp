@@ -9,6 +9,12 @@
 class Graph
 {
 public:
+	~Graph() {
+		std::cout << "deleted Graph\n";
+		for (auto& node : nodes)	delete node;
+		for (auto& edge : edges)	delete edge;
+	};
+
 	void setup(Visualizer* visualizer);
 	void visualize();
 

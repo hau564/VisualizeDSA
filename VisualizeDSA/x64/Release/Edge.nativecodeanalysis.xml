@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>25</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::create</FUNCTION>
+    <DECORATED>?create@Edge@@QEAAXV?$Vector2@M@sf@@0VColor@3@MM@Z</DECORATED>
+    <FUNCLINE>13</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>31</LINE>
+      <COLUMN>25</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::create</FUNCTION>
+    <DECORATED>?create@Edge@@QEAAXV?$Vector2@M@sf@@0VColor@3@MM@Z</DECORATED>
+    <FUNCLINE>13</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>52</LINE>
+      <COLUMN>58</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::setStart</FUNCTION>
+    <DECORATED>?setStart@Edge@@QEAAXV?$Vector2@M@sf@@@Z</DECORATED>
+    <FUNCLINE>48</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>54</LINE>
+      <COLUMN>59</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::setStart</FUNCTION>
+    <DECORATED>?setStart@Edge@@QEAAXV?$Vector2@M@sf@@@Z</DECORATED>
+    <FUNCLINE>48</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>61</LINE>
+      <COLUMN>58</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::setEnd</FUNCTION>
+    <DECORATED>?setEnd@Edge@@QEAAXV?$Vector2@M@sf@@@Z</DECORATED>
+    <FUNCLINE>57</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\</FILEPATH>
+      <FILENAME>Edge.cpp</FILENAME>
+      <LINE>63</LINE>
+      <COLUMN>59</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>Edge::setEnd</FUNCTION>
+    <DECORATED>?setEnd@Edge@@QEAAXV?$Vector2@M@sf@@@Z</DECORATED>
+    <FUNCLINE>57</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

@@ -24,7 +24,7 @@ public:
 
 	void addValue(int x);
 	void sortValue();
-	void setStringNode();
+	void setStringNode(int x = 1);
 	void removeValue(int id = 0);
 
 	int getValue(int id = 0) const;

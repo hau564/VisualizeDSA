@@ -107,9 +107,10 @@ void Node::sortValue()
 	create(values);
 }
 
-void Node::setStringNode()
+void Node::setStringNode(int x)
 {
-	stringNode = 1;
+	stringNode = x;
+	if (!x) return;
 	valueTexts.assign(1, sf::Text());
 	valueShapes.assign(1, sf::RoundedRectangleShape());
 	valueTexts[0].setFont(*Resources::Font::courier);

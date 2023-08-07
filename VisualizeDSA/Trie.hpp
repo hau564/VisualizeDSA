@@ -6,10 +6,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Visualizer.hpp"
+#include "Tools.hpp"
 
 class Trie
 {
 public:
+	~Trie() { 
+		std::cout << "deleted Trie\n"; 
+		Tools::Tree::killTree(root);
+	};
 	void setup(Visualizer* _visualizer);
 	void visualize();
 

@@ -16,7 +16,7 @@ class Tab : public Button
 public:
 	Tab() {};
 	Tab(int _id);
-	~Tab() {};
+	~Tab() { std::cout << "deleted Tab\n"; };
 	void create(int _id);
 
 public:

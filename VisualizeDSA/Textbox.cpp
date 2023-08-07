@@ -104,7 +104,7 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 
 		aftText.setString("A");
 		Tools::Text::leftAligning(aftText, {text.getPosition().x + text.getGlobalBounds().width - 5, getPosition().y}, getSize(), 1);
-		aftText.setString(aftTextString);
+		aftText.setString(aftTextString.substr(0, std::min((float)aftTextString.size(), (getPosition().x + getSize().x - aftText.getPosition().x) / charWidth)));
 
 	}
 	if (!active) cursorState = 0, timeCursor = 0;

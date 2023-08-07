@@ -22,6 +22,28 @@ void InputTable::addTextbox(std::string label)
 	shape.setSize(sf::Vector2f(Layout::InputTable::size.x, Layout::InputTable::spacing + (int)inputs.size() * (Layout::InputTable::spacing + Layout::InputTable::labelSize.y)));
 }
 
+void InputTable::setTextboxes(std::vector<std::string> labels)
+{
+	sf::Vector2f pos;
+	float spacing = Layout::InputTable::spacing;
+	pos.x = Layout::DisplayScreen::pos.x + 10;
+	pos.y = Layout::DisplayScreen::pos.y + Layout::DisplayScreen::size.y - 10 + spacing;
+	std::reverse(labels.begin(), labels.end());
+	for (std::string label : labels) {
+		pos.y -= Layout::InputTable::labelSize.y + spacing;
+
+		inputs.push_back(Input());
+		inputs.back().create(pos, Layout::InputTable::labelSize, label);
+		inputs.back().labelButton.setTransparency(200);
+		inputs.back().textbox.setTransparency(200);
+
+		shape.setSize(sf::Vector2f(Layout::InputTable::size.x, Layout::InputTable::spacing + (int)inputs.size() * (Layout::InputTable::spacing + Layout::InputTable::labelSize.y)));
+	}
+	shape.setPosition(pos - sf::Vector2f(spacing, spacing));
+	shape.setSize(sf::Vector2f(Layout::InputTable::size.x, Layout::InputTable::spacing + (int)inputs.size() * (Layout::InputTable::spacing + Layout::InputTable::labelSize.y)));
+	
+}
+
 void InputTable::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
 	for (Input& input : inputs) {

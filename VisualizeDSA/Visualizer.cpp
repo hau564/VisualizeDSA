@@ -146,32 +146,36 @@ void Visualizer::layoutTreeSkipEdge(TreeNode* root, TreeNode* node, int childId,
 	dfsSkip(root, node, childId, pos, Layout::DisplayComponent::Tree::horizontalSpacing, Layout::DisplayComponent::Tree::verticalSpacing);
 }
 
-void Visualizer::newStep()
+void Visualizer::newStep(std::string s)
 {
+	if (s == "") s = prev;
+	else prev = s;
 	index = layers.size();
 	for (int i = 0; i < fps; ++i) {
 		if (!i || i == fps / 2 - 1 || i == fps / 2 || i == fps - 1)
-			addLayer(Layer(), 1.f / fps);
+			addLayer(Layer(), 1.f / fps, s);
 		else 
-			addVirtualLayer(1.f / fps);
+			addVirtualLayer(1.f / fps, s);
 	}
 }
 
-void Visualizer::newStep(TreeNode* root)
+void Visualizer::newStep(TreeNode* root, std::string s)
 {
-	newStep();
+	newStep(s);
 	addTree(root);
 }
 
-void Visualizer::duplicateState()
+void Visualizer::duplicateState(std::string s)
 {
+	if (s == "") s = prev;
+	else prev = s;
 	index = layers.size();
 	if (index)
 		for (int i = 0; i < fps; ++i) {
 			if (!i || i == fps / 2 - 1 || i == fps / 2 || i == fps - 1)
-				addLayer(layers[index - 1], 1.f / fps);
+				addLayer(layers[index - 1], 1.f / fps, s);
 			else
-				addVirtualLayer(1.f / fps);
+				addVirtualLayer(1.f / fps, s);
 		}
 	else
 		newStep();
@@ -368,7 +372,7 @@ void Visualizer::highlightNode(Node* node, sf::Color color)
 	}
 	sf::Color oldColor = layers[index].nodes[eid].getColor();
 	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
-		layers[i + index].nodes[eid].setColor(Animation::getColor(oldColor, color, 1.f * (i + 1) / fps));
+		layers[i + index].nodes[eid].setColor(Animation::getColor(oldColor, color, std::min(1.f, 2.f * (i + 1) / fps)));
 	}
 }
 
@@ -389,7 +393,7 @@ void Visualizer::highlightEdge(Node* u, Node* v, sf::Color color)
 	}
 	sf::Color oldColor = layers[index].edges[eid].getColor();
 	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
-		layers[i + index].edges[eid].setColor(Animation::getColor(oldColor, color, 1.f * (i + 1) / fps));
+		layers[i + index].edges[eid].setColor(Animation::getColor(oldColor, color, std::min(1.f, 1.f * (i + 1) / fps)));
 	}
 }
 

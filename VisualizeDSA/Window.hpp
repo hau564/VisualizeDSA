@@ -10,7 +10,7 @@ class Window
 {
 public:
 	Window() {};
-	~Window() {};
+	~Window() { std::cout << "deleted Window\n"; };
 
 	void setup();
 	void launch();

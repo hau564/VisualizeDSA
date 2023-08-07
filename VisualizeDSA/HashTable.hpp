@@ -10,6 +10,13 @@
 class HashTable
 {
 public:
+	~HashTable() {
+		std::cout << "deleted HashTable\n";
+		for (auto node : arr) {
+			delete node;
+		}
+	};
+
 	void setup(Visualizer* _visualizer);
 	void visualize();
 

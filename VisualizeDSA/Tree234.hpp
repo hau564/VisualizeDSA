@@ -6,10 +6,16 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Visualizer.hpp"
+#include "Tools.hpp"
 
 class Tree234
 {
 public:
+	~Tree234() {
+		std::cout << "deleted Tree234\n";
+		Tools::Tree::killTree(root);
+	}
+
 	void setup(Visualizer *visualizer);
 	void visualize();
 

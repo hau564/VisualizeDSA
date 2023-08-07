@@ -88,11 +88,11 @@ namespace Layout {
 		sf::Vector2f pos = sf::Vector2f(DisplayScreen::pos + sf::Vector2f(DisplayScreen::size.x - size.x - 10, 10));
 		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
-		sf::Color fillColor = sf::Color::White;
+		sf::Color fillColor = sf::Color(225, 225, 225, 128);
 		float spacing = 3;
 		int fontSize = 30;
 
 		sf::Vector2f labelSize = sf::Vector2f(150, 50);
-		sf::Vector2f buttonSize = sf::Vector2f(70, 70);
+		//sf::Vector2f buttonSize = sf::Vector2f(70, 70);
 	}
 }

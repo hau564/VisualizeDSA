@@ -80,6 +80,16 @@ void Display::update()
 	control.update();
 	mouseDetection.update();
 	view.reset(viewTarget);
+
+	if (started) {
+		int id = control.getCurrent();
+		if (prev && prev != corSource[id]) {
+			prev->setOutlineColor(sf::Color::White);
+		}
+		prev = corSource[id];
+		if (prev)
+			prev->setOutlineColor(sf::Color::Green);
+	}
 }
 
 void Display::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -97,22 +107,60 @@ void Display::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 		target.setView(target.getDefaultView());
 	}
+	for (auto& text : textMap) {
+		target.draw(*text.second);
+	}
 }
 
 
-void Display::addVirtualLayer(float time, Layer layer)
+void Display::addVirtualLayer(float time, std::string s)
 {
-	layers.push_back(layer);
+	layers.push_back(Layer());
+	if (textMap.find(s) == textMap.end()) 
+		corSource.push_back(nullptr);
+	else 
+		corSource.push_back(textMap[s]);
+	
 	control.addTime(time);
 	if (!idLeft.size()) idLeft.push_back(0);
 	else idLeft.push_back(idLeft.back());
 }
 
-void Display::addLayer(Layer layer, float time)
+void Display::addLayer(Layer layer, float time, std::string s)
 {
 	layers.push_back(layer);
+	if (textMap.find(s) == textMap.end())
+		corSource.push_back(nullptr);
+	else
+		corSource.push_back(textMap[s]);
 	control.addTime(time);
 	idLeft.push_back(idLeft.size());
+}
+
+void Display::setSource(std::vector<std::string> source)
+{
+	textMap.clear();
+	float height = 0, width = 0;
+	for (std::string s : source) {
+		textMap.emplace(s, nullptr);
+		sf::Text* &text = textMap.find(s)->second;
+		text = new sf::Text();
+		text->setFont(*Resources::Font::courier);
+		text->setCharacterSize(30);
+		text->setFillColor(Layout::workplaceOutline);
+		text->setOutlineColor(sf::Color::White);
+		text->setOutlineThickness(1);
+		text->setString(s);
+		height += text->getLocalBounds().height;
+		width = std::max(width, text->getLocalBounds().width);
+	}
+
+	sf::Vector2f pos = Layout::DisplayScreen::pos + Layout::DisplayScreen::size - sf::Vector2f(width + 20, height + 20 + 7 * (source.size()));
+	for (std::string s : source) {
+		sf::Text* &text = textMap.find(s)->second;
+		text->setPosition(pos);
+		pos.y += text->getLocalBounds().height + 7;
+	}
 }
 
 void Display::start()
@@ -148,6 +196,9 @@ void Display::clear()
 {
 	layers.clear();
 	control.clear();
+	idLeft.clear();
+	idRight.clear();
+	corSource.clear();
 	started = 0;
 }
 

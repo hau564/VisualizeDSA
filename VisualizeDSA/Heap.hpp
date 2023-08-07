@@ -10,6 +10,13 @@
 class Heap
 {
 public:
+	~Heap() {
+		std::cout << "deleted Heap\n";
+		for (auto node : tree) {
+			delete node;
+		}
+	};
+
 	void setup(Visualizer* visualizer);
 	void visualize();
 

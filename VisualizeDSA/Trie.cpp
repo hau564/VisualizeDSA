@@ -1,5 +1,4 @@
 #include "Trie.hpp"
-#include "Tools.hpp"
 
 void Trie::setup(Visualizer* _visualizer)
 {
@@ -67,7 +66,7 @@ void Trie::insertBuild(TreeNode* root, std::string s)
 void Trie::build(std::vector<std::string> values)
 {
 	if (root) {
-		delete root;
+		Tools::Tree::killTree(root);
 		root = nullptr;
 	}
 	root = new TreeNode({' '});

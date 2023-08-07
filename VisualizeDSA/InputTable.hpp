@@ -12,6 +12,7 @@ class InputTable: public sf::Drawable
 public:
 	void setup();
 	void addTextbox(std::string label);
+	void setTextboxes(std::vector<std::string> labels);
 
 	void handleEvent(sf::RenderWindow& window, sf::Event event);
 	void update();

@@ -94,6 +94,20 @@ void Button::setFontSize(int size)
 	}
 }
 
+void Button::setTransparency(int alpha)
+{
+	for (sf::RoundedRectangleShape& state : states) {
+		sf::Color color = state.getFillColor();
+		color.a = alpha;
+		state.setFillColor(color);
+	}
+	/*if (text) {
+		sf::Color color = text->getFillColor();
+		color.a = alpha;
+		text->setFillColor(color);
+	}*/
+}
+
 void Button::addHandle(std::function<void(const Button*)> handle)
 {
 	handles.push_back(handle);

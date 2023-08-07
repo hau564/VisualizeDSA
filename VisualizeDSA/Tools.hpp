@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "TreeNode.hpp"
 
 namespace Tools{
 	namespace Text {
@@ -38,6 +39,10 @@ namespace Tools{
 		extern bool toVectorEdges(std::string s, std::vector<std::pair<std::pair<int, int>, int>>& v);
 
 		extern std::string process(std::string &s);
+	}
+
+	namespace Tree {
+		extern void killTree(TreeNode* root);
 	}
 };
 

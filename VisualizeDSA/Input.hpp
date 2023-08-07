@@ -18,7 +18,7 @@ public:
 	std::string getInput();
 	std::string getLabel();
 	int newInput = 0;
-private:
+public:
 	Textbox textbox;
 	Button labelButton;
 };

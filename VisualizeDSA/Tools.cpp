@@ -239,3 +239,12 @@ std::string Tools::String::process(std::string &s)
 	}
 	return "";
 }
+
+void Tools::Tree::killTree(TreeNode* root)
+{
+	if (root == nullptr) return;
+	for (TreeNode* child : root->getAllChilds()) {
+		killTree(child);
+	}
+	delete root;
+}

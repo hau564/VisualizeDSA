@@ -27,7 +27,7 @@ private:
 	std::string inputString, aftTextString = "";
 	sf::Text text, cursor, aftText;
 	std::vector<std::function<void(const Textbox*)>> handles;
-
+	Button xbutton;
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
