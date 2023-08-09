@@ -4,9 +4,11 @@ namespace Resources {
 	namespace Font {
 		std::shared_ptr<sf::Font> arial = std::make_shared<sf::Font>();
 		std::shared_ptr<sf::Font> courier = std::make_shared<sf::Font>();
+		std::shared_ptr<sf::Font> monospace = std::make_shared<sf::Font>();
 		void load() {
 			arial->loadFromFile("Resources/Fonts/arial.ttf");
 			courier->loadFromFile("Resources/Fonts/cour.ttf");
+			monospace->loadFromFile("Resources/Fonts/webdings.ttf");
 		}
 	}
 	namespace Textures {

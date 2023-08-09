@@ -4,10 +4,16 @@
 void HashTable::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Size");
+	visualizer->setTextboxes({
+		"Size",
+		"Insert",
+		"Delete",
+		"Search"
+		});
+	/*visualizer->addTextbox("Size");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("Delete");
-	visualizer->addTextbox("Search");
+	visualizer->addTextbox("Search");*/
 }
 
 void HashTable::visualize()
@@ -70,12 +76,14 @@ void HashTable::create(int n)
 void HashTable::insert(int _x)
 {
 	if (!arr.size()) return;
+	for (Node* node : arr) {
+		if (node->getValues().size() && !node->stringNode && node->getValues()[0] == _x) return;
+	}
 
 	visualizer->clear();
 	visualizer->setSource({
 		"i = hash(x) // = x % size",
 		"while table[i] has a real value:",
-		"	if (table[i] == x) return",
 		"	i = (i + 1) mod size",
 		"	if (i == hash(x) return",
 		"table[i] = x",
@@ -91,13 +99,6 @@ void HashTable::insert(int _x)
 	visualizer->duplicateState("while table[i] has a real value:");
 	visualizer->highlightNode(arr[i]);
 	while (arr[i]->getValues().size() && !arr[i]->stringNode) {
-		visualizer->duplicateState("	if (table[i] == x) return");
-		if (arr[i]->Value() == _x) {
-			visualizer->newStep(arr[0], "#");
-			visualizer->start();
-			return;
-		}
-
 		visualizer->duplicateState("	i = (i + 1) mod size");
 		visualizer->duplicateState("	if (i == hash(x) return");
 		visualizer->highlightNode(arr[i], Color::normal);

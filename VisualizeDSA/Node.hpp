@@ -15,7 +15,9 @@ public:
 		create(_values);
 	};
 	Node(sf::Vector2f _pos, std::vector<int> values = {0});
-	~Node() {};
+	~Node() {
+		
+	};
 
 	void create(std::vector<int> _values);
 	void handleEvent(sf::RenderWindow& window, sf::Event event);
@@ -43,10 +45,11 @@ public:
 
 	bool operator==(const Node& other) const;
 
-	void showHeight(int t);
+	void showHeight(int t = 1, std::string s = "");
 
 	bool stringNode = 0;
-	int counting = 0, height = 0;
+	int counting = 0, height = 0, showingHeight = 0;
+	sf::Text heightText;
 
 private:
 	sf::RoundedRectangleShape nodeShape;
@@ -55,7 +58,6 @@ private:
 	std::vector<sf::Text> valueTexts;
 	std::vector<sf::RoundedRectangleShape> valueShapes;
 
-	sf::Text* countingText = nullptr, *heightText = nullptr;
 	sf::Color color;
 	sf::Vector2f memPos, memCen;
 

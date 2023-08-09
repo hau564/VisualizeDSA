@@ -37,7 +37,7 @@ void Button::update()
 		}
 		lastPos = pos;
 	}
-	if (text) Tools::Text::middleAligning(*text, getPosition(), states[0].getSize());
+	if (text && !specialText) Tools::Text::middleAligning(*text, getPosition(), states[0].getSize(), 1);
 	Button::MouseDetection::update();
 }
 
@@ -64,6 +64,16 @@ void Button::setText(std::string s, std::shared_ptr<sf::Font> font)
 	text->setCharacterSize(states[0].getSize().y / 2);
 	text->setFillColor(Layout::Text::fillColor);
 	Tools::Text::middleAligning(*text, states[0].getPosition(), states[0].getSize());
+}
+void Button::setText(const sf::Uint32 s[], std::shared_ptr<sf::Font> font)
+{
+	specialText = 1;
+	text->setFont(*font);
+	text->setString(s);
+	text->setCharacterSize(states[0].getSize().y / 2);
+	text->setFillColor(Layout::Text::fillColor);
+	text->setLetterSpacing(-2);
+	Tools::Text::middleAligning(*text, getPosition(), states[0].getSize(), 1);
 }
 void Button::setRadius(float _radius)
 {

@@ -10,9 +10,10 @@ void StructureRunner::create(std::string _structName)
 	structId.emplace("HashTable", 0);
 	structId.emplace("AVLTree", 1);
 	structId.emplace("234Tree", 2);
-	structId.emplace("Heap", 3);
+	structId.emplace("MaxHeap", 3);
 	structId.emplace("Trie", 4);
 	structId.emplace("Graph", 5);
+	structId.emplace("MinHeap", 3);
 
 	switch (structId[structName]) {
 		case 0:
@@ -40,6 +41,8 @@ void StructureRunner::create(std::string _structName)
 			graph->setup(visualizer);
 			break;
 	}
+	if (structName == "MinHeap")
+		heap->setMinHeap();
 } 
 
 void StructureRunner::handleEvent(sf::RenderWindow& window, sf::Event event)

@@ -4,10 +4,16 @@
 void Heap::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Build");
+	visualizer->setTextboxes({ "Build", "Insert", "DeleteId", "Get" });
+	/*visualizer->addTextbox("Build");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("DeleteId");
-	visualizer->addTextbox("Get");
+	visualizer->addTextbox("Get");*/
+}
+
+void Heap::setMinHeap()
+{
+	cmp = [](int a, int b) { return a <= b; };
 }
 
 void Heap::visualize()
@@ -73,9 +79,17 @@ void Heap::build(std::vector<int> values)
 	for (TreeNode* node : tree) node->update();
 
 	visualizer->clear();
+	visualizer->setSource({});
 	if (tree.size()) {
+		for (int i = 0; i < (int)tree.size(); ++i) {
+			tree[i]->height = i;
+			tree[i]->showHeight();
+			tree[i]->heightText.setCharacterSize(17);
+		}
 		visualizer->layoutTree(tree[0], Layout::DisplayScreen::basePos);
 		visualizer->newStep(tree[0]);
+		for (int i = 0; i < (int)tree.size(); ++i)
+			tree[i]->showHeight(0);
 	}
 	else visualizer->newStep();
 	visualizer->start();
@@ -89,14 +103,14 @@ void Heap::swapVisualize(int i, int j)
 
 void Heap::heapUpVisualize(int &i)
 {
-	visualizer->duplicateState();
+	visualizer->duplicateState("while i > 0 and !compare(heap[(i - 1) / 2], heap[i]):");
 	visualizer->highlightNode(tree[i]);
 	while (i && !cmp(tree[(i - 1) / 2]->Value(), tree[i]->Value())) {
 		std::swap(tree[i]->Value(), tree[(i - 1) / 2]->Value());
-		visualizer->duplicateState();
+		visualizer->duplicateState("	swap(heap[i], heap[i = (i - 1) / 2])");
 		visualizer->highlightNode(tree[(i - 1) / 2]);
 
-		visualizer->duplicateState();
+		visualizer->duplicateState("while i > 0 and !compare(heap[(i - 1) / 2], heap[i]):");
 		visualizer->highlightNode(tree[(i - 1) / 2], Color::normal);
 		swapVisualize(i, (i - 1) / 2);
 
@@ -113,6 +127,13 @@ void Heap::insert(int x)
 	std::cout << "Insert " << x << std::endl;
 
 	visualizer->clear();
+	visualizer->setSource({
+		"heap[i = size++] = x",
+		"// if min heap: compare = (a < b)",
+		"// if max heap: compare = (a > b)",
+		"while i > 0 and !compare(heap[(i - 1) / 2], heap[i]):",
+		"	swap(heap[i], heap[i = (i - 1) / 2])",
+		});
 	if (tree.size()) {
 		visualizer->layoutTree(tree[0], Layout::DisplayScreen::basePos);
 		visualizer->newStep(tree[0]);
@@ -121,21 +142,21 @@ void Heap::insert(int x)
 
 	tree.push_back(new TreeNode({ x }));
 	int i = tree.size() - 1;
+	visualizer->duplicateState("heap[i = size++] = x");
 	if (i) {
 		tree[(i - 1) / 2]->Child((i & 1) ^ 1) = tree[i];
-		visualizer->duplicateState();
 		visualizer->reArrange(tree[0]);
 	}
 	heapUpVisualize(i);
 
 	visualizer->layoutTree(tree[0]);
-	visualizer->newStep(tree[0]);
+	visualizer->newStep(tree[0], "#");
 	visualizer->start();
 }
 
 void Heap::heapDownVisualize(int &i)
 {
-	visualizer->duplicateState();
+	visualizer->duplicateState("while !compare(heap[i], better_child_of(i)):");
 	visualizer->highlightNode(tree[i]);
 
 	int flag = 1;
@@ -145,10 +166,10 @@ void Heap::heapDownVisualize(int &i)
 		std::cout << i << " " << j << std::endl;
 		if (!cmp(tree[i]->Value(), tree[j]->Value())) {
 			std::swap(tree[i]->Value(), tree[j]->Value());
-			visualizer->duplicateState();
+			visualizer->duplicateState("	swap(heap[i], better_child_of(i))");
 			visualizer->highlightNode(tree[j]);
 
-			visualizer->duplicateState();
+			visualizer->duplicateState("while !compare(heap[i], better_child_of(i)):");
 			visualizer->highlightNode(tree[j], Color::normal);
 			swapVisualize(i, j);
 
@@ -171,13 +192,20 @@ void Heap::Delete(int id)
 	}
 
 	visualizer->clear();
+	visualizer->setSource({
+		"swap(heap[i], heap[--size])",
+		"while i > 0 and !compare(heap[(i - 1) / 2], heap[i]):",
+		"	swap(heap[i], heap[i = (i - 1) / 2])",
+		"while !compare(heap[i], better_child_of(i)):",
+		"	swap(heap[i], better_child_of(i))",
+		});
 	visualizer->newStep(tree[0]);
 
 	int i = tree.size() - 1;
 
+	visualizer->duplicateState("swap(heap[i], heap[--size])");
 	if (i) {
 		std::swap(tree[id]->Value(), tree[i]->Value());
-		visualizer->duplicateState();
 		visualizer->highlightNode(tree[id]);
 		visualizer->highlightNode(tree[i]);
 		visualizer->duplicateState();
@@ -202,8 +230,8 @@ void Heap::Delete(int id)
 	visualizer->newStep(tree[0]);
 	heapDownVisualize(id);
 
-	visualizer->layoutTree(tree[0]);
-	visualizer->newStep(tree[0]);
+	visualizer->newStep(tree[0], "#");
+	visualizer->reArrange(tree[0]);
 	visualizer->start();
 }
 
@@ -212,11 +240,24 @@ void Heap::Get()
 	std::cout << "Get" << std::endl;
 	if (tree.empty()) return;
 	
-	visualizer->clear();
+	visualizer->clear(); 
+	visualizer->setSource({ "return heap[0]" });
+	
+	for (int i = 0; i < (int)tree.size(); ++i) {
+		tree[i]->height = i;
+		tree[i]->showHeight();
+		tree[i]->heightText.setCharacterSize(17);
+	}
+
 	visualizer->newStep(tree[0]);
+	visualizer->newStep(tree[0], "return heap[0]");
 
 	visualizer->highlightNode(tree[0], Color::found);
-	visualizer->duplicateState();
+	visualizer->duplicateState("#");
 	visualizer->highlightNode(tree[0], Color::normal);
+
+	for (int i = 0; i < (int)tree.size(); ++i)
+		tree[i]->showHeight(0);
+
 	visualizer->start();
 }

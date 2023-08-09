@@ -45,6 +45,13 @@ void TreeNode::updateHeight()
 	height = std::max(getChildHeight(0), getChildHeight(1)) + 1;
 }
 
+void TreeNode::removeValue(int id)
+{
+	if (id >= getValueCount()) return;
+	Node::removeValue(id);
+	childs.erase(childs.begin() + id + 1);
+}
+
 int TreeNode::getChildHeight(int id) 
 {
 	return Child(id) ? Child(id)->height : -1;

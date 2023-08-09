@@ -19,7 +19,7 @@ public:
 	void visualize();
 
 private:
-	void createGraph();
+	void createGraph(int rearrange = 0);
 	void createNodes(std::vector<int> _n);
 	void createEdges(std::vector<std::pair<std::pair<int, int>, int>> _n);
 
@@ -34,7 +34,7 @@ private:
 	std::vector<GraphEdge*> edges;
 	std::map<int, int> pos;
 	std::map<int, std::vector<int>> adj;
-	std::vector<int> coreNodes;
+	std::vector<int> coreNodes, originalNodes;
 	std::vector<std::pair<std::pair<int, int>, int>> coreEdges;
 };
 

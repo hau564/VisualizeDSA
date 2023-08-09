@@ -40,8 +40,8 @@ void Display::zoom(sf::FloatRect& rect, sf::Vector2f mousePosition, float ratio)
 	float px = viewTarget.left + viewTarget.width * rx;
 	float py = viewTarget.top + viewTarget.height * ry;
 	
-	rect.width = std::max(std::min(rect.width * ratio, baseView.width), baseView.width / 8);
-	rect.height = std::max(std::min(rect.height * ratio, baseView.height), baseView.height / 8);
+	rect.width = std::max(std::min(rect.width * ratio, baseView.width), baseView.width / 100);
+	rect.height = std::max(std::min(rect.height * ratio, baseView.height), baseView.height / 100);
 
 	rect.left = std::min(std::max(px - rect.width * rx, baseView.left), baseView.left + baseView.width - viewTarget.width);
 	rect.top = std::min(std::max(py - rect.height * ry, baseView.top), baseView.top + baseView.height - viewTarget.height);
@@ -146,6 +146,7 @@ void Display::setSource(std::vector<std::string> source)
 		sf::Text* &text = textMap.find(s)->second;
 		text = new sf::Text();
 		text->setFont(*Resources::Font::courier);
+		//text->setStyle(sf::Text::Bold);
 		text->setCharacterSize(30);
 		text->setFillColor(Layout::workplaceOutline);
 		text->setOutlineColor(sf::Color::White);
@@ -182,7 +183,7 @@ void Display::start()
 		if (coord.y > maxCoord.y) maxCoord.y = coord.y;
 	}
 
-	float t = std::max((maxCoord.x + 100) / screenShape.getSize().x, (maxCoord.y + 100 - Layout::Window::height - 5) / screenShape.getSize().y);
+	float t = std::max((maxCoord.x + 100) / screenShape.getSize().x, (maxCoord.y + 200 - Layout::Window::height - 5) / screenShape.getSize().y);
 	
 	viewTarget = sf::FloatRect(0, Layout::Window::height + 5, screenShape.getSize().x, screenShape.getSize().y);
 	viewTarget.width = t * screenShape.getSize().x;

@@ -22,6 +22,7 @@ public:
 	void update();
 public:
 	void setText(std::string s, std::shared_ptr<sf::Font> font);
+	void setText(const sf::Uint32 s[], std::shared_ptr<sf::Font> font);
 	void setRadius(float _radius);
 	void setState(ButtonState state, int id);
 	void setStates(std::vector<ButtonState> _states);
@@ -44,8 +45,9 @@ public:
 	std::vector< std::function<int(const Button*)>> getStateIds;
 	std::vector< std::function<int(const Button*)>> getCircleStateIds;
 
-private:
 	std::shared_ptr<sf::Text> text = std::make_shared<sf::Text>();
+private:
+	bool specialText = 0;
 	std::vector<sf::RoundedRectangleShape> states;
 	std::vector<sf::CircleShape> circleStates;
 	std::vector<std::function<void(const Button*)>> handles;

@@ -78,9 +78,9 @@ void Node::update()
 	nodeShape.setSize({std::max(px, height), height});
 	MouseDetection::setSize(nodeShape.getSize());
 
-	if (heightText) {
-		heightText->setString(Tools::String::toString(this->height));
-		heightText->setPosition(getPosition() + getSize());
+	if (showingHeight) {
+		heightText.setString(Tools::String::toString(this->height));
+		heightText.setPosition(getPosition() + getSize());
 	}
 }
 
@@ -91,8 +91,8 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		if (valueTexts.size() > 1) target.draw(valueShapes[i], states);
 		target.draw(valueTexts[i], states);
 	}
-	if (heightText)
-		target.draw(*heightText, states);
+	if (showingHeight)
+		target.draw(heightText, states);
 }
 
 void Node::addValue(int x)
@@ -199,16 +199,14 @@ bool Node::operator==(const Node& other) const
 		&& abs(getPosition().y - other.getPosition().y) <= 0.0001;
 }
 
-void Node::showHeight(int t)
+void Node::showHeight(int t, std::string s)
 {
-	if (heightText) delete heightText;
+	showingHeight = t;
 	if (t) {
-		heightText = new sf::Text(Tools::String::toString(height), *Resources::Font::courier, 35);
-		heightText->setStyle(sf::Text::Bold);
-		heightText->setPosition(getPosition() + getSize());
-		heightText->setFillColor(Color::highlight);
-	}
-	else {
-		heightText = nullptr;
+		if (s == "") s = Tools::String::toString(height);
+		heightText = sf::Text(s, *Resources::Font::courier, 35);
+		heightText.setStyle(sf::Text::Bold);
+		heightText.setPosition(getPosition() + getSize());
+		heightText.setFillColor(Color::highlight);
 	}
 }

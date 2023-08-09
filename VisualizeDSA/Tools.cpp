@@ -1,6 +1,9 @@
 #include "Tools.hpp"
 #include <iostream>
 #include "Layout.hpp"
+#include "tinyfiledialogs.h"
+#include "tinyfiledialogs.c"
+#include <fstream>
 
 void Tools::Text::middleAligning(sf::Text& text, sf::Vector2f pos, sf::Vector2f size, bool isCourier) {
 	float height = text.getLocalBounds().height;
@@ -211,7 +214,7 @@ std::string Tools::String::process(std::string &s)
 				int j = i + 10;
 				if (!getParameters(s, j, a)) continue;
 				if (a.size() > 3) continue;
-				int x = 100, y = 100, z = 100;
+				int x = 20, y = 20, z = 100;
 				if (a.size()) {
 					x = a[0];
 					y = a.back();
@@ -234,6 +237,23 @@ std::string Tools::String::process(std::string &s)
 					if (i + 1 < n) t += ",";
 				}
 				s.replace(i, j - i + 1, t);
+			}
+		}
+	}
+	for (int i = (int)s.size() - 1; i >= 0; --i) {
+		if (s.substr(i, 7) == "@file()") {
+			char *path = tinyfd_openFileDialog("Open File", "", 0, NULL, NULL, 0);
+			if (path) {
+				std::ifstream fin(path);
+				if (!fin) {
+					tinyfd_messageBox("Error", "Can't open file", "ok", "error", 1);
+					continue;
+				}
+				std::string t = "", fileText = "";
+				while (getline(fin, t)) {
+					fileText += t;
+				}
+				s.replace(i, 7, fileText);
 			}
 		}
 	}

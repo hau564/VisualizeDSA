@@ -6,11 +6,12 @@
 void Graph::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Nodes");
+	visualizer->setTextboxes({ "Nodes", "Edges", "CC", "Dijkstra", "Kruskal" });
+	/*visualizer->addTextbox("Nodes");
 	visualizer->addTextbox("Edges");
 	visualizer->addTextbox("CC");
 	visualizer->addTextbox("Dijkstra");
-	visualizer->addTextbox("Kruskal");
+	visualizer->addTextbox("Kruskal");*/
 }
 
 void Graph::visualize()
@@ -48,7 +49,7 @@ void Graph::visualize()
 	}
 }
 
-void Graph::createGraph()
+void Graph::createGraph(int rearrange)
 {
 	for (Node* node : nodes) {
 		delete node;
@@ -56,9 +57,10 @@ void Graph::createGraph()
 	for (GraphEdge* edge : edges) {
 		delete edge;
 	}
-	nodes.clear();
 	edges.clear();
+	nodes.clear();
 	pos.clear();
+	coreNodes = originalNodes;
 	
 	for (int i = 0; i < coreNodes.size(); i++) {
 		nodes.push_back(new Node({ coreNodes[i] }));
@@ -83,8 +85,8 @@ void Graph::createGraph()
 
 void Graph::createNodes(std::vector<int> _coreNodes)
 {
-	coreNodes = _coreNodes;
-	createGraph();
+	coreNodes = originalNodes = _coreNodes;
+	createGraph(1);
 }
 
 void Graph::createEdges(std::vector<std::pair<std::pair<int, int>, int>> _coreEdges)
@@ -154,6 +156,7 @@ void Graph::dijkstra(int s)
 	}
 
 	for (Node* node : nodes) {
+		if (f.find(node->getValue()) == f.end()) continue;
 		node->height = f[node->getValue()];
 		node->showHeight(1);
 	}

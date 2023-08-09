@@ -1,2 +1,0 @@
-C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\x64\Release\VisualizeDSA.exe.lastcodeanalysissucceeded
-C:\Users\MAC_LENOVO\source\repos\VisualizeDSA\VisualizeDSA\x64\Release\NativeCodeAnalysis.read.1.tlog

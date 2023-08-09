@@ -79,7 +79,7 @@ namespace Layout {
 		float outlineThickness = 2, cornerRadius = 10;
 		sf::Color outlineColor = sf::Color::Black;
 		sf::Color fillColor = sf::Color::White;
-		sf::Vector2f buttonSize(60, 60);
+		sf::Vector2f buttonSize(70, 70);
 		float buttonSpacing = 75;
 	}
 

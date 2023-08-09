@@ -3,10 +3,11 @@
 void Tree234::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Build");
+	visualizer->setTextboxes({ "Build", "Insert", "Delete", "Search" });
+	/*visualizer->addTextbox("Build");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("Delete");
-	visualizer->addTextbox("Search");
+	visualizer->addTextbox("Search");*/
 }
 
 void Tree234::visualize()
@@ -43,6 +44,7 @@ void Tree234::visualize()
 			std::cout << "Invalid Input: " << input << std::endl;
 			return;
 		}
+		search(Tools::String::toInt(input));
 	}
 }
 
@@ -122,6 +124,7 @@ void Tree234::build(std::vector<int> values)
 	visualizer->layoutTree(root);
 
 	visualizer->clear();
+	visualizer->setSource({});
 	visualizer->newStep(root);
 
 	visualizer->start();
@@ -129,7 +132,7 @@ void Tree234::build(std::vector<int> values)
 
 void Tree234::dropVisualize(TreeNode*& node)
 {
-	visualizer->duplicateState();
+	visualizer->duplicateState("	extend(cur), merge_to_parent(cur)");
 	visualizer->removeEdgeFromParent(node);
 	visualizer->removeNode(node);
 	for (int i = 0; i < 4; i++) {
@@ -185,16 +188,17 @@ void Tree234::insertVisualize(TreeNode*& node, int x)
 	}
 	for (int y : node->getValues())
 		if (x == y) return;
+	visualizer->duplicateState("if cur has 3 values:");
 	if (node->getValueCount() == 3) {
 		dropVisualize(node);
 	}
+	visualizer->duplicateState("if cur has no child: cur->add_value(x), return");
 	if (node->getRealChildCount() == 0) {
 		std::vector<int> values = node->getValues();
 		values.push_back(x);
 		std::sort(values.begin(), values.end());
 		delete node;
 		node = new TreeNode(values);
-		visualizer->duplicateState();
 		visualizer->reArrange(root, 1);
 		return;
 	}
@@ -202,12 +206,16 @@ void Tree234::insertVisualize(TreeNode*& node, int x)
 	for (int i = 0; i <= cnt; i++) {
 		if (i < cnt && x == node->getValue(i)) return;
 		if (i == cnt || x < node->Value(i)) {
+			visualizer->duplicateState("insert(find_child, x)");
+			visualizer->highlightEdge(node, node->Child(i));
+			visualizer->highlightNode(node->Child(i));
 			if (node->Child(i) && node->Child(i)->getValueCount() == 3) {
+				visualizer->duplicateState("if cur has 3 values:");
 				
 				dropVisualize(node->Child(i));
-
 				mergeVisualize(node, i);
 				
+				visualizer->duplicateState("if cur has no child: cur->add_value(x), return");
 				++cnt;
 				--i;
 				continue;
@@ -223,15 +231,24 @@ void Tree234::insert(int x)
 	std::cout << "Insert " << x << std::endl;
 
 	visualizer->clear();
-	visualizer->newStep(root);
+	visualizer->setSource({
+		"if !root: root = new Node({x}), return",
+		"if cur has 3 values:",
+		"	extend(cur), merge_to_parent(cur)",
+		"if cur has no child: cur->add_value(x), return",
+		"insert(find_child, x)",
+	});
+	visualizer->newStep(root, "#");
+	visualizer->newStep(root, "if !root: root = new Node({x}), return");
+	visualizer->highlightNode(root);
 	insertVisualize(root, x);
-	visualizer->newStep(root);
+	visualizer->newStep(root, "#");
 	visualizer->start();
 
 }
 
 
-void Tree234::removeValue(TreeNode*& node)
+void Tree234::removeValue(TreeNode* node, TreeNode* par)
 {
 	if (node->getValueCount() > 1) {
 		node->removeValue(0);
@@ -239,10 +256,74 @@ void Tree234::removeValue(TreeNode*& node)
 		visualizer->reArrange(root);
 		return;
 	}
+	TreeNode* sib = nullptr;
+	int nodeId = 0;
+	for (int i = 0; i <= par->getValueCount(); ++i) {
+		if (par->Child(i) && par->Child(i) == node) {
+			if (i < (int)par->getValueCount()) {
+				sib = par->Child(i + 1);
+				nodeId = i;
+			}
+			else {
+				sib = par->Child(i - 1);
+				nodeId = i - 1;
+			}
+			std::cout << i << "\n";
+			break;
+		}
+	}
+	if (sib->getValueCount() > 1) {
+		node->addValue(par->Value(nodeId));
+		node->sortValue();
+		par->Value(nodeId) = sib->getValues().back();
+		sib->removeValue(sib->getValueCount() - 1);
 
+		visualizer->newStep(root);
+		visualizer->reArrange(root);
+
+		node->removeValue(1);
+		visualizer->newStep(root);
+		visualizer->reArrange(root);
+		return;
+	}
+	else {
+		if (par->getValueCount() == 1) {
+			par->addValue(sib->getValue());
+			par->addValue(node->getValue());
+			delete sib;
+			delete node;
+			par->Child(0) = par->Child(1) = nullptr;
+			par->sortValue();
+
+			visualizer->newStep(root);
+			visualizer->reArrange(root);
+
+			par->removeValue(2);
+			visualizer->newStep(root);
+			visualizer->reArrange(root);
+		}
+		else {
+			TreeNode* merg = node, *del = sib;
+			if (sib->Value() < node->Value()) merg = sib, del = node;
+			merg->addValue(par->Value(nodeId));
+			merg->addValue(del->Value());
+			delete del;
+			par->removeValue(nodeId);
+
+			visualizer->newStep(root);
+			visualizer->reArrange(root);
+
+			if (merg == sib)
+				merg->removeValue(2);
+			else 
+				merg->removeValue(0);
+			visualizer->newStep(root);
+			visualizer->reArrange(root);
+		}
+	}
 }
 
-void Tree234::deleteNodeValue(TreeNode*& node, int id)
+void Tree234::deleteNodeValue(TreeNode*& node, int id, TreeNode *par)
 {
 	if (node->getRealChildCount() == 0) {
 		if (node->getValueCount() > 1) {
@@ -251,38 +332,111 @@ void Tree234::deleteNodeValue(TreeNode*& node, int id)
 			visualizer->reArrange(root);
 			return;
 		}
-		removeValue(node);
+		removeValue(node, par);
 		return;
 	}
-	TreeNode* tmp = node->Child(id + 1);
-	while (tmp->Child(0)) tmp = tmp->Child(0);
+	TreeNode* tmp = node->Child(id + 1), *parTmp = node;
+	while (tmp->Child(0)) parTmp = tmp, tmp = tmp->Child(0);
 	std::swap(node->Value(id), tmp->Value(0));
 
 	visualizer->layoutTree(root);
 	visualizer->newStep(root);
-	removeValue(tmp);
+	removeValue(tmp, parTmp);
 }
 
-void Tree234::deleteVisualize(TreeNode*& node, int x)
+void Tree234::deleteVisualize(TreeNode*& node, int x, TreeNode* par)
 {
 	if (!node) return;
 
 	for (int i = 0; i < node->getValueCount(); ++i) {
 		if (node->getValue(i) == x)
-			return deleteNodeValue(node, i);
+			return deleteNodeValue(node, i, par);
 	}
 	int i = 0;
 	while (i < node->getValueCount() && x > node->getValue(i)) ++i;
-	deleteVisualize(node->Child(i), x);
+	deleteVisualize(node->Child(i), x, node);
 }
 
 void Tree234::Delete(int x)
 {
 	std::cout << "Delete " << x << std::endl;
 	visualizer->clear();
+	visualizer->setSource({
+		"node = search for x",
+		"if node is not leaf:",
+		"	swap value with predecessor",
+		"	node = predecessor",
+		"// now delete value in node",
+		"if node has more than 1 value:",
+		"	delete x, return",
+		"if sibling has more than 1 value",
+		"	rotate and delete x, return",
+		"merge node and sibling",
+		"delete x in new node",
+		});
 	visualizer->newStep(root);
 
 	deleteVisualize(root, x);
 
+	visualizer->start();
+}
+
+void Tree234::search(int x)
+{
+	std::cout << "Search " << x << std::endl;
+	if (!root) return;
+	visualizer->clear();
+
+	visualizer->setSource({
+		"Node *cur = root",
+		"while cur != NULL:",
+		"	i = 0",
+		"	while i < cur->value_count and x > cur->value(i):",
+		"		++i",
+		"	if i < cur->value_count and x == cur->value(i):",
+		"		return cur, i",
+		"	cur = cur->child(i)",
+		"return not found",
+		});
+
+	visualizer->newStep(root);
+	visualizer->duplicateState("Node *cur = root");
+	visualizer->highlightNode(root);
+	visualizer->duplicateState("while cur != NULL:");
+
+	TreeNode* cur = root;
+	while (cur) {
+		int i = 0;
+		visualizer->duplicateState("	i = 0");
+		visualizer->duplicateState("	while i < cur->value_count and x > cur->value(i):");
+		if (cur->Child(i))
+			visualizer->highlightEdge(cur, cur->Child(i));
+		while (i < cur->getValueCount() && x > cur->getValue(i)) {
+			visualizer->duplicateState("		++i");
+			visualizer->duplicateState("	while i < cur->value_count and x > cur->value(i):");
+			if (cur->Child(i))
+				visualizer->highlightEdge(cur, cur->Child(i), Color::normal);
+			++i;
+			if (cur->Child(i)) 
+				visualizer->highlightEdge(cur, cur->Child(i));
+		}
+		visualizer->duplicateState("	if i < cur->value_count and x == cur->value(i):");
+		if (i < cur->getValueCount() && x == cur->getValue(i)) {
+			visualizer->duplicateState("		return cur, i");
+			visualizer->highlightNode(cur, Color::found);
+			visualizer->newStep(root, "#");
+			visualizer->start();
+			return;
+		}
+		visualizer->duplicateState("	cur = cur->child(i)");
+		if (cur->Child(i))
+			visualizer->highlightEdge(cur, cur->Child(i));
+		cur = cur->Child(i);
+		visualizer->duplicateState("while cur != NULL:");
+		if (cur) visualizer->highlightNode(cur);
+	}
+
+	visualizer->newStep(root, "return not found");
+	visualizer->duplicateState("#");
 	visualizer->start();
 }

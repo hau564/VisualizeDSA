@@ -37,6 +37,8 @@ void InputTable::setTextboxes(std::vector<std::string> labels)
 		inputs.back().labelButton.setTransparency(200);
 		inputs.back().textbox.setTransparency(200);
 
+		inputs.back().textbox.setStringRecommend({"@file()", "@randint()", "@randarray()", "@randedge()"});
+
 		shape.setSize(sf::Vector2f(Layout::InputTable::size.x, Layout::InputTable::spacing + (int)inputs.size() * (Layout::InputTable::spacing + Layout::InputTable::labelSize.y)));
 	}
 	shape.setPosition(pos - sf::Vector2f(spacing, spacing));

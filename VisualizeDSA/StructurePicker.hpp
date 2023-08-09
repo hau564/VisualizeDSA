@@ -26,6 +26,6 @@ private:
 	MouseDetection workPlace;
 
 	int focusId = 0, n = 6;
-	Button start;
+	Button start, minHeap, maxHeap;
 };
 

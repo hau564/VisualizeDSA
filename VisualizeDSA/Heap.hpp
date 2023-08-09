@@ -18,6 +18,7 @@ public:
 	};
 
 	void setup(Visualizer* visualizer);
+	void setMinHeap();
 	void visualize();
 
 private:

@@ -2,6 +2,7 @@
 #include "Resources.hpp"
 #include "Layout.hpp"
 #include "Tools.hpp"
+#include "Color.hpp"
 
 void Input::create(sf::Vector2f pos, sf::Vector2f size, std::string label)
 {
@@ -14,6 +15,8 @@ void Input::create(sf::Vector2f pos, sf::Vector2f size, std::string label)
 	textbox.create(pos + sf::Vector2f(size.x + Layout::InputTable::spacing, 0), sf::Vector2f(Layout::InputTable::size.x - 3 * Layout::InputTable::spacing - size.x, size.y));
 	textbox.setRadius(5);
 	textbox.setState({ Layout::workplaceBackground, Layout::workplaceOutline, 1 }, 0);
+	textbox.setState({ Color::LightGray, Layout::workplaceOutline, 1 }, 1);
+	textbox.setState({ Layout::workplaceBackground, Layout::workplaceOutline, 1 }, 2);
 }
 
 void Input::handleEvent(sf::RenderWindow& window, sf::Event event)

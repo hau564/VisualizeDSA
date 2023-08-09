@@ -2,6 +2,7 @@
 #include "Tools.hpp"
 #include "Layout.hpp"
 #include "KeyboardDetection.hpp"
+#include "Color.hpp"
 void Textbox::create(sf::Vector2f _pos, sf::Vector2f _size)
 {
 	Button::create(_pos, _size);
@@ -26,18 +27,32 @@ void Textbox::create(sf::Vector2f _pos, sf::Vector2f _size)
 	Tools::Text::leftAligning(cursor, _pos, _size, 1);
 	//cursor.setPosition(cursor.getPosition() + sf::Vector2f(0, 7));
 
+	sf::Vector2f center = _pos + _size - sf::Vector2f(getSize().y / 2, getSize().y / 2);
+	sf::Vector2f size = sf::Vector2f(getSize().y / 2, getSize().y / 2);
+	xbutton.create(center - size / 2.f, size);
+	xbutton.setRadius(size.x / 2);
+	xbutton.setText("X", Resources::Font::arial);
+	xbutton.setState({ Layout::workplaceBackground, Layout::workplaceOutline, 0 }, 1);
+
 	clock.restart();
 }
 
 void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
 	Button::handleEvent(window, event);
+	if ((!active && isFocusing()) || justReleased()) {
+		xbutton.handleEvent(window, event);
+		if (xbutton.isHolding()) {
+			inputString = "";
+			aftTextString = "";
+		}
+	}
 	if (isHolding()) {
 		active = 1;
 	}
 	if (justPressedOutside()) {
-
 		active = 0;
+		xbutton.handleEvent(window, event);
 	}
 	static int justPaste = 0;
 	if (active) {
@@ -54,7 +69,7 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 						inputString.pop_back();
 					}
 				}
-				else if (event.text.unicode < 128 && event.text.unicode != '\r') // ASCII Characters
+				else if (event.text.unicode < 128 && event.text.unicode != '\r' && event.text.unicode != '\t') // ASCII Characters
 				{
 					inputString += static_cast<char>(event.text.unicode);
 				}
@@ -65,6 +80,11 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 					inputString += aftTextString;
 					aftTextString = "";
 					Tools::String::process(inputString);
+				}
+				//check tab
+				if (event.text.unicode == '\t')
+				{
+					inputString += recommends[recId].getString();
 				}
 			}
 		}
@@ -82,6 +102,12 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 					aftTextString.erase(aftTextString.begin());
 				}
 				cursorState = 1;
+			}
+			if (event.key.code == sf::Keyboard::Up) {
+				recId = (recId - 1 + recommends.size()) % recommends.size();
+			}
+			if (event.key.code == sf::Keyboard::Down) {
+				recId = (recId + 1) % recommends.size();
 			}
 			if (event.key.code == sf::Keyboard::Delete) {
 				if (!aftTextString.empty()) {
@@ -123,11 +149,43 @@ void Textbox::update()
 	timeCursor += clock.restart().asMilliseconds();
 	if (timeCursor >= 600) cursorState ^= 1, timeCursor = 0;
 	if (!active) cursorState = 0, timeCursor = 0;
+	if ((!active && isFocusing())) 
+		xbutton.update();
+
+	if (recId != -1) {
+		for (int i = 0; i < (int)recommends.size(); ++i) {
+			Tools::Text::leftAligning(recommends[i], recBox.getPosition() + sf::Vector2f(0, (i - recId) * getSize().y), recBox.getSize());
+		}
+	}
 }
 
 void Textbox::addHandle(std::function<void(const Textbox*)> handle)
 {
 	handles.push_back(handle);
+}
+
+void Textbox::setStringRecommend(std::vector<std::string> recs)
+{
+	sf::Vector2f pos = getPosition(), size = getSize();
+	pos.x += size.x + 5;
+	size.x *= 0.7f;
+	
+	recBox.setPosition(pos);
+	recBox.setSize(size);
+	recBox.setOutlineColor(sf::Color::Black);
+	recBox.setOutlineThickness(1);
+	recBox.setFillColor(sf::Color::Transparent);
+	recBox.setCornersRadius(1);
+	recBox.setCornerPointCount(10);
+
+	recId = 0;
+	for (int i = 0; i < (int)recs.size(); ++i) {
+		recommends.push_back(sf::Text(recs[i], *Resources::Font::courier, size.y / 2));
+		recommends.back().setFillColor(Layout::workplaceOutline);
+		recommends.back().setOutlineColor(Layout::workplaceBackground);
+		recommends.back().setOutlineThickness(3);
+		Tools::Text::leftAligning(recommends.back(), pos + 1.f * i * sf::Vector2f(0, size.y), size);
+	}
 }
 
 void Textbox::setFontSize(int fontSize)
@@ -150,4 +208,13 @@ void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(text);
 	target.draw(aftText);
 	if (cursorState) target.draw(cursor);
+	if (!active && isFocusing()) {
+		target.draw(xbutton);
+	}
+	if (active && recId != -1) {
+		target.draw(recBox, states);
+		for (int i = 0; i < (int)recommends.size(); ++i) {
+			target.draw(recommends[i], states);
+		}
+	}
 }

@@ -27,10 +27,20 @@ void StructurePicker::create()
 
 	sf::Vector2f size = { 200, 50 };
 	sf::Vector2f center = { Layout::Window::width / 2, Layout::Window::height / 2 + 430};
-	start.create({center.x - size.x / 2, center.y - size.y / 2}, size);
+	start.create({ center.x - size.x / 2, center.y - size.y / 2 }, size);
 	start.setText("Start", Resources::Font::courier);
 	start.setStates(Layout::Button::states2);
 	start.setRadius(10);
+
+	float spacing = 20;
+	minHeap.create({ center.x - size.x - spacing , center.y - size.y / 2 }, size);
+	minHeap.setText("MinHeap", Resources::Font::courier);
+	minHeap.setStates(Layout::Button::states2);
+	minHeap.setRadius(10);
+	maxHeap.create({ center.x + spacing , center.y - size.y / 2 }, size);
+	maxHeap.setText("MaxHeap", Resources::Font::courier);
+	maxHeap.setStates(Layout::Button::states2);
+	maxHeap.setRadius(10);
 
 	workPlace.setPosition({ 0, Layout::Tabbar::size.y + Layout::Tabbar::pos.y });
 	workPlace.setSize({ 1.f * Layout::Window::width, 1.f * Layout::Window::height - Layout::Tabbar::size.y });
@@ -57,9 +67,24 @@ void StructurePicker::handleEvent(sf::RenderWindow& window, sf::Event event)
 		if (i == focusId) buttons[i].addGetStateId([](const Button* button) { return 2; });
 		else buttons[i].removeGetStateId(0);
 	}
-	start.handleEvent(window, event);
-	if (start.justReleasedInside()) {
-		stringPicked = names[focusId];
+	if (focusId != 3)
+		start.handleEvent(window, event);
+	else {
+		minHeap.handleEvent(window, event);
+		maxHeap.handleEvent(window, event);
+	}
+	if (focusId == 3) {
+		if (minHeap.justReleasedInside()) {
+			stringPicked = "MinHeap";
+		}
+		else if (maxHeap.justReleasedInside()) {
+			stringPicked = "MaxHeap";
+		}
+	}
+	else {
+		if (start.justReleasedInside()) {
+			stringPicked = names[focusId];
+		}
 	}
 }
 
@@ -69,7 +94,11 @@ void StructurePicker::update()
 		buttons[i].update();
 	}
 	workPlace.update();
-	start.update();
+	if (focusId == 3) {
+		minHeap.update();
+		maxHeap.update();
+	}
+	else start.update();
 }
 
 void StructurePicker::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -78,7 +107,12 @@ void StructurePicker::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	for (int i = 0; i < (int)buttons.size(); ++i) {
 		target.draw(buttons[i]);
 	}
-	target.draw(start);
+	if (focusId == 3) {
+		target.draw(minHeap);
+		target.draw(maxHeap);
+	}
+	else
+		target.draw(start);
 }
 
 std::string StructurePicker::getPicked() const

@@ -3,10 +3,11 @@
 void Trie::setup(Visualizer* _visualizer)
 {
 	visualizer = _visualizer;
-	visualizer->addTextbox("Build");
+	visualizer->setTextboxes({ "Build", "Insert", "Delete", "Search" });
+	/*visualizer->addTextbox("Build");
 	visualizer->addTextbox("Insert");
 	visualizer->addTextbox("Delete");
-	visualizer->addTextbox("Search");
+	visualizer->addTextbox("Search");*/
 }
 
 void Trie::visualize()
@@ -78,6 +79,7 @@ void Trie::build(std::vector<std::string> values)
 	visualizer->layoutTree(root);
 
 	visualizer->clear();
+	visualizer->setSource({});
 	visualizer->newStep(root);
 	visualizer->start();
 }
@@ -187,28 +189,6 @@ void Trie::Delete(std::string s)
 	visualizer->start();
 }
 
-TreeNode* Trie::searchVisualize(TreeNode* node, std::string s, int i)
-{
-	if (i >= (int)s.size()) {
-		visualizer->duplicateState();
-		visualizer->highlightNode(node, Color::found);
-		return node;
-	}
-	visualizer->duplicateState();
-	visualizer->highlightNode(node);
-	TreeNode* target = nullptr;
-	if (node->Child(s[i] - 'a')) {
-		visualizer->duplicateState();
-		visualizer->highlightEdge(node, node->Child(s[i] - 'a'));
-		target = searchVisualize(node->Child(s[i] - 'a'), s, i + 1);
-		visualizer->duplicateState();
-		visualizer->highlightEdge(node, node->Child(s[i] - 'a'), Color::normal);
-	}
-	visualizer->duplicateState();
-	visualizer->highlightNode(node, Color::normal);
-	return target;
-}
-
 void Trie::search(std::string s)
 {
 	if (!root) {
@@ -217,18 +197,42 @@ void Trie::search(std::string s)
 	}
 
 	visualizer->clear();
+	visualizer->setSource({
+		"Node* cur = root",
+		"for each char c in string:",
+		"	cur = cur->child(c - 'a')",
+		"	if (!cur) return not found",
+		"return cur"
+		});
 
 	visualizer->layoutTree(root);
-	visualizer->newStep(root);
+	visualizer->newStep(root, "#");
 
-	TreeNode* target = searchVisualize(root, s);
+	visualizer->duplicateState("Node* cur = root");
+	visualizer->highlightNode(root);
+	visualizer->duplicateState("for each char c in string:");
 
-	if (target) {
-		visualizer->duplicateState();
-		visualizer->highlightNode(target, Color::normal);
+	TreeNode* cur = root;
+	for (char c : s) {
+		visualizer->duplicateState("	cur = cur->child(c - 'a')");
+		if (cur->Child(c - 'a')) {
+			visualizer->highlightEdge(cur, cur->Child(c - 'a'));
+		}
+		visualizer->duplicateState("	if (!cur) return not found");
+		cur = cur->Child(c - 'a');
+		if (!cur) {
+			visualizer->newStep(root, "#");
+			visualizer->start();
+			return;
+		}
+		visualizer->highlightNode(cur);
+		visualizer->duplicateState("for each char c in string:");
+		
 	}
 
-	visualizer->newStep(root);
+	visualizer->duplicateState("return cur");
+	visualizer->highlightNode(cur, Color::found);
+	visualizer->newStep(root, "#");
 
 	visualizer->start();
 }

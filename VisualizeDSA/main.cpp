@@ -1,5 +1,6 @@
-#include "VisualizeDSA.hpp"
-
+﻿#include "VisualizeDSA.hpp"
+#include <cstring>
+#include <iostream>
 
 void setup() {
 	Resources::Font::load();
@@ -12,7 +13,6 @@ void setup() {
 }
 
 int main() {
-
 	setup();
 
 	Window window1;

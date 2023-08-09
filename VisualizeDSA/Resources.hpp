@@ -7,7 +7,7 @@
 
 namespace Resources {
 	namespace Font {
-		extern std::shared_ptr<sf::Font> arial, courier;
+		extern std::shared_ptr<sf::Font> arial, courier, monospace;
 		extern void load();
 	}
 	namespace Textures {

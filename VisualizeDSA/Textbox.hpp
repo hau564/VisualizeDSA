@@ -14,6 +14,8 @@ public:
 	void update();
 	void addHandle(std::function<void(const Textbox*)> handle);
 
+	void setStringRecommend(std::vector<std::string> recs);
+
 	bool isEntered() { return entered; }
 	void setFontSize(int fontSize);
 
@@ -28,6 +30,11 @@ private:
 	sf::Text text, cursor, aftText;
 	std::vector<std::function<void(const Textbox*)>> handles;
 	Button xbutton;
+
+	int recId = -1;
+	std::vector<sf::Text> recommends;
+	sf::RoundedRectangleShape recBox;
+
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	

@@ -393,7 +393,7 @@ void Visualizer::highlightEdge(Node* u, Node* v, sf::Color color)
 	}
 	sf::Color oldColor = layers[index].edges[eid].getColor();
 	for (int i : {0, fps / 2 - 1, fps / 2, fps - 1}) {
-		layers[i + index].edges[eid].setColor(Animation::getColor(oldColor, color, std::min(1.f, 1.f * (i + 1) / fps)));
+		layers[i + index].edges[eid].setColor(Animation::getColor(oldColor, color, std::min(1.f, 2.f * (i + 1) / fps)));
 	}
 }
 

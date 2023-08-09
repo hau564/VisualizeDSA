@@ -31,10 +31,12 @@ private:
 	void insertVisualize(TreeNode*& node, int x);
 	void insert(int x);
 
-	void removeValue(TreeNode*& node);
-	void deleteNodeValue(TreeNode*& node, int id);
-	void deleteVisualize(TreeNode*& node, int x);
+	void removeValue(TreeNode* node, TreeNode* par);
+	void deleteNodeValue(TreeNode*& node, int id, TreeNode* par = nullptr);
+	void deleteVisualize(TreeNode*& node, int x, TreeNode *par = nullptr);
 	void Delete(int x);
+
+	void search(int x);
 
 	Visualizer* visualizer;
 

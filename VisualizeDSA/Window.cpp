@@ -6,13 +6,11 @@
 #include "Layer.hpp"
 #include "ControlBox.hpp"
 #include "Tools.hpp"
-#include "tinyfiledialogs.h"
-#include "tinyfiledialogs.c"
 
 void Window::setup()
 {
-	tabs.push_back(Tab());
-	tabs.back().create(0);
+	tabs.push_back(new Tab());
+	tabs.back()->create(0);
 	newTab.create(Layout::Tabbar::pos + sf::Vector2f(Layout::Tab::size.x + 5, 2), sf::Vector2f(Layout::Tab::size.y - 4, Layout::Tab::size.y - 4));
 	newTab.setText("+", Resources::Font::arial);
 	newTab.setRadius(Layout::Tab::size.y / 2);
@@ -20,8 +18,8 @@ void Window::setup()
 
 void Window::addTab()
 {
-	tabs.push_back(Tab());
-	tabs.back().create(tabs.size() - 1);
+	tabs.push_back(new Tab());
+	tabs.back()->create(tabs.size() - 1);
 }
 
 void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
@@ -35,13 +33,15 @@ void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
 
 	KeyboardDetection::handleEvent(window, event);
 	for (int i = 0; i < tabs.size(); ++i) {
-		tabs[i].updateId(i);
-		tabs[i].handleEvent(window, event);
-		if (tabs[i].isRemove()) {
+		tabs[i]->updateId(i);
+		tabs[i]->handleEvent(window, event);
+		if (tabs[i]->isRemove()) {
+			delete tabs[i];
 			tabs.erase(tabs.begin() + i);
 			--i;
+			continue;
 		}
-		if (tabs[i].isHolding()) {
+		if (tabs[i]->isHolding()) {
 			activeId = i;
 		}
 	}
@@ -50,24 +50,24 @@ void Window::handleEvent(sf::RenderWindow& window, sf::Event event)
 		activeId = (activeId + 1) % tabs.size();
 	for (int i = 0; i < tabs.size(); ++i)
 		if (i != activeId) 
-			tabs[i].deactive();
-		else tabs[i].activate();
+			tabs[i]->deactive();
+		else tabs[i]->activate();
 	if (tabs.empty()) addTab();
 }
 
 void Window::update()
 {
 	KeyboardDetection::update();
-	for (Tab& tab : tabs)
-		tab.update();
+	for (Tab*& tab : tabs)
+		tab->update();
 	newTab.update();
-	newTab.setPosition(tabs.back().getPosition() + sf::Vector2f(Layout::Tab::size.x + 5, 0));
+	newTab.setPosition(tabs.back()->getPosition() + sf::Vector2f(Layout::Tab::size.x + 5, 0));
 }
 
 void Window::draw(sf::RenderWindow& window)
 {
-	for (Tab& tab : tabs)
-		window.draw(tab);
+	for (Tab*& tab : tabs)
+		window.draw(*tab);
 	window.draw(newTab);
 }
 
@@ -101,8 +101,6 @@ void Window::launch()
 		
 		window.display();
 	}
-
-	while (!tabs.empty()) tabs.pop_back();
 }
 
 int Window::getTabCount()

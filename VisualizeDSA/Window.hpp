@@ -10,7 +10,12 @@ class Window
 {
 public:
 	Window() {};
-	~Window() { std::cout << "deleted Window\n"; };
+	~Window() { 
+		for (Tab* tab : tabs) {
+			delete tab;
+		}
+		std::cout << "deleted Window\n"; 
+	};
 
 	void setup();
 	void launch();
@@ -28,7 +33,7 @@ public:
 	Button newTab;
 
 private:
-	std::vector<Tab> tabs;
+	std::vector<Tab*> tabs;
 };
 
 #endif // !WINDOW_HPP

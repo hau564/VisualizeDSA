@@ -19,6 +19,7 @@ public:
 
 	void addChild(TreeNode* child);
 	void updateHeight();
+	void removeValue(int id);
 
 	int getChildHeight(int id);
 

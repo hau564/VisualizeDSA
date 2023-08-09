@@ -1,4 +1,4 @@
-#include "ControlBox.hpp"
+﻿#include "ControlBox.hpp"
 #include "Layout.hpp"
 #include "Resources.hpp"
 #include "Tools.hpp"
@@ -12,24 +12,51 @@ void ControlBox::setupButtons()
 	//std::cout << std::endl;
 
 
+	//const sf::Uint32 text[] = { 9658,9658,108,9668, 0 }; 
 	// play button
 	bplay.create(center - sf::Vector2f(buttonSize.x / 2, buttonSize.y / 2), buttonSize);
+	bplay.setRadius(bplay.getSize().y / 2);
+	sf::Uint32 play[] = { 9658, 0 };
+	bplay.setText(play, Resources::Font::arial);
+	bplay.text->setPosition(bplay.text->getPosition() + sf::Vector2f(2, 0));
+	
+	// stop button
 	bstop.create(center - sf::Vector2f(buttonSize.x / 2, buttonSize.y / 2), buttonSize);
-	bstop.setState({ sf::Color::Red, sf::Color::Black, 1 }, 0);
+	bstop.setRadius(bstop.getSize().y / 2);
+	
+	sf::Uint32 stop[] = { 9612, 9612, 0 };
+	bstop.setText(stop, Resources::Font::arial);
+
 	// forw button
 	sf::Vector2f playPos = bplay.getPosition();
 	bforw.create(playPos + sf::Vector2f(+Layout::ControlBox::buttonSpacing + buttonSize.x, 0), buttonSize);
+	bforw.setRadius(bforw.getSize().y / 2);
+
+	sf::Uint32 forw[] = { 9658,108, 0 };
+	bforw.setText(forw, Resources::Font::arial);
 	
 	// end button
 	sf::Vector2f forwPos = bforw.getPosition();
 	bend.create(forwPos + sf::Vector2f(+Layout::ControlBox::buttonSpacing + buttonSize.x, 0), buttonSize);
+	bend.setRadius(bend.getSize().y / 2);
+
+	sf::Uint32 end[] = { 9658,9658,108, 0 };
+	bend.setText(end, Resources::Font::arial);
 
 	// back button
 	bback.create(playPos + sf::Vector2f(-Layout::ControlBox::buttonSpacing - buttonSize.x, 0), buttonSize);
+	bback.setRadius(bback.getSize().y / 2);
+
+	sf::Uint32 back[] = { 108,9668, 0 };
+	bback.setText(back, Resources::Font::arial);
 
 	// start button
 	sf::Vector2f backPos = bback.getPosition();
 	bstart.create(backPos + sf::Vector2f(-Layout::ControlBox::buttonSpacing - buttonSize.x, 0), buttonSize);
+	bstart.setRadius(bstart.getSize().y / 2);
+
+	sf::Uint32 start[] = { 108,9668,9668, 0 };
+	bstart.setText(start, Resources::Font::arial);
 
 	// speed buttons
 	sf::Vector2f speedSize(35, 20);

@@ -25,8 +25,8 @@ private:
 	void insertBuild(TreeNode*& root, int x);
 	void build(std::vector<int> values);
 
-	void rotateRightVisualize(TreeNode*& node);
-	void rotateLeftVisualize(TreeNode*& node);
+	void rotateRightVisualize(TreeNode*& node, std::string s = "");
+	void rotateLeftVisualize(TreeNode*& node, std::string s = "");
 	void balanceVisualize(TreeNode *& node);
 	void insertVisualize(TreeNode*& node, int x);
 	void insert(int x);

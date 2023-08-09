@@ -120,14 +120,15 @@ void AVL::build(std::vector<int> values)
 	visualizer->layoutTree(root, Layout::DisplayScreen::basePos);
 
 	visualizer->clear();
+	visualizer->setSource({});
 	visualizer->newStep(root);
 	
 	visualizer->start();
 }
 
-void AVL::rotateRightVisualize(TreeNode*& node)
+void AVL::rotateRightVisualize(TreeNode*& node, std::string s)
 {
-	visualizer->duplicateState();
+	visualizer->duplicateState(s);
 	visualizer->removeEdgeFromParent(node);
 	visualizer->removeEdgeFromParent(node->Child(0));
 	if (node->Child(0)->Child(1)) visualizer->removeEdgeFromParent(node->Child(0)->Child(1));
@@ -135,9 +136,9 @@ void AVL::rotateRightVisualize(TreeNode*& node)
 	visualizer->reArrange(root);
 }
 
-void AVL::rotateLeftVisualize(TreeNode*& node)
+void AVL::rotateLeftVisualize(TreeNode*& node, std::string s)
 {
-	visualizer->duplicateState();
+	visualizer->duplicateState(s);
 	visualizer->removeEdgeFromParent(node);
 	visualizer->removeEdgeFromParent(node->Child(1));
 	if (node->Child(1)->Child(0)) visualizer->removeEdgeFromParent(node->Child(1)->Child(0));
@@ -148,19 +149,22 @@ void AVL::rotateLeftVisualize(TreeNode*& node)
 void AVL::balanceVisualize(TreeNode*& node)
 {
 	if (abs(node->getChildHeight(0) - node->getChildHeight(1)) > 1) {
+		visualizer->duplicateState("	if left higher:");
 		if (node->getChildHeight(0) > node->getChildHeight(1)) {
+			visualizer->duplicateState("		if left->right higher:");
 			if (node->Child(0)->getChildHeight(1) > node->Child(0)->getChildHeight(0)) {
-				rotateLeftVisualize(node->Child(0));
+				rotateLeftVisualize(node->Child(0),"			rotate_left(left)");
 				visualizer->duplicateState();
 			}
-			rotateRightVisualize(node);
+			rotateRightVisualize(node, "		rotate_right(cur)");
 		}
 		else {
+			visualizer->duplicateState("		if right->left higher:");
 			if (node->Child(1)->getChildHeight(0) > node->Child(1)->getChildHeight(1)) {
-				rotateRightVisualize(node->Child(1));
+				rotateRightVisualize(node->Child(1), "			roatate_right(right)");
 				visualizer->duplicateState();
 			}
-			rotateLeftVisualize(node);
+			rotateLeftVisualize(node, "		rotate_left(cur)");
 		}
 	}
 }
@@ -200,7 +204,7 @@ void AVL::insertVisualize(TreeNode*& node, int x) {
 		visualizer->highlightEdge(node, node->Child(1), Color::normal);
 	}
 	node->updateHeight(); 
-	visualizer->duplicateState();
+	visualizer->duplicateState("if imbalance:");
 	visualizer->highlightNode(node, Color::normal);
 	balanceVisualize(node);
 }
@@ -211,7 +215,7 @@ void AVL::insert(int x)
 
 	visualizer->clear();
 	visualizer->setSource({
-		"insert()",
+		"search and insert",
 		"if imbalance:",
 		"	if left higher:",
 		"		if left->right higher:",
@@ -223,15 +227,18 @@ void AVL::insert(int x)
 		"		rotate_left(cur)",
 	});
 	visualizer->newStep(root);
+	visualizer->duplicateState("search and insert");
 	insertVisualize(root, x);
-	visualizer->newStep(root);	
+	visualizer->newStep(root, "#");
 	visualizer->start();
 }
 
 void AVL::deleteNode(TreeNode*& node)
 {
+	visualizer->duplicateState("if cur has 0 or 1 child");
 	if (!node->Child(0) || !node->Child(1)) {
-		visualizer->duplicateState();
+		visualizer->duplicateState("	remove cur");
+		visualizer->duplicateState("#");
 		visualizer->removeEdgeFromParent(node);
 		visualizer->removeNode(node);
 
@@ -247,8 +254,10 @@ void AVL::deleteNode(TreeNode*& node)
 	}
 
 	TreeNode* child = node->Child(1);
+	visualizer->duplicateState("or cur->right->left = nullptr:");
 	if (!child->Child(0)) {
-		visualizer->duplicateState();
+		visualizer->duplicateState("	remove cur");
+		visualizer->duplicateState("#");
 		visualizer->removeEdgeFromParent(node);
 		visualizer->removeEdgeFromParent(child);
 		visualizer->removeEdgeFromParent(node->Child(0));
@@ -268,10 +277,11 @@ void AVL::deleteNode(TreeNode*& node)
 	}
 
 	TreeNode *replace = child->Child(0);
-	visualizer->duplicateState();
+	visualizer->duplicateState("search for procedure");
 	visualizer->highlightNode(replace);
 
-	visualizer->duplicateState();
+	visualizer->duplicateState("swap and delete");
+	visualizer->highlightNode(replace, Color::normal);
 	visualizer->removeEdgeFromParent(node);
 	visualizer->removeEdgeFromParent(replace);
 	if (replace->Child(1)) visualizer->removeEdgeFromParent(replace->Child(1));
@@ -329,6 +339,7 @@ void AVL::deleteVisualize(TreeNode*& node, int x)
 	node->updateHeight();
 	visualizer->duplicateState();
 	visualizer->highlightNode(node, Color::normal);
+	visualizer->duplicateState("balance");
 	balanceVisualize(node);
 }
 
@@ -337,9 +348,19 @@ void AVL::Delete(int x)
 	std::cout << "Delete " << x << std::endl;
 
 	visualizer->clear();
+	visualizer->setSource({
+		"search for x",
+		"if cur has 0 or 1 child",
+		"or cur->right->left = nullptr:",
+		"	remove cur",
+		"search for predecessor",
+		"swap and delete",
+		"balance",
+	});
 	visualizer->newStep(root);
+	visualizer->duplicateState("search for x");
 	deleteVisualize(root, x);
-	visualizer->newStep(root);
+	visualizer->newStep(root, "#");
 	visualizer->start();
 }
 
