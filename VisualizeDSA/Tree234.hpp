@@ -31,6 +31,8 @@ private:
 	void insertVisualize(TreeNode*& node, int x);
 	void insert(int x);
 
+	void merge3(TreeNode* node, TreeNode *sibNode, TreeNode *idNode);
+	bool fix(TreeNode* node, int id);
 	void removeValue(TreeNode* node, TreeNode* par);
 	void deleteNodeValue(TreeNode*& node, int id, TreeNode* par = nullptr);
 	void deleteVisualize(TreeNode*& node, int x, TreeNode *par = nullptr);
@@ -39,6 +41,7 @@ private:
 	void search(int x);
 
 	Visualizer* visualizer;
+	std::map<int, int> exist;
 
 	TreeNode *root = nullptr;
 };

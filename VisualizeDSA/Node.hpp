@@ -15,9 +15,7 @@ public:
 		create(_values);
 	};
 	Node(sf::Vector2f _pos, std::vector<int> values = {0});
-	~Node() {
-		
-	};
+	
 
 	void create(std::vector<int> _values);
 	void handleEvent(sf::RenderWindow& window, sf::Event event);
@@ -25,6 +23,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	void addValue(int x);
+	void addValue(int x, int id);
 	void sortValue();
 	void setStringNode(int x = 1);
 	void removeValue(int id = 0);

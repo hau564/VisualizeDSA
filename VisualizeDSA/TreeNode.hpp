@@ -18,8 +18,10 @@ public:
 	std::vector<TreeNode*> getAllChilds();
 
 	void addChild(TreeNode* child);
+	void addChild(TreeNode* child, int id);
+	void removeChild(int id);
+
 	void updateHeight();
-	void removeValue(int id);
 
 	int getChildHeight(int id);
 

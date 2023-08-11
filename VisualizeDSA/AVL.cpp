@@ -353,7 +353,7 @@ void AVL::Delete(int x)
 		"if cur has 0 or 1 child",
 		"or cur->right->left = nullptr:",
 		"	remove cur",
-		"search for predecessor",
+		"search for successor",
 		"swap and delete",
 		"balance",
 	});
