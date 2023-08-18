@@ -21,10 +21,8 @@ Button::Button(sf::Vector2f _pos, sf::Vector2f _size)
 }
 void Button::handleEvent(sf::RenderWindow& window, sf::Event event)
 {
-	update();
+	//update();
 	Button::MouseDetection::handleEvent(window, event);
-	for (std::function<void(const Button*)> handle : handles)
-		handle(this);
 }
 
 void Button::update()
@@ -48,14 +46,8 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates _states) const
 		int id = getStateIds[i](this);
 		if (id >= 0) target.draw(states[id]);
 	}
-	for (int i = 0; i < (int)getCircleStateIds.size(); ++i) {
-		int id = getCircleStateIds[i](this);
-		if (id >= 0) target.draw(circleStates[id]);
-	}
 	if (text) target.draw(*text);
 }
-
-
 
 void Button::setText(std::string s, std::shared_ptr<sf::Font> font)
 {
@@ -118,29 +110,14 @@ void Button::setTransparency(int alpha)
 	}*/
 }
 
-void Button::addHandle(std::function<void(const Button*)> handle)
-{
-	handles.push_back(handle);
-}
-
 void Button::addState(sf::RoundedRectangleShape newState)
 {
 	states.push_back(newState);
 }
 
-void Button::addCircleState(sf::CircleShape newState)
-{
-	circleStates.push_back(newState);
-}
-
 void Button::addGetStateId(std::function<int(const Button*)> getId)
 {
 	getStateIds.push_back(getId);
-}
-
-void Button::addGetCircleStateId(std::function<int(const Button*)> getId)
-{
-	getCircleStateIds.push_back(getId);
 }
 
 void Button::removeGetStateId(int i)

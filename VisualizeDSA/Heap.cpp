@@ -151,6 +151,18 @@ void Heap::insert(int x)
 
 	visualizer->layoutTree(tree[0]);
 	visualizer->newStep(tree[0], "#");
+
+	if (tree.size()) {
+		for (int i = 0; i < (int)tree.size(); ++i) {
+			tree[i]->height = i;
+			tree[i]->showHeight();
+			tree[i]->heightText.setCharacterSize(17);
+		}
+		visualizer->newStep(tree[0]);
+		for (int i = 0; i < (int)tree.size(); ++i)
+			tree[i]->showHeight(0);
+	}
+
 	visualizer->start();
 }
 
@@ -232,6 +244,18 @@ void Heap::Delete(int id)
 
 	visualizer->newStep(tree[0], "#");
 	visualizer->reArrange(tree[0]);
+	
+	if (tree.size()) {
+		for (int i = 0; i < (int)tree.size(); ++i) {
+			tree[i]->height = i;
+			tree[i]->showHeight();
+			tree[i]->heightText.setCharacterSize(17);
+		}
+		visualizer->newStep(tree[0]);
+		for (int i = 0; i < (int)tree.size(); ++i)
+			tree[i]->showHeight(0);
+	}
+
 	visualizer->start();
 }
 

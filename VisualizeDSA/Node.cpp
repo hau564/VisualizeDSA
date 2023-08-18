@@ -88,7 +88,7 @@ void Node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(nodeShape, states);
 	for (int i = 0; i < (int)valueTexts.size(); ++i) {
-		if (valueTexts.size() > 1) target.draw(valueShapes[i], states);
+		if (true) target.draw(valueShapes[i], states);
 		target.draw(valueTexts[i], states);
 	}
 	if (showingHeight)

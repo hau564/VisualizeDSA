@@ -242,7 +242,7 @@ std::string Tools::String::process(std::string &s)
 	}
 	for (int i = (int)s.size() - 1; i >= 0; --i) {
 		if (s.substr(i, 7) == "@file()") {
-			char *path = tinyfd_openFileDialog("Open File", "", 0, NULL, NULL, 0);
+			char* path = tinyfd_openFileDialog("Open File", "", 0, NULL, NULL, 0);
 			if (path) {
 				std::ifstream fin(path);
 				if (!fin) {
@@ -254,6 +254,38 @@ std::string Tools::String::process(std::string &s)
 					fileText += t;
 				}
 				s.replace(i, 7, fileText);
+			}
+		}
+	}
+	for (int i = (int)s.size() - 1; i >= 0; --i) {
+		if (s.substr(i, 9) == "@matrix()") {
+			char* path = tinyfd_openFileDialog("Open File", "", 0, NULL, NULL, 0);
+			if (path) {
+				std::ifstream fin(path);
+				if (!fin) {
+					tinyfd_messageBox("Error", "Can't open file", "ok", "error", 1);
+					continue;
+				}
+				int n; fin >> n;
+				std::vector<std::vector<int>> a(n, std::vector<int>(n));
+				for (int i = 0; i < n; ++i) {
+					for (int j = 0; j < n; ++j) {
+						fin >> a[i][j];
+					}
+				}
+				std::string t = "";
+				for (int i = 0; i < n; ++i) {
+					for (int j = i + 1; j < n; ++j) {
+						if (a[i][j] == -1) a[i][j] = a[j][i];
+						if (a[j][i] != -1) a[i][j] = std::min(a[i][j], a[j][i]);
+
+						if (a[i][j] >= 0) {
+							if (t != "") t += ",";
+							t += toString(i) + " " + toString(j) + " " + toString(a[i][j]);
+						}
+					}
+				}
+				s.replace(i, 9, t);
 			}
 		}
 	}

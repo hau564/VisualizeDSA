@@ -235,6 +235,7 @@ void Tree234::insert(int x)
 {
 	std::cout << "Insert " << x << std::endl;
 	if (exist.find(x) != exist.end()) return;
+	exist[x] = 1;
 
 	visualizer->clear();
 	visualizer->setSource({
@@ -257,9 +258,9 @@ void Tree234::insert(int x)
 void Tree234::merge3(TreeNode* node, TreeNode* sibNode, TreeNode* idNode)
 {
 	sibNode->memorizePosition();
-	sibNode->setPosition(node->getPosition());
+	sibNode->setPosition(node->getPosition() + sf::Vector2f(2,2));
 	idNode->memorizePosition();
-	idNode->setPosition(node->getPosition());
+	idNode->setPosition(node->getPosition() + sf::Vector2f(2, 2));
 	visualizer->reArrange0(root);
 
 	node->addValue(sibNode->getValue(), 0);
@@ -334,7 +335,7 @@ bool Tree234::fix(TreeNode* node, int id)
 			TreeNode* tmp = new TreeNode({ node->getValue(valueId)});
 			tmp->Child(0) = node->Child(valueId);
 			tmp->Child(1) = node->Child(valueId + 1);
-			tmp->setPosition(node->getPosition());
+			tmp->setPosition(node->getPosition() + sf::Vector2f(2, 2));
 			node->removeValue(valueId);
 			node->removeChild(valueId);
 			node->Child(valueId) = tmp;
@@ -409,7 +410,11 @@ void Tree234::deleteVisualize(TreeNode*& node, int x, TreeNode* par)
 		i = 0;
 		while (i < node->getValueCount() && x > node->getValue(i)) ++i;
 		if (!fix(node, i)) break;
-	}	
+	}
+	for (int i = 0; i < node->getValueCount(); ++i) {
+		if (node->getValue(i) == x)
+			return deleteNodeValue(node, i, par);
+	}
 	deleteVisualize(node->Child(i), x, node);
 }
 
@@ -418,14 +423,19 @@ void Tree234::Delete(int x)
 	std::cout << "Delete " << x << std::endl;
 	if (!root) return;
 	if (exist.find(x) == exist.end()) return;
+	exist.erase(x);
 	visualizer->clear();
 	visualizer->setSource({
-		"node = search for x",
-		"if node is not leaf:",
-		"	swap value with successor",
-		"	node = successor",
-		"// now delete value in node",
-		"delete x in new node",
+		"let xNode be the node containing x",
+		"if xNode is not leaf:",
+		"	xNode's value at x = successor",
+		"	x = successor",
+		"	xNode = successor's node",
+		"Each node from root to xNode:",
+		"	if node has 1 value:",
+		"		fix node",
+		"		// rotate or merge with sibling",
+		"delete x",
 		});
 	visualizer->newStep(root);
 

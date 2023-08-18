@@ -17,7 +17,6 @@ namespace KeyboardDetection {
 
 	extern void handleEvent(sf::RenderWindow &window, sf::Event event);
 	extern void update();
-
 }
 
 #endif // !KEYBOARDDETECTION_HPP
