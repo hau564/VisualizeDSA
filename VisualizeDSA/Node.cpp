@@ -29,6 +29,7 @@ void Node::create(std::vector<int> _values)
 		valueShapes[i].setCornersRadius(valueShapes[i].getSize().y / 2.5);
 		valueShapes[i].setCornerPointCount(50);
 	}
+	if (values.size() == 1) valueShapes[0].setCornersRadius(valueShapes[0].getSize().y / 2);
 	nodeShape.setOutlineThickness(3);
 	nodeShape.setOutlineColor(Color::Black);
 	color = Color::Black;
@@ -70,6 +71,8 @@ void Node::update()
 		if (!stringNode)
 			valueTexts[i].setString(Tools::String::toString(values[i]));
 		valueShapes[i].setSize({ std::max(valueTexts[i].getGlobalBounds().width + 2 * spacing, height - 2 * spacing), height - 2 * spacing });
+		valueShapes[i].setCornersRadius(valueShapes[i].getSize().y / 2.5);
+		if (values.size() == 1) valueShapes[0].setCornersRadius(valueShapes[0].getSize().y / 2);
 		Tools::Text::middleAligning(valueTexts[i], valueShapes[i].getPosition(), valueShapes[i].getSize());
 		px += valueShapes[i].getSize().x + spacing;
 	}

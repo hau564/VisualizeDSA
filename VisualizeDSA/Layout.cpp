@@ -66,8 +66,8 @@ namespace Layout {
 	namespace DisplayScreen {
 		sf::Vector2f pos = sf::Vector2f(Tabbar::pos + sf::Vector2f(0, Tabbar::size.y + 5));
 		sf::Vector2f size = sf::Vector2f(Window::width - 10, 930);
-		float outlineThickness = 3, cornerRadius = 10;
-		sf::Color outlineColor = sf::Color::Black;
+		float outlineThickness = 4, cornerRadius = 10;
+		sf::Color outlineColor = sf::Color(190, 190, 190);
 		sf::Color fillColor = sf::Color::White;
 
 		sf::Vector2f basePos(100, Window::height + 5 + 100);
