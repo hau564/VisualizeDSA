@@ -138,9 +138,8 @@ std::vector<std::string> Tools::String::toVectorString(std::string s)
 	std::vector<std::string> v;
 
 	for (char c : s) {
-		if (c == ' ') continue;
 		if (v.empty()) v.push_back("");
-		if (c == ',') {
+		if (c == ' ' || c == ',') {
 			v.push_back("");
 			continue;
 		}

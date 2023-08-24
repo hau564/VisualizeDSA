@@ -160,7 +160,7 @@ void Trie::deleteVisualize(TreeNode*& node, std::string s, int i)
 
 	if (!node->height) {
 		visualizer->duplicateState();
-		visualizer->removeNode(node);
+		visualizer->removeNode(node->getPosition());
 		visualizer->removeEdgeFromParent(node);
 		delete node;
 		node = nullptr;

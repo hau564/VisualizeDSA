@@ -204,8 +204,8 @@ sf::RoundedRectangleShape& Node::Shape()
 
 bool Node::operator==(const Node& other) const
 {
-	return abs(getPosition().x - other.getPosition().x) <= 0.0001
-		&& abs(getPosition().y - other.getPosition().y) <= 0.0001;
+	return abs(getPosition().x - other.getPosition().x) <= 1
+		&& abs(getPosition().y - other.getPosition().y) <= 1;
 }
 
 void Node::showHeight(int t, std::string s)
