@@ -117,7 +117,7 @@ void Textbox::handleEvent(sf::RenderWindow& window, sf::Event event)
 			}
 		}
 		if (KeyboardDetection::isKeyBindingPressed("CTRL_V")) {
-			inputString = sf::Clipboard::getString();
+			inputString += sf::Clipboard::getString();
 			KeyboardDetection::turnOffKeyBinding("CTRL_V");
 			justPaste = 1;
 		}

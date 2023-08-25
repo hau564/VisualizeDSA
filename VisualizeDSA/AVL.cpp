@@ -298,9 +298,10 @@ void AVL::deleteNode(TreeNode*& node)
 	visualizer->reArrange(root);
 
 	while (!st.empty()) {
-		balanceVisualize(st.top());
+		if (st.top()->Child(0)) balanceVisualize(st.top()->Child(0));
 		st.pop();
 	}
+	if (node->Child(1)) balanceVisualize(node->Child(1));
 }
 
 void AVL::deleteVisualize(TreeNode*& node, int x)

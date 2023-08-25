@@ -167,7 +167,13 @@ void Trie::deleteVisualize(TreeNode*& node, std::string s, int i)
 		return;
 	}
 	visualizer->duplicateState();
-	visualizer->highlightNode(node, Color::normal);
+	int cnt = 0;
+	for (int i = 0; i < 26; ++i)
+		if (node->Child(i)) cnt += node->Child(i)->height;
+	if (cnt < node->height)
+		visualizer->highlightNode(node, Color::mark);
+	else
+		visualizer->highlightNode(node, Color::normal);
 }
 
 void Trie::Delete(std::string s)
